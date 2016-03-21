@@ -12,25 +12,20 @@ import java.io.StringReader;
  */
 public class Lexer {
     int offset = 0; // keeping track of the index offset in the individual lexeme functions
+    char[] characters; // input character array
+    int currentIndex; // current index into the array of input characters
 
     public Lexer(String fileContents) {
-        //System.out.println("hey");
-        ArrayList<Lexeme> lexemes = Lex(fileContents);
-        //System.out.println("oh");
-        for (int i = 0; i < lexemes.size(); i++) {
-            System.out.println(lexemes.get(i).type);
-        }
-        //System.out.println("hey");
+        characters = fileContents.toCharArray();
     }
 
     /*
     * will take in a string (for now) and return a list of lexemes (?)
      */
-    public ArrayList<Lexeme> Lex(String fileContents) {
+/*    public ArrayList<Lexeme> Lex(String fileContents) {
         ArrayList<Lexeme> lexemes = new ArrayList<Lexeme>();
         fileContents = fileContents.trim(); // get rid of leading and trailing whitespace
         char[] characters = fileContents.toCharArray(); // make a char array out of input string
-        //System.out.println(characters.length);
         for (int i = 0; i < characters.length; i++) {
             //System.out.println(i);
             char ch = characters[i];
@@ -42,7 +37,7 @@ public class Lexer {
                 lexemes.add(lexNumber(ch, characters, i + 1));
                 i += offset;
             } else if (ch == ';') {
-                lexemes.add(new Lexeme("semi"));
+                return new Lexeme("semi");
             } else if (ch == '(') {
                 lexemes.add(new Lexeme("("));
             } else if (ch == ')') {
@@ -72,6 +67,45 @@ public class Lexer {
         }
 
         return lexemes;
+    }*/
+
+    public Lexeme lex() {
+        char ch = characters[currentIndex];
+        System.out.println("characters[i] " + characters[currentIndex]);
+        if (ch == '\"') { // if the character is a quotation, make a string lexeme
+            currentIndex += offset;
+            return lexString(characters, currentIndex + 1);
+        } else if (isNumeric(ch)) { // if the character is numeric, make a number lexeme (probably double or int)
+            currentIndex += offset;
+            return lexNumber(ch, characters, currentIndex + 1);
+        } else if (ch == ';') {
+            return new Lexeme("semi");
+        } else if (ch == '(') {
+            return new Lexeme("(");
+        } else if (ch == ')') {
+            return new Lexeme(")");
+        } else if (ch == '{') {
+            return new Lexeme("{");
+        } else if (ch == '}') {
+            return new Lexeme("}");
+        } else if (ch == '+') {
+            return new Lexeme("+");
+        } else if (ch == '/') {
+            return new Lexeme("/");
+        } else if (ch == '*' || ch == '+' || ch == '=' || ch =='-') { // if a + or * check if it's single or double (* or **)
+            System.out.println("chars[i-1] " + characters[currentIndex-1]);
+            System.out.println("char " + ch);
+            currentIndex += offset;
+            return checkChar(characters, currentIndex + 1, ch); // plus 1 because checkChar also takes the character
+        } else if (ch == ' ') { // just keep moving if ch is a space
+
+        } else if (isAlpha(ch)) { // if an alpha character
+            //System.out.println(ch)
+            currentIndex += offset;
+            return lexAlpha(characters, currentIndex); // make a "word" lexeme
+        }
+
+        return null;
     }
 
     public Lexeme lexAlpha(char[] chars, int index) {
@@ -171,19 +205,4 @@ public class Lexer {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
-            String contents = "";
-            String line;
-            while((line = br.readLine()) != null) {
-                contents += line;
-            }
-
-            Lexer lexer = new Lexer(contents);
-
-        } catch (IOException e) {
-
-        }
-    }
 }
