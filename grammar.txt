@@ -1,0 +1,54 @@
+literal: INT
+       | DOUBLE
+       | STRING
+       | BOOLEAN
+
+primary: variable
+       | literal
+       | lambda
+       | function
+
+type: literal
+
+keyword: DEF
+       | type
+       | WHILE
+       | FOR
+       | IF
+       | ELIF
+       | NEW
+       | AND
+       | OR
+       | RETURN
+
+operator: PLUS
+        | MINUS
+        | comparator
+        | MULT
+        | MULTMULT
+
+unaryOperator: PLUSPLUS
+             | MINUSMINUS
+
+comparator: GREATER
+          | LESS
+          | GREATEQUAL
+          | LESSEQUAL
+
+primary: literal
+       | variable
+
+expression: primary
+          | primary operator expression
+          | primary unaryOperator
+
+conditional: primary comparator primary
+
+ifExpression: IF OPAREN conditional CPAREN
+
+statement: functionDef
+         | functionCall
+         | expression SEMI
+         | vardef
+
+

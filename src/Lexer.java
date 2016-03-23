@@ -1,11 +1,6 @@
-import com.sun.xml.internal.fastinfoset.util.CharArray;
-import com.sun.xml.internal.fastinfoset.vocab.ParserVocabulary;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Created by appleowner on 2/12/16.
@@ -13,95 +8,90 @@ import java.io.StringReader;
 public class Lexer {
     int offset = 0; // keeping track of the index offset in the individual lexeme functions
     char[] characters; // input character array
-    int currentIndex; // current index into the array of input characters
+    int currentIndex = 0; // current index into the array of input characters
+    Hashtable keywords;
 
     public Lexer(String fileContents) {
+        //System.out.println(fileContents);
         characters = fileContents.toCharArray();
+        initiateKeyWords();
     }
 
     /*
-    * will take in a string (for now) and return a list of lexemes (?)
+     make a hashmap to hold all of the keywords for the language
      */
-/*    public ArrayList<Lexeme> Lex(String fileContents) {
-        ArrayList<Lexeme> lexemes = new ArrayList<Lexeme>();
-        fileContents = fileContents.trim(); // get rid of leading and trailing whitespace
-        char[] characters = fileContents.toCharArray(); // make a char array out of input string
-        for (int i = 0; i < characters.length; i++) {
-            //System.out.println(i);
-            char ch = characters[i];
-            System.out.println("characters[i] " + characters[i]);
-            if (ch == '\"') { // if the character is a quotation, make a string lexeme
-                lexemes.add(lexString(characters, i + 1));
-                i += offset;
-            } else if (isNumeric(ch)) { // if the character is numeric, make a number lexeme (probably double or int)
-                lexemes.add(lexNumber(ch, characters, i + 1));
-                i += offset;
-            } else if (ch == ';') {
-                return new Lexeme("semi");
-            } else if (ch == '(') {
-                lexemes.add(new Lexeme("("));
-            } else if (ch == ')') {
-                lexemes.add(new Lexeme(")"));
-            } else if (ch == '{') {
-                lexemes.add(new Lexeme("{"));
-            } else if (ch == '}') {
-                lexemes.add(new Lexeme("}"));
-            } else if (ch == '+') {
-                lexemes.add(new Lexeme("+"));
-            } else if (ch == '/') {
-                lexemes.add(new Lexeme("/"));
-            } else if (ch == '*' || ch == '+' || ch == '=' || ch =='-') { // if a + or * check if it's single or double (* or **)
-                System.out.println("chars[i-1] " + characters[i-1]);
-                System.out.println("char " + ch);
-                lexemes.add(checkChar(characters, i + 1, ch)); // plus 1 because checkChar also takes the character
-                i += offset;
-            } else if (ch == ' ') { // just keep moving if ch is a space
-
-            } else if (isAlpha(ch)) { // if an alpha character
-                //System.out.println(ch)
-                lexemes.add(lexAlpha(characters, i)); // make a "word" lexeme
-                i += offset;
-            } else {
-                // woah bad character
-            }
-        }
-
-        return lexemes;
-    }*/
+    public void initiateKeyWords() {
+        keywords = new Hashtable();
+        keywords.put("for" , "FOR");
+        keywords.put("int", "VARDEF");
+        keywords.put("double", "VARDEF");
+        keywords.put("string", "VARDEF");
+        keywords.put("if", "IF");
+        keywords.put("elif", "ELIF");
+        keywords.put("while", "WHILE");
+        keywords.put("def", "DEF");
+        keywords.put("return", "RETURN");
+        keywords.put("or", "OR");
+        keywords.put("and", "AND");
+        keywords.put("new", "NEW");
+        //keywords.put();
+    }
 
     public Lexeme lex() {
         char ch = characters[currentIndex];
-        System.out.println("characters[i] " + characters[currentIndex]);
         if (ch == '\"') { // if the character is a quotation, make a string lexeme
-            currentIndex += offset;
+            //currentIndex += offset + 1;
             return lexString(characters, currentIndex + 1);
         } else if (isNumeric(ch)) { // if the character is numeric, make a number lexeme (probably double or int)
-            currentIndex += offset;
+            //currentIndex += offset + 1;
             return lexNumber(ch, characters, currentIndex + 1);
         } else if (ch == ';') {
-            return new Lexeme("semi");
+            currentIndex += 1;
+            return new Lexeme("SEMI");
         } else if (ch == '(') {
-            return new Lexeme("(");
+            currentIndex += 1;
+            return new Lexeme("OPAREN");
         } else if (ch == ')') {
-            return new Lexeme(")");
+            currentIndex += 1;
+            return new Lexeme("CPAREN");
         } else if (ch == '{') {
-            return new Lexeme("{");
+            currentIndex += 1;
+            return new Lexeme("OBRACKET");
         } else if (ch == '}') {
-            return new Lexeme("}");
-        } else if (ch == '+') {
-            return new Lexeme("+");
-        } else if (ch == '/') {
-            return new Lexeme("/");
-        } else if (ch == '*' || ch == '+' || ch == '=' || ch =='-') { // if a + or * check if it's single or double (* or **)
-            System.out.println("chars[i-1] " + characters[currentIndex-1]);
-            System.out.println("char " + ch);
-            currentIndex += offset;
+            currentIndex += 1;
+            return new Lexeme("CBRACKET");
+        }  else if (ch == '/') {
+            currentIndex += 1;
+            return new Lexeme("BACKSLASH");
+        } else if (ch == '~') {
+            return new Lexeme("EOF"); // arbitrary end of file character
+        } else if (ch == '<') {
+            if (characters[currentIndex+1] == '=') {
+                currentIndex += 2;
+                return new Lexeme("COMPARATOR","<=");
+            } else {
+                currentIndex += 1;
+                return new Lexeme("COMPARATOR", "<");
+            }
+        } else if (ch == '>') {
+            currentIndex += 1;
+            return new Lexeme("COMPARATOR", ">");
+        } else if (ch == '=') {
+            if (characters[currentIndex + 1] == '>' || characters[currentIndex + 1] == '=') {
+                currentIndex += 2;
+                return new Lexeme("COMPARATOR", "=" + characters[currentIndex + 1]);
+            } else {
+                currentIndex += 1;
+                return new Lexeme("EQUALS");
+            }
+        }
+        else if (ch == '*' || ch == '+' || ch =='-') { // if a + or * check if it's single or double (* or **)
             return checkChar(characters, currentIndex + 1, ch); // plus 1 because checkChar also takes the character
         } else if (ch == ' ') { // just keep moving if ch is a space
-
+            currentIndex += 1;
         } else if (isAlpha(ch)) { // if an alpha character
             //System.out.println(ch)
-            currentIndex += offset;
+            //currentIndex += offset + 1;
             return lexAlpha(characters, currentIndex); // make a "word" lexeme
         }
 
@@ -113,28 +103,36 @@ public class Lexer {
         char ch = chars[index];
         String buffer = "";
         while (ch != ' ' && i <= chars.length && (isNumeric(ch) || isAlpha(ch))) { // check how much of the char array got parsed, subtract 1 to account for increment
-            //System.out.println("ch " + ch + " i " + i);
             buffer += ch;
+            if (keywords.containsKey(buffer)) {
+                offset = buffer.length() - 1;
+                currentIndex += offset + 1;
+                if (keywords.get(buffer).toString() == "VARDEF") {
+                    return new Lexeme(keywords.get(buffer).toString(), buffer);
+                }
+                return new Lexeme(keywords.get(buffer).toString()); // make a new buffer with the keyword
+            }
             i = i + 1;
             ch = chars[i];
         }
-        //System.out.println("buffer " + buffer.length() + )
-        offset = buffer.length()-1;
-        return new Lexeme(buffer);
+        offset = buffer.length() - 1;
+        currentIndex += offset + 1;
+        return new Lexeme("VAR", buffer);
     }
 
-    /*
+    /*recent:///3d6389b0335bb020ae1a33b556f1fe47
     * a function to check for duplicate chars, to use with the ++ and ** operators
      */
     public Lexeme checkChar(char[] chars, int index, char ch) {
         int i = index;
-        System.out.println("ch " + ch + " ch i + 1 " + chars[i]);
         if (chars[i] == ch) { // if the next char is the same as the first, return a lexeme with 2 chars as the type
             offset = 1;
-            return new Lexeme("" + ch + ch);
+            currentIndex += offset + 1;
+            return new Lexeme("OPERATOR", "" + ch + ch);
         } else if (chars[i] == ' ') {
             offset = 0;
-            return new Lexeme("" + ch);
+            currentIndex += 1;
+            return new Lexeme("OPERATOR", "" + ch);
         } else {
             return new Lexeme("BAD CHAR"); // THROW AN ERROR
         }
@@ -169,7 +167,8 @@ public class Lexer {
             ch = chars[i]; // move to the next character
         }
         offset = buffer.length() - 1; // check how much of the char array got parsed, subtract 1 to account for incrementation in for loop
-        return new Lexeme("string", buffer);
+        currentIndex += offset + 3;
+        return new Lexeme("STRING", buffer);
     }
 
     /*
@@ -197,11 +196,12 @@ public class Lexer {
         }
 
         offset = buffer.length() - 1; // check how much of the char array got parsed, subtract 1 to account for incre
+        currentIndex += offset + 1;
         //System.out.println("buffer l " + buffer.length() + "offset " + offset);
         if (isDouble) {
-            return new Lexeme("double", buffer);
+            return new Lexeme("DOUBLE", buffer);
         } else {
-            return new Lexeme("integer", buffer);
+            return new Lexeme("INTEGER", buffer);
         }
     }
 
