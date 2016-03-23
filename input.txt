@@ -1,4 +1,8 @@
 for (int i = 0; i < 145; i++) {
     int x = 15.52;
-    string str = "hello it's me";
+    string str = "hello it's me"; :) this is
+    a comment (:
+    if (x == 2) {
+        print("boop");
+    }
 }~

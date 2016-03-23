@@ -34,6 +34,7 @@ public class Lexer {
         keywords.put("or", "OR");
         keywords.put("and", "AND");
         keywords.put("new", "NEW");
+        keywords.put("print", "PRINT");
         //keywords.put();
     }
 
@@ -65,7 +66,13 @@ public class Lexer {
             return new Lexeme("BACKSLASH");
         } else if (ch == '~') {
             return new Lexeme("EOF"); // arbitrary end of file character
-        } else if (ch == '<') {
+        } else if (ch == ':') {
+            if (characters[currentIndex + 1] == ')') {
+                currentIndex += 1;
+                return getComment();
+            }
+        }
+        else if (ch == '<') {
             if (characters[currentIndex+1] == '=') {
                 currentIndex += 2;
                 return new Lexeme("COMPARATOR","<=");
@@ -144,6 +151,24 @@ public class Lexer {
     public boolean isAlpha(char ch) {
         //System.out.println(((int) ch >= 65 && (int) ch <=122));
         return ((int) ch >= 65 && (int) ch <=122);
+    }
+
+    /*
+    gets a comment
+     */
+    public Lexeme getComment() {
+        String buffer = "";
+
+        while (!((characters[currentIndex] == '(') && (characters[currentIndex + 1] == ':'))) {
+            buffer += characters[currentIndex];
+            currentIndex = currentIndex + 1;
+        }
+
+        offset = buffer.length();
+
+        currentIndex += buffer.length() + 2;
+
+        return new Lexeme("COMMENT", buffer);
     }
 
     /*

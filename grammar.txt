@@ -20,6 +20,7 @@ keyword: DEF
        | AND
        | OR
        | RETURN
+       | PRINT
 
 operator: PLUS
         | MINUS
@@ -51,4 +52,4 @@ statement: functionDef
          | expression SEMI
          | vardef
 
-
+comment: :) expression (:
