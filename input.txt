@@ -1,7 +1,7 @@
-for (int i = 0; i < 145; i++) {
-    int x = 15.52;
-    string str = "hello it's me"; :) this is
-    a comment (:
+for (var i = 0; i < 145; i++) {
+    var x = 15.52;
+    string str = "hello it's me";
+    :) this is a comment (:
     if (x == 2) {
         print("boop");
     }

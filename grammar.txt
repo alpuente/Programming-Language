@@ -1,17 +1,17 @@
-literal: INT
-       | DOUBLE
-       | STRING
-       | BOOLEAN
+1. Literal
+    literal: INTEGER
+           | DOUBLE
+           | STRING
+           | BOOLEAN
 
+2. 
 primary: variable
        | literal
        | lambda
        | function
 
-type: literal
-
+3. 
 keyword: DEF
-       | type
        | WHILE
        | FOR
        | IF
@@ -21,35 +21,92 @@ keyword: DEF
        | OR
        | RETURN
        | PRINT
+       | VAR
 
+4.
 operator: PLUS
         | MINUS
         | comparator
         | MULT
         | MULTMULT
 
+5. 
 unaryOperator: PLUSPLUS
              | MINUSMINUS
 
+6.
 comparator: GREATER
           | LESS
           | GREATEQUAL
           | LESSEQUAL
 
+7.
 primary: literal
        | variable
 
-expression: primary
+8.
+expression: primary SEMI
           | primary operator expression
           | primary unaryOperator
+          | RETURN primary
 
+9.
+statement: expression SEMI
+         | ifChain
+
+10.
 conditional: primary comparator primary
 
-ifExpression: IF OPAREN conditional CPAREN
+11.
+ifExpression: IF OPAREN conditional CPAREN body
 
+12.
+ifChain: ifExpression 
+       | if Expression elifChain
+
+13.
+elifChain: ELSE body 
+         | ELIF OPAREN conditional CPAREN body
+         | ELIF OPAREN conditional CPAREN body elifChain 
+
+14.
 statement: functionDef
          | functionCall
          | expression SEMI
          | vardef
 
+15. variable
+    variable: functionCall
+            | lambda
+            | literal
+            | expression
+
+16. functionCall
+    functionCall: varName OPAREN paramList CPAREN
+
+17. paramList
+    paramList: null
+             | primary
+             | primary paramList
+
+18.
+vardef: VAR varName variable
+
+19.
 comment: :) expression (:
+
+20.
+whileLoop: WHILE OPAREN conditional CPAREN body
+
+21.
+for: FOR OPAREN vardef
+
+22.
+expressionList: expression
+              | expression expressionList
+
+23.
+body: OBRACKET expressionList CBRACKET
+
+24.
+functionDef: DEF varname body

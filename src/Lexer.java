@@ -23,9 +23,7 @@ public class Lexer {
     public void initiateKeyWords() {
         keywords = new Hashtable();
         keywords.put("for" , "FOR");
-        keywords.put("int", "VARDEF");
-        keywords.put("double", "VARDEF");
-        keywords.put("string", "VARDEF");
+        keywords.put("var", "VARDEF");
         keywords.put("if", "IF");
         keywords.put("elif", "ELIF");
         keywords.put("while", "WHILE");

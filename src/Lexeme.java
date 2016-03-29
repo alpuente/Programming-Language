@@ -43,7 +43,4 @@ public class Lexeme {
     public Lexeme(String type) {
         this.type = type;
     }
-
-
-
 }
