@@ -4,13 +4,11 @@
            | STRING
            | BOOLEAN
 
-2. 
-primary: variable
-       | literal
-       | lambda
-       | function
+2. Primary
+    primary: varExpression
+           | literal
 
-3. 
+3. Keyword
 keyword: DEF
        | WHILE
        | FOR
@@ -24,7 +22,7 @@ keyword: DEF
        | VAR
 
 4.
-operator: PLUS
+binaryOperator: PLUS
         | MINUS
         | comparator
         | MULT
@@ -45,7 +43,7 @@ primary: literal
        | variable
 
 8.
-expression: primary SEMI
+expression: primary
           | primary operator expression
           | primary unaryOperator
           | RETURN primary
@@ -103,10 +101,23 @@ for: FOR OPAREN vardef
 
 22.
 expressionList: expression
-              | expression expressionList
+              | expression optExpressionList
 
 23.
 body: OBRACKET expressionList CBRACKET
 
 24.
 functionDef: DEF varname body
+
+25. lambda
+    lambda: LAMBDA paramList body
+
+26. variable definition
+    varDefinition: VARDEF VAR EQUAL expression SEMI
+
+27. lambda call
+    lambdaCall: LAMBDA OPAREN paramList CPAREN
+
+28. varExpression
+    varExpression: VAR
+                 | VAR OPAREN paramList CPAREN

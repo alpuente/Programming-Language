@@ -22,7 +22,7 @@ public class scanner {
 
     public String getFileContents (String fileName) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
             String contents = "";
             String line;
             while ((line = br.readLine()) != null) {
@@ -49,9 +49,5 @@ public class scanner {
             }
             token = lexer.lex();
         }
-    }
-
-    public static void main(String[] args) {
-        new scanner(args[0]); // create new scanner using the input filename
     }
 }

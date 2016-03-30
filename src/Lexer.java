@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -17,6 +20,7 @@ public class Lexer {
         initiateKeyWords();
     }
 
+
     /*
      make a hashmap to hold all of the keywords for the language
      */
@@ -33,6 +37,9 @@ public class Lexer {
         keywords.put("and", "AND");
         keywords.put("new", "NEW");
         keywords.put("print", "PRINT");
+        keywords.put("lambda", "LAMBDA");
+        keywords.put("true", "BOOLEAN");
+        keywords.put("false", "BOOLEAN");
         //keywords.put();
     }
 
@@ -87,13 +94,14 @@ public class Lexer {
                 return new Lexeme("COMPARATOR", "=" + characters[currentIndex + 1]);
             } else {
                 currentIndex += 1;
-                return new Lexeme("EQUALS");
+                return new Lexeme("EQUAL");
             }
         }
         else if (ch == '*' || ch == '+' || ch =='-') { // if a + or * check if it's single or double (* or **)
             return checkChar(characters, currentIndex + 1, ch); // plus 1 because checkChar also takes the character
         } else if (ch == ' ') { // just keep moving if ch is a space
             currentIndex += 1;
+            return new Lexeme("SPACE");
         } else if (isAlpha(ch)) { // if an alpha character
             //System.out.println(ch)
             //currentIndex += offset + 1;
@@ -120,12 +128,13 @@ public class Lexer {
             i = i + 1;
             ch = chars[i];
         }
+        //System.out.println("buffer " + buffer);
         offset = buffer.length() - 1;
         currentIndex += offset + 1;
         return new Lexeme("VAR", buffer);
     }
 
-    /*recent:///3d6389b0335bb020ae1a33b556f1fe47
+    /*
     * a function to check for duplicate chars, to use with the ++ and ** operators
      */
     public Lexeme checkChar(char[] chars, int index, char ch) {
@@ -204,8 +213,6 @@ public class Lexer {
         ch = chars[i];
         boolean isDouble = false;
         while (i != ' ' && i <= chars.length) { // keep going until there's a space
-            //System.out.println("ch " + ch);
-            //System.out.println("i " + i + "chars.length " + chars.length);
             if (ch == '.') {
                 isDouble = true; // if there's a decimal, then it's a double
                 buffer += ch; // add the decimal to buffer
@@ -220,7 +227,6 @@ public class Lexer {
 
         offset = buffer.length() - 1; // check how much of the char array got parsed, subtract 1 to account for incre
         currentIndex += offset + 1;
-        //System.out.println("buffer l " + buffer.length() + "offset " + offset);
         if (isDouble) {
             return new Lexeme("DOUBLE", buffer);
         } else {
