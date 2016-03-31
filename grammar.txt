@@ -48,9 +48,10 @@ expression: primary
           | primary unaryOperator
           | RETURN primary
 
-9.
-statement: expression SEMI
-         | ifChain
+9. statement
+    statement: expression SEMI
+             | RETURN primary SEMI
+
 
 10.
 conditional: primary comparator primary
@@ -64,8 +65,8 @@ ifChain: ifExpression
 
 13.
 elifChain: ELSE body 
-         | ELIF OPAREN conditional CPAREN body
-         | ELIF OPAREN conditional CPAREN body elifChain 
+         | elifExpression
+         | elifExpression elifChain 
 
 14.
 statement: functionDef
@@ -107,7 +108,7 @@ expressionList: expression
 body: OBRACKET expressionList CBRACKET
 
 24.
-functionDef: DEF varname body
+functionDef: DEF VAR OPAREN paramDecList CPAREN body
 
 25. lambda
     lambda: LAMBDA paramList body
@@ -121,3 +122,18 @@ functionDef: DEF varname body
 28. varExpression
     varExpression: VAR
                  | VAR OPAREN paramList CPAREN
+29. paramDecList
+    paramDecList: null
+                | paramDec
+                | paramDecList
+
+30. paramDec
+    paramDec: VARDEF VAR
+
+31. statementList
+    statementList: null
+                 | statement
+                 | statementList
+
+32. elifExpression
+    elifExpression: ELIF OPAREN constatement

@@ -1,2 +1,5 @@
-apple(1 fifteen 2)~
+def function ( var y var z) {
+    var out = x * y;
+    return function(1 2);
+}~
 

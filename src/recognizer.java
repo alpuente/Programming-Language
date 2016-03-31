@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 /**
  * Created by appleowner on 3/27/16.
@@ -23,6 +24,8 @@ public class recognizer {
             variableDef();
         } else if (check("VAR")) {
             varExpression();
+        } else if (check("DEF")) {
+            functionDef();
         }
         if (validFile) {
             System.out.println("Legal");
@@ -98,7 +101,7 @@ public class recognizer {
             System.out.println("lambda call pending in primary fn");
             lambdaCall();
         } else if (varExpressionPending()) {
-
+            varExpression();
         }
     }
 
@@ -141,7 +144,7 @@ public class recognizer {
     }
 
     public boolean unaryOperatorPending() {
-        return check("PLUSPLUS") || check("MINUSMINUS");
+        return check("UNIOPERATOR");
     }
 
     public void unaryOperator() throws Exception {
@@ -173,13 +176,18 @@ public class recognizer {
     public void expression() throws Exception {
         if (primaryPending()) {
             primary();
-            if (unaryOperatorPending()) {
-                unaryOperator();
-            } else if (binaryOperatorPending()) {
-                binaryOperator();
+            System.out.println("AFTER PRIMARY");
+            if (check("UNIOPERATOR")) {
+                match("UNIOPERATOR");
+            } else if (check("BINOPERATOR")) {
+                System.out.println("binary ");
+                match("BINOPERATOR");
                 primary();
             }
-        } else {
+        } else if (varDefPending()) {
+            variableDef();
+        }
+        else {
             new Exception("Syntax Error: invalid expression");
         }
     }
@@ -212,8 +220,24 @@ public class recognizer {
      */
     public void body() throws Exception {
         match("OBRACKET");
-        optExpressionList();
+        statementList();
         match("CBRACKET");
+    }
+
+    /*
+* Rule 31
+statementList: null
+             | statement
+             | statementList
+
+ */
+    public void statementList() throws Exception{
+        System.out.println("statement " + currentLexeme.type);
+        if (statementPending()) {
+            System.out.println("statement pending");
+            statement();
+            statementList();
+        }
     }
 
 
@@ -236,26 +260,6 @@ public class recognizer {
             System.out.println("expression pending");
             expression();
             optExpressionList();
-        }
-    }
-
-    /*
-    * functionCall parse fn
-    * corresponds to rule 16 in grammar
-    * functionCall: varName OPAREN paramList CPAREN
-     */
-    public void functionCall() {
-        System.out.println("in fn call");
-        try {
-            match("VAR"); // variable, so make call to variable fn
-            System.out.println("before oparen");
-            match("OPAREN");
-            paramList();
-            System.out.println("afterParamList");
-            match("CPAREN");
-            match("SEMI");
-        } catch (Exception e) {
-            validFile = false;
         }
     }
 
@@ -310,13 +314,6 @@ public class recognizer {
     }
 
     /*
-    * need to double check about this one
-     */
-    public boolean functionCallPending() {
-        return check("VAR");
-    }
-
-    /*
     * see if the next lexeme is a literal
      */
     public boolean literalPending() {
@@ -346,7 +343,8 @@ public class recognizer {
 
     public boolean expressionPending() {
         // check if a primary is pending
-        return primaryPending();
+
+        return primaryPending() || check("VARDEF") || check("RETURN");
     }
 
     /*
@@ -368,7 +366,133 @@ public class recognizer {
         match("VAR");
         match("EQUAL");
         expression();
-        match("SEMI");
+    }
+
+    public boolean paramDecPending() {
+        System.out.println("type " + currentLexeme.type);
+        System.out.println(check("VARDEF"));
+        return check("VARDEF");
+    }
+
+    /*
+    * Rule 30: paramDec
+    *
+     */
+    public void paramDec() throws Exception {
+        match("VARDEF");
+        System.out.println("CURRENT TYPE " + currentLexeme.type);
+        match("VAR");
+    }
+
+    /*
+    * check if a statement is pending
+    */
+    public boolean statementPending() {
+        return expressionPending();
+    }
+
+    /*
+    * Rule 32: statement
+    *     statement: expression SEMI
+             | RETURN primary SEMI
+     */
+    public void statement() throws Exception {
+        System.out.println("in statement");
+        if (check("RETURN")) {
+            System.out.println("return");
+            match("RETURN");
+            System.out.println("return");
+            primary();
+            System.out.println("return");
+            match("SEMI");
+        } else if (expressionPending()) {
+            System.out.println("stateme nt " + currentLexeme.type);
+            expression();
+            System.out.println("current lex " + currentLexeme.type);
+            match("SEMI");
+        }
+
+    }
+
+    /*
+    * Rule 29: paramDecList
+    *     paramDecList: null
+                | paramDec
+                | paramDecList
+     */
+    public void paramDecList() throws Exception {
+        if (paramDecPending()) {
+            paramDec();
+            paramDecList();
+        }
+    }
+
+    /*
+    * Rule 24: functionDef
+    * functionDef: DEF VAR OPAREN paramDecList CPAREN body
+     */
+    public void functionDef() throws Exception {
+        System.out.println("before def");
+        match("DEF");
+        System.out.println("before var");
+        match("VAR");
+        System.out.println("before oparen");
+        match("OPAREN");
+        System.out.println("before paramDecList");
+        paramDecList();
+        System.out.println("before CPAREN");
+        match("CPAREN");
+        System.out.println("before body");
+        body();
+        System.out.println("after body");
+    }
+
+    public boolean varDefPending() {
+        return check("VARDEF");
+    }
+
+    /*
+    * Rule 10: conditional
+     */
+    public void conditional() throws Exception {
+        primary();
+        check("COMPARATOR");
+        primary();
+    }
+
+    /*
+    * Rule 11: ifExpression
+    * ifExpression: IF OPAREN conditional CPAREN body
+     */
+    public void ifExpression() throws Exception {
+        match("IF");
+        match("OPAREN");
+        conditional();
+        match("CPAREN");
+        body();
+    }
+
+    public boolean ifExpressionPending() {
+        return check("IF");
+    }
+
+    public boolean elifExpressionPending() {
+        return check("ELIF");
+    }
+
+    /*
+    * Rule 32: elifExpression
+    * elifExpression: ELIF OPAREN conditional CPAREN
+     */
+    public void elifExpression() throws Exception {
+        match("ELIF");
+        match("OPAREN");
+        conditional();
+        match("CPAREN");
+    }
+
+    public boolean conditionalPending() {
+        return primaryPending();
     }
 
     public static void main(String[] args) throws Exception {

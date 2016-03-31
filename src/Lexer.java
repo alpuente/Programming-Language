@@ -142,11 +142,11 @@ public class Lexer {
         if (chars[i] == ch) { // if the next char is the same as the first, return a lexeme with 2 chars as the type
             offset = 1;
             currentIndex += offset + 1;
-            return new Lexeme("OPERATOR", "" + ch + ch);
+            return new Lexeme("UNIOPERATOR", "" + ch + ch);
         } else if (chars[i] == ' ') {
             offset = 0;
             currentIndex += 1;
-            return new Lexeme("OPERATOR", "" + ch);
+            return new Lexeme("BINOPERATOR", "" + ch);
         } else {
             return new Lexeme("BAD CHAR"); // THROW AN ERROR
         }
