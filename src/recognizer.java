@@ -176,11 +176,9 @@ public class recognizer {
     public void expression() throws Exception {
         if (primaryPending()) {
             primary();
-            System.out.println("AFTER PRIMARY");
             if (check("UNIOPERATOR")) {
                 match("UNIOPERATOR");
             } else if (check("BINOPERATOR")) {
-                System.out.println("binary ");
                 match("BINOPERATOR");
                 primary();
             }
@@ -378,7 +376,7 @@ statementList: null
 
     public boolean paramDecPending() {
         System.out.println("type " + currentLexeme.type);
-        System.out.println(check("VARDEF"));
+        //System.out.println(check("VARDEF"));
         return check("VARDEF");
     }
 
@@ -658,6 +656,11 @@ statementList: null
         match("OSQUARE");
         match("CSQUARE");
         match("VAR");
+    }
+
+    public void varForExpressionFn() throws Exception {
+        match("VAR");
+
     }
 
     public static void main(String[] args) throws Exception {

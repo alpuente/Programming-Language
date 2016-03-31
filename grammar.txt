@@ -41,7 +41,7 @@ comparator: GREATER
 
 7.
 primary: literal
-       | variable
+       | varExpression
 
 8.
 expression: primary
@@ -126,6 +126,7 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
     varExpression: VAR
                  | VAR OPAREN paramList CPAREN
                  | VAR EQUAL primary
+                 | VAR OSQUARE INTEGER CSQUARE
 
 29. paramDecList
     paramDecList: null
@@ -158,4 +159,10 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
     arrayDeclaration: ARR OSQUARE CSQUARE VAR
 
 37. arrIndex
-    arrIndex: VAR OSQUARE CSQUARE
+    arrIndex: VAR OSQUARE INTEGER CSQUARE
+
+38. arrAdd
+    arrAdd: VAR PERIOD ADD OPAREN primary CPAREN
+
+39. arrDelete
+    arrDelete: VAR PERIOD DELETE OPAREN primary CPAREN
