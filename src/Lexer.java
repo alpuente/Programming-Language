@@ -40,6 +40,7 @@ public class Lexer {
         keywords.put("lambda", "LAMBDA");
         keywords.put("true", "BOOLEAN");
         keywords.put("false", "BOOLEAN");
+        keywords.put("arr", "ARR");
         //keywords.put();
     }
 
@@ -54,6 +55,9 @@ public class Lexer {
         } else if (ch == ';') {
             currentIndex += 1;
             return new Lexeme("SEMI");
+        } else if (ch == ',') {
+            currentIndex += 1;
+            return new Lexeme("COMMA");
         } else if (ch == '(') {
             currentIndex += 1;
             return new Lexeme("OPAREN");
@@ -66,7 +70,12 @@ public class Lexer {
         } else if (ch == '}') {
             currentIndex += 1;
             return new Lexeme("CBRACKET");
-        }  else if (ch == '/') {
+        } else if (ch == '[') {
+            currentIndex += 1;
+            return new Lexeme("OSQUARE");
+        } else if (ch == ']') {
+            return new Lexeme("CSQUARE");
+        } else if (ch == '/') {
             currentIndex += 1;
             return new Lexeme("BACKSLASH");
         } else if (ch == '~') {

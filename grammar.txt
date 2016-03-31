@@ -7,6 +7,7 @@
 2. Primary
     primary: varExpression
            | literal
+           | arrIndex
 
 3. Keyword
 keyword: DEF
@@ -55,6 +56,7 @@ expression: primary
 
 10.
 conditional: primary comparator primary
+           | NOT OPAREN primary comparator primary CPAREN
 
 11.
 ifExpression: IF OPAREN conditional CPAREN body
@@ -64,15 +66,16 @@ ifChain: ifExpression
        | if Expression elifChain
 
 13.
-elifChain: ELSE body 
+elifChain: elseExpression 
          | elifExpression
          | elifExpression elifChain 
 
 14.
 statement: functionDef
-         | functionCall
          | expression SEMI
          | vardef
+         | arrayDeclaration
+
 
 15. variable
     variable: functionCall
@@ -89,7 +92,7 @@ statement: functionDef
              | primary paramList
 
 18.
-vardef: VAR varName variable
+vardef: VARDEF VAR EQUAL variable
 
 19.
 comment: :) expression (:
@@ -98,7 +101,7 @@ comment: :) expression (:
 whileLoop: WHILE OPAREN conditional CPAREN body
 
 21.
-for: FOR OPAREN vardef
+for: FOR OPAREN vardef COMMA conditional COMMA expression CPAREN body 
 
 22.
 expressionList: expression
@@ -122,6 +125,8 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
 28. varExpression
     varExpression: VAR
                  | VAR OPAREN paramList CPAREN
+                 | VAR EQUAL primary
+
 29. paramDecList
     paramDecList: null
                 | paramDec
@@ -137,3 +142,20 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
 
 32. elifExpression
     elifExpression: ELIF OPAREN constatement
+
+33. elseExpression
+    elseExpression: ELSE body
+
+34. printCall
+    printCall: PRINT OPAREN primary OPAREN
+
+35. conditionalList
+    conditionalList: conditional
+                   | conditional AND conditional
+                   | conditional OR conditional
+
+36. arrayDeclaration
+    arrayDeclaration: ARR OSQUARE CSQUARE VAR
+
+37. arrIndex
+    arrIndex: VAR OSQUARE CSQUARE

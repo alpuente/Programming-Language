@@ -186,6 +186,9 @@ public class recognizer {
             }
         } else if (varDefPending()) {
             variableDef();
+        } else if (check("ARR")) {
+            System.out.println("arr");
+            arrayDeclaration();
         }
         else {
             new Exception("Syntax Error: invalid expression");
@@ -310,6 +313,11 @@ statementList: null
             match("OPAREN");
             paramList();
             match("CPAREN");
+        } else if (check("EQUAL")) { // reassignment
+            match("EQUAL");
+            primary();
+        } else if (check("OSQUARE")) {
+            arrayIndex();
         }
     }
 
@@ -344,7 +352,7 @@ statementList: null
     public boolean expressionPending() {
         // check if a primary is pending
 
-        return primaryPending() || check("VARDEF") || check("RETURN");
+        return primaryPending() || check("VARDEF") || check("RETURN") || check("ARR");
     }
 
     /*
@@ -388,7 +396,7 @@ statementList: null
     * check if a statement is pending
     */
     public boolean statementPending() {
-        return expressionPending();
+        return expressionPending() || check("FOR") || check("WHILE") || ifExpressionPending() || printPending();
     }
 
     /*
@@ -409,6 +417,15 @@ statementList: null
             System.out.println("stateme nt " + currentLexeme.type);
             expression();
             System.out.println("current lex " + currentLexeme.type);
+            match("SEMI");
+        } else if (ifExpressionPending()) {
+            ifExpression();
+        } else if (whilePending()) {
+            whileLoop();
+        } else if (forPending()) {
+            forExpression();
+        } else if (printPending()) {
+            printCall();
             match("SEMI");
         }
 
@@ -451,13 +468,26 @@ statementList: null
         return check("VARDEF");
     }
 
+    public boolean notPending() {
+        return check("NOT");
+    }
+
     /*
     * Rule 10: conditional
      */
     public void conditional() throws Exception {
-        primary();
-        check("COMPARATOR");
-        primary();
+        if (primaryPending()) {
+            primary();
+            match("COMPARATOR");
+            primary();
+        } else if (check("NOT")) {
+            match("NOT");
+            match("OPAREN");
+            primary();
+            match("COMPARATOR");
+            primary();
+            match("CPAREN");
+        }
     }
 
     /*
@@ -467,7 +497,7 @@ statementList: null
     public void ifExpression() throws Exception {
         match("IF");
         match("OPAREN");
-        conditional();
+        conditionalList();
         match("CPAREN");
         body();
     }
@@ -487,12 +517,147 @@ statementList: null
     public void elifExpression() throws Exception {
         match("ELIF");
         match("OPAREN");
-        conditional();
+        conditionalList();
         match("CPAREN");
     }
 
+    /*
+    * Rule 12: ifChain
+    * ifChain: ifExpression
+       | if Expression elifChain
+     */
+    public void ifChain() throws Exception {
+        ifExpression();
+        elifChain();
+    }
+
+    public boolean elseExpressionPending() {
+        return check("ELSE");
+    }
+
+    /*
+    * Rule 33: else expression
+    * elseExpression: ELSE body
+     */
+    public void elseExpression() throws Exception {
+        match("ELSE");
+        body();
+    }
+
+    /*
+    * Rule 13: Elif Chain
+    * elifChain: ELSE body
+         | elifExpression
+         | elifExpression elifChain
+     */
+    public void elifChain() throws Exception {
+        if (elseExpressionPending()) {
+            elseExpression();
+        } else if (elifExpressionPending()) {
+            elifExpression();
+            elifChain();
+        }
+    }
+
     public boolean conditionalPending() {
-        return primaryPending();
+        return primaryPending() || check("NOT");
+    }
+
+    public boolean whilePending() {
+        return check("WHILE");
+    }
+
+    public boolean forPending() {
+        return check("FOR");
+    }
+
+    /*
+    * Rule 20: while loop
+    * whileLoop: WHILE OPAREN conditional CPAREN body
+     */
+    public void whileLoop() throws Exception {
+        match("WHILE");
+        match("OPAREN");
+        conditional();
+        match("CPAREN");
+        body();
+    }
+
+    /*
+    * Rule 21: for loop
+    * for: FOR OPAREN vardef COMMA conditional COMMA expression CPAREN body
+     */
+    public void forExpression() throws Exception {
+        System.out.println("in for expression");
+        match("FOR");
+        match("OPAREN");
+        variableDef();
+        match("COMMA");
+        conditional();
+        match("COMMA");
+        expression();
+        match("CPAREN");
+        body();
+    }
+
+    public boolean printPending() {
+        return check("PRINT");
+    }
+
+    /*
+    * Rule 34: print call
+    * printCall: PRINT OPAREN primary CPAREN
+     */
+    public void printCall() throws Exception {
+        match("PRINT");
+        match("OPAREN");
+        primary();
+        match("CPAREN");
+    }
+
+    /*
+    * Rule 35: conditional list
+    *     conditionalList: conditional
+                   | conditional AND conditional
+                   | conditional OR conditional
+     */
+    public void conditionalList() throws Exception {
+        conditional();
+        if (check("AND")) {
+            match("AND");
+            conditional();
+            conditionalList();
+        } else if (check("OR")) {
+            match("OR");
+            conditional();
+            conditionalList();
+        }
+    }
+
+    public boolean arrayDeclarationPending() {
+        return check("ARR");
+    }
+
+    /*
+    * Rule 37: array index
+    * arrIndex: VAR OSQUARE INTEGER CSQUARE
+     */
+    public void arrayIndex() throws Exception {
+        match("VAR");
+        match("OSQUARE");
+        match("INTEGER");
+        match("CSQUARE");
+    }
+
+    /*
+    * Rule 36: array declaration
+    * arrayDeclaration: ARR OSQUARE CSQUARE VAR
+     */
+    public void arrayDeclaration() throws Exception {
+        match("ARR");
+        match("OSQUARE");
+        match("CSQUARE");
+        match("VAR");
     }
 
     public static void main(String[] args) throws Exception {
