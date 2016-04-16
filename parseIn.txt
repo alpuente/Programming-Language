@@ -1,13 +1,19 @@
 def function ( var y var z) {
     var out = x * y;
+                   :)hello world (:
     return function(1 2);
     for (var i = 0, i < 10, i++) {
         print("apple");
         if (x == 5 and y == 2) {
-            X = 7;
+            X = 7 % 5;
         }
-        arr[] x;
-        apple;
+        arr[] apple = [5, apple, 10, "string"];
+        apple = 10;
+
     }
-}~
+}
+
+var x = 5;
+
+~
 

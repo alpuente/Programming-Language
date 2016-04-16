@@ -7,6 +7,8 @@ public class Lexeme {
     protected int iValue;
     protected double dValue;
     protected boolean bValue;
+    protected Lexeme right;
+    protected Lexeme left;
 
     /*
     * constructor for a string lexeme

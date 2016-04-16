@@ -6,7 +6,8 @@
 
 2. Primary
     primary: varExpression
-           | literal
+           | INTEGER
+           | DOUBLE
            | arrIndex
 
 3. Keyword
@@ -156,13 +157,15 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
                    | conditional OR conditional
 
 36. arrayDeclaration
-    arrayDeclaration: ARR OSQUARE CSQUARE VAR
+    arrayDeclaration: ARR OSQUARE CSQUARE VAR EQUAL OSQUARE INTEGER CSQUARE
+                    : ARR OSQUARE CSQUARE VAR EQUAL OSQUARE primaryList CSQUARE
 
 37. arrIndex
     arrIndex: VAR OSQUARE INTEGER CSQUARE
 
-38. arrAdd
-    arrAdd: VAR PERIOD ADD OPAREN primary CPAREN
+38. arrIndexAssignment
+    arrIndexAssignment: VAR OBRACKET expresion CBRACKET EQUAL  
 
-39. arrDelete
-    arrDelete: VAR PERIOD DELETE OPAREN primary CPAREN
+39. primaryList
+    primaryList: primary
+               | primary COMMA primaryList

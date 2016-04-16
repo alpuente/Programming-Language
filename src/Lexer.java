@@ -74,10 +74,8 @@ public class Lexer {
             currentIndex += 1;
             return new Lexeme("OSQUARE");
         } else if (ch == ']') {
-            return new Lexeme("CSQUARE");
-        } else if (ch == '/') {
             currentIndex += 1;
-            return new Lexeme("BACKSLASH");
+            return new Lexeme("CSQUARE");
         } else if (ch == '~') {
             return new Lexeme("EOF"); // arbitrary end of file character
         } else if (ch == ':') {
@@ -85,6 +83,9 @@ public class Lexer {
                 currentIndex += 1;
                 return getComment();
             }
+        } else if (ch == '%' || ch == '/') {
+            currentIndex += 1;
+            return new Lexeme("BINOPERATOR");
         }
         else if (ch == '<') {
             if (characters[currentIndex+1] == '=') {
@@ -174,6 +175,9 @@ public class Lexer {
      */
     public Lexeme getComment() {
         String buffer = "";
+        for (int i = 0; i < characters.length; i++) {
+            System.out.print(characters[i]);
+        }
 
         while (!((characters[currentIndex] == '(') && (characters[currentIndex + 1] == ':'))) {
             buffer += characters[currentIndex];

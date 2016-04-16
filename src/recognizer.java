@@ -18,19 +18,20 @@ public class recognizer {
 
     public void parse() throws Exception {
         currentLexeme = lexer.lex();
-        //System.out.println("type " + currentLexeme.type);
-        if (check("VARDEF")) {
-            System.out.print("kjj");
-            variableDef();
-        } else if (check("VAR")) {
-            varExpression();
-        } else if (check("DEF")) {
-            functionDef();
-        }
-        if (validFile) {
-            System.out.println("Legal");
-        } else {
-            System.out.println("Illegal");
+        while (currentLexeme.type != "EOF") {
+            //System.out.println("type " + currentLexeme.type);
+            if (check("DEF")) {
+                functionDef();
+            } else if (statementPending()) {
+                statement();
+            } else if (ifExpressionPending()) {
+                ifExpression();
+            }
+            if (validFile) {
+                System.out.println("Legal");
+            } else {
+                System.out.println("Illegal");
+            }
         }
     }
 
@@ -51,7 +52,7 @@ public class recognizer {
 
     public void advance() {
         currentLexeme = lexer.lex();
-        while (currentLexeme.type == "SPACE") {
+        while (currentLexeme.type == "SPACE" || currentLexeme.type == "COMMENT") {
             currentLexeme = lexer.lex();
         }
     }
@@ -226,14 +227,13 @@ public class recognizer {
     }
 
     /*
-* Rule 31
-statementList: null
-             | statement
-             | statementList
-
+    * Rule 31
+    statementList: null
+                 | statement
+                 | statementList
  */
     public void statementList() throws Exception{
-        System.out.println("statement " + currentLexeme.type);
+        //System.out.println("statement " + currentLexeme.type);
         if (statementPending()) {
             System.out.println("statement pending");
             statement();
@@ -650,17 +650,34 @@ statementList: null
     /*
     * Rule 36: array declaration
     * arrayDeclaration: ARR OSQUARE CSQUARE VAR
+    *                 | ARR OSQUARE CSQUARE VAR EQUAL OSQUARE primaryList CSQUARE
      */
     public void arrayDeclaration() throws Exception {
         match("ARR");
         match("OSQUARE");
         match("CSQUARE");
         match("VAR");
+        match("EQUAL");
+        match("OSQUARE");
+        if (primaryPending()) {
+            primaryList();
+        } else {
+            match("INTEGER");
+        }
+        match("CSQUARE");
     }
 
-    public void varForExpressionFn() throws Exception {
-        match("VAR");
-
+    /*
+    * Rule 39: primary list
+    * primaryList: primary
+                 | primary COMMA primaryList
+     */
+    public void primaryList() throws Exception {
+        primary();
+        if (check("COMMA")) {
+            match("COMMA");
+            primaryList();
+        }
     }
 
     public static void main(String[] args) throws Exception {
