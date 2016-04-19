@@ -90,30 +90,29 @@ public class parser {
            | functionCall
      */
     public Lexeme primary() throws Exception {
-        Lexeme tree;
+        // not using tree variable here because they're all single lexemes
+        // don't need left and right
         if (varExpressionPending()) {
-            varExpression();
+            return varExpression();
         } else if (literalPending()) {
-            literal();
-        } else if (lambdaCallPending()) {
-            lambdaCall();
+            return literal();
         } else if (varExpressionPending()) {
-            varExpression();
+            return varExpression();
         }
-        return tree;
+        return null;
     }
 
     /*
     * Rule 27: lambda call
     * lambdaCall: LAMBDA OPAREN paramList CPAREN
      */
-    public Lexeme lambdaCall() throws Exception {
+    public void lambdaCall() throws Exception { // TODO: 4/19/16 fix these dang lambda calls
         Lexeme tree;
         match("LAMBDA");
         match("OPAREN");
         paramList();
         match("CPAREN");
-        return tree;
+        //return tree;
     }
 
     /*
@@ -130,19 +129,17 @@ public class parser {
     }
 
     public Lexeme binaryOperator() throws Exception {
-        Lexeme tree;
         if (check("PLUS")) {
-            match("PLUS");
+            return match("PLUS");
         } else if (check("MINUS")) {
-            match("MINUS");
+            return match("MINUS");
         } else if (check("MULT")) {
-            match("MULTMULT");
+            return match("MULTMULT");
         } else if (check("COMPARATOR")) {
-            match("COMPARATOR");
+            return match("COMPARATOR");
         } else {
             throw new Exception("Syntax Error: expected a binary operator");
         }
-        return tree;
     }
 
     public boolean unaryOperatorPending() {
@@ -150,15 +147,14 @@ public class parser {
     }
 
     public Lexeme unaryOperator() throws Exception {
-        Lexeme tree;
+        // no need for tree variable here
         if (check("PLUSPLUS")) {
-            match("PLUSPLUS");
+            return match("PLUSPLUS");
         } else if (check("MINUSMINUS")) {
-            match("MINUSMINUS");
+            return match("MINUSMINUS");
         } else {
             throw new Exception("Syntax Error: expected a unary operator");
         }
-        return tree;
     }
 
     public boolean returnPending() {
@@ -167,8 +163,8 @@ public class parser {
 
     public Lexeme returnVal() throws Exception {
         Lexeme tree;
-        match("RETURN");
-        primary();
+        tree = match("RETURN");
+        tree.left = primary();
         return tree;
     }
 
@@ -182,22 +178,24 @@ public class parser {
     public Lexeme expression() throws Exception {
         Lexeme tree;
         if (primaryPending()) {
-            primary();
+            tree = primary();
             if (check("UNIOPERATOR")) {
-                match("UNIOPERATOR");
+                tree.left = match("UNIOPERATOR");
+                return tree;
             } else if (check("BINOPERATOR")) {
-                match("BINOPERATOR");
-                primary();
+                tree.left = match("BINOPERATOR");
+                tree.left.left = primary();
+                return tree;
             }
         } else if (varDefPending()) {
-            variableDef();
+            return variableDef();
         } else if (check("ARR")) {
-            arrayDeclaration();
+            return arrayDeclaration();
         }
         else {
             new Exception("Syntax Error: invalid expression");
         }
-        return tree;
+        return null;
     }
 
     /*
@@ -208,19 +206,19 @@ public class parser {
         Lexeme tree;
         try {
             if (check("INTEGER")) {
-                match("INTEGER");
+                return match("INTEGER");
             } else if (check("DOUBLE")) {
-                match("DOUBLE");
+                return match("DOUBLE");
             } else if (check("BOOLEAN")) {
-                match("BOOLEAN");
+                return match("BOOLEAN");
             } else if (check("STRING")) {
-                match("STRING");
+                return match("STRING");
             }
         } catch (Exception e) {
             System.out.println("caught exception in literal fn");
             validFile = false;
         }
-        return  tree;
+        return  null;
     }
 
 
@@ -230,9 +228,10 @@ public class parser {
      */
     public Lexeme body() throws Exception {
         Lexeme tree;
-        match("OBRACKET");
-        statementList();
-        match("CBRACKET");
+        tree = match("OBRACKET");
+        Lexeme temp = statementList();
+        tree.left = match("CBRACKET");
+        tree.left.left = temp;
         return tree;
     }
 
@@ -245,10 +244,11 @@ public class parser {
     public Lexeme statementList() throws Exception{
         Lexeme tree;
         if (statementPending()) {
-            statement();
-            statementList();
+            tree = statement();
+            tree.left = statementList();
+            return tree;
         }
-        return tree;
+        return null;
     }
 
 
@@ -257,9 +257,10 @@ public class parser {
      */
     public Lexeme lambda() throws Exception {
         Lexeme tree;
-        match("LAMBDA");
-        paramList();
-        body();
+        tree = match("LAMBDA");
+        tree.left = new Lexeme("dummy");
+        tree.left.left = paramList();
+        tree.left.right = body();
         return tree;
     }
 
@@ -271,10 +272,11 @@ public class parser {
     public Lexeme optExpressionList() throws Exception{
         Lexeme tree;
         if (expressionPending()) {
-            expression();
-            optExpressionList();
+            tree = expression();
+            tree.left = optExpressionList();
+            return tree;
         }
-        return tree;
+        return null;
     }
 
     /*
@@ -285,11 +287,12 @@ public class parser {
     public Lexeme paramList() throws Exception {
         Lexeme tree;
         if (primaryPending()) {
-            System.out.println("primary pending");
-            primary();
-            paramList();
+            //System.out.println("primary pending");
+            tree = primary();
+            tree.left = paramList();
+            return tree;
         }
-        return tree;
+        return null;
     }
 
     /*
@@ -298,8 +301,8 @@ public class parser {
                 | lambda
                 | literal
                 | expression
-     */
-    public Lexeme variable() throws Exception {
+     */ // TODO: 4/19/16 deal with this stuff (variable fn)
+/*    public Lexeme variable() throws Exception {
         Lexeme tree;
         if (varExpressionPending()) {
             varExpressionPending();
@@ -311,7 +314,7 @@ public class parser {
             throw new Exception("not a valid variable type");
         }
         return tree;
-    }
+    }*/
 
     public boolean varExpressionPending() {
         return check("VAR");
@@ -325,14 +328,14 @@ public class parser {
     public Lexeme varExpression() throws Exception {
         Lexeme tree = match("VAR");
         if (check("OPAREN")) { // it's a call
-            match("OPAREN");
-            paramList();
-            match("CPAREN");
+            tree.left = match("OPAREN");
+            tree.left.left = paramList();
+            tree.left.right = match("CPAREN");
         } else if (check("EQUAL")) { // reassignment
-            match("EQUAL");
-            primary();
+            tree.right = match("EQUAL");
+            tree.left = primary();
         } else if (check("OSQUARE")) {
-            arrayIndex();
+            tree.left = arrayIndex();
         }
         return tree;
     }
@@ -387,8 +390,8 @@ public class parser {
     public Lexeme variableDef() throws Exception {
         Lexeme tree = match("VARDEF");
         tree.left = match("VAR");
-        match("EQUAL");
-        expression();
+        tree.left.right = match("EQUAL");
+        tree.left.left = expression();
         return tree;
     }
 
@@ -421,23 +424,32 @@ public class parser {
     public Lexeme statement() throws Exception {
         Lexeme tree;
         if (check("RETURN")) {
-            match("RETURN");
-            primary();
-            match("SEMI");
+            tree = match("RETURN");
+            Lexeme temp = primary();
+            tree.left = match("SEMI");
+            tree.left.right  = temp;
+            return tree;
         } else if (expressionPending()) {
-            expression();
-            match("SEMI");
+            // TODO: 4/19/16 figure this out
+            Lexeme temp = expression();
+            tree = match("SEMI");
+            tree.left = temp;
+            return tree;
         } else if (ifExpressionPending()) {
-            ifExpression();
+            tree = ifExpression();
+            return tree;
         } else if (whilePending()) {
-            whileLoop();
+            tree = whileLoop();
+            return tree;
         } else if (forPending()) {
-            forExpression();
+            tree = forExpression();
+            return tree;
         } else if (printPending()) {
-            printCall();
+            tree = printCall();
             match("SEMI");
+            return tree;
         }
-        return tree;
+        return null;
     }
 
     /*
@@ -462,11 +474,11 @@ public class parser {
      */
     public Lexeme functionDef() throws Exception {
         Lexeme tree = match("DEF");
-        match("VAR");
-        match("OPAREN");
-        paramDecList();
-        match("CPAREN");
-        body();
+        tree.left = match("VAR");
+        tree.left.right = match("OPAREN");
+        tree.left.left = paramDecList();
+        tree.right = match("CPAREN");
+        tree.right.left = body();
         return tree;
     }
 
@@ -484,18 +496,20 @@ public class parser {
     public Lexeme conditional() throws Exception {
         Lexeme tree;
         if (primaryPending()) {
-            primary();
-            match("COMPARATOR");
-            primary();
+            tree = primary();
+            tree.left = match("COMPARATOR");
+            tree.left.left = primary();
+            return tree;
         } else if (check("NOT")) {
-            match("NOT");
-            match("OPAREN");
-            primary();
-            match("COMPARATOR");
-            primary();
-            match("CPAREN");
+            tree =  match("NOT");
+            tree.left = match("OPAREN");
+            tree.left.left = primary();
+            tree.left.right = match("COMPARATOR");
+            tree.left.right.left = primary();
+            tree.left.right.right = match("CPAREN");
+            return tree;
         }
-        return tree;
+        return null;
     }
 
     /*
@@ -503,12 +517,11 @@ public class parser {
     * ifExpression: IF OPAREN conditional CPAREN body
      */
     public Lexeme ifExpression() throws Exception {
-        Lexeme tree;
-        match("IF");
-        match("OPAREN");
-        conditionalList();
-        match("CPAREN");
-        body();
+        Lexeme tree = match("IF");
+        tree.left = match("OPAREN");
+        tree.left.left = conditionalList();
+        tree.left.right = match("CPAREN");
+        tree.right = body();
         return tree;
     }
 
@@ -525,11 +538,10 @@ public class parser {
     * elifExpression: ELIF OPAREN conditional CPAREN
      */
     public Lexeme elifExpression() throws Exception {
-        Lexeme tree;
-        match("ELIF");
-        match("OPAREN");
-        conditionalList();
-        match("CPAREN");
+        Lexeme tree = match("ELIF");
+        tree.left = match("OPAREN");
+        tree.left.left = conditionalList();
+        tree.left.right = match("CPAREN");
         return tree;
     }
 
@@ -573,6 +585,7 @@ public class parser {
             tree = elifExpression();
             tree.left = elifChain();
         }
+        return null;
     }
 
     public boolean conditionalPending() {
@@ -593,11 +606,11 @@ public class parser {
      */
     public Lexeme whileLoop() throws Exception {
         Lexeme tree;
-        match("WHILE");
-        match("OPAREN");
-        conditional();
-        match("CPAREN");
-        body();
+        tree = match("WHILE");
+        tree.left = match("OPAREN");
+        tree.left.left = conditional();
+        tree.left.right = match("CPAREN");
+        tree.left.right.left = body();
         return tree;
     }
 
@@ -608,15 +621,15 @@ public class parser {
     public Lexeme forExpression() throws Exception {
         //    System.out.println("in for expression");
         Lexeme tree;
-        match("FOR");
-        match("OPAREN");
-        variableDef();
-        match("COMMA");
-        conditional();
-        match("COMMA");
-        expression();
-        match("CPAREN");
-        body();
+        tree = match("FOR");
+        tree.left = match("OPAREN");
+        tree.left.left = variableDef();
+        tree.left.right = match("COMMA");
+        tree.left.left.left  = conditional();
+        tree.left.left.right = match("COMMA");
+        tree.left.right.left = expression();
+        tree.left.right.right = match("CPAREN");
+        tree.left.right.right.left = body();
         return tree;
     }
 
@@ -630,10 +643,10 @@ public class parser {
      */
     public Lexeme printCall() throws Exception {
         Lexeme tree;
-        match("PRINT");
-        match("OPAREN");
-        primary();
-        match("CPAREN");
+        tree = match("PRINT");
+        tree.left = match("OPAREN");
+        tree.left.left = primary();
+        tree.left.right = match("CPAREN");
         return tree;
     }
 
@@ -646,13 +659,13 @@ public class parser {
     public Lexeme conditionalList() throws Exception {
         Lexeme tree = conditional();
         if (check("AND")) {
-            match("AND");
-            conditional();
-            conditionalList();
+            tree.left = match("AND");
+            tree.left.left = conditional();
+            tree.left.right = conditionalList();
         } else if (check("OR")) {
-            match("OR");
-            conditional();
-            conditionalList();
+            tree.left = match("OR");
+            tree.left.left = conditional();
+            tree.left.right = conditionalList();
         }
         return tree;
     }
@@ -667,9 +680,10 @@ public class parser {
      */
     public Lexeme arrayIndex() throws Exception {
         Lexeme tree = match("VAR");
-        match("OSQUARE");
-        match("INTEGER");
-        match("CSQUARE");
+        tree.left = match("OSQUARE");
+        //match("INTEGER");
+        tree.left.left = primary(); // i guess this should be a primary ????
+        tree.left.right = match("CSQUARE");
         return tree;
     }
 
@@ -699,13 +713,14 @@ public class parser {
     * primaryList: primary
                  | primary COMMA primaryList
      */
-    public void primaryList() throws Exception {
+    public Lexeme primaryList() throws Exception {
         Lexeme tree = primary();
         if (check("COMMA")) {
-            match("COMMA");
-            primaryList();
+            tree.left = match("COMMA");
+            tree.left.left = primaryList();
+            return tree;
         }
-        return tree;
+        return null;
     }
 
     public static void main(String[] args) throws Exception {

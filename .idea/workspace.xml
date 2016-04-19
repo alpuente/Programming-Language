@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9210b5fe-39dc-4170-a3ef-04a85a1222d5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/parser.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Language/Scanner.class" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Language/recognizer.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Language/Lexeme.class" afterPath="$PROJECT_DIR$/out/production/Language/Lexeme.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Language/Lexer.class" afterPath="$PROJECT_DIR$/out/production/Language/Lexer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Language/scanner.class" afterPath="$PROJECT_DIR$/out/production/Language/scanner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Lexer.java" afterPath="$PROJECT_DIR$/src/Lexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/recognizer.java" afterPath="$PROJECT_DIR$/src/recognizer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/scanner.java" afterPath="$PROJECT_DIR$/src/scanner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grammar.txt" afterPath="$PROJECT_DIR$/grammar.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/parser.java" afterPath="$PROJECT_DIR$/src/parser.java" />
     </list>
     <ignored path="Language.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,9 +36,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -63,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/src/recognizer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="589" column="20" selection-start-line="589" selection-start-column="20" selection-end-line="589" selection-end-column="20" />
+              <caret line="136" column="20" selection-start-line="136" selection-start-column="20" selection-end-line="136" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#342#343#0" expanded="true" />
@@ -110,13 +102,46 @@
       <file leaf-file-name="parser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60583943">
-              <caret line="206" column="19" selection-start-line="206" selection-start-column="19" selection-end-line="206" selection-end-column="19" />
+            <state vertical-scroll-proportion="-15.315789">
+              <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#277#278#0" expanded="true" />
-                <element signature="e#337#338#0" expanded="true" />
+                <element signature="method#getFileContents#0;class#parser#0" expanded="false" />
+                <element signature="method#advance#0;class#parser#0" expanded="false" />
+                <element signature="method#match#0;class#parser#0" expanded="false" />
+                <element signature="method#matchNoAdvance#0;class#parser#0" expanded="false" />
                 <element signature="method#check#0;class#parser#0" expanded="false" />
+                <element signature="method#binaryOperatorPending#0;class#parser#0" expanded="false" />
+                <element signature="method#binaryOperator#0;class#parser#0" expanded="false" />
+                <element signature="method#unaryOperator#0;class#parser#0" expanded="false" />
+                <element signature="method#returnVal#0;class#parser#0" expanded="false" />
+                <element signature="method#expression#0;class#parser#0" expanded="false" />
+                <element signature="method#literal#0;class#parser#0" expanded="false" />
+                <element signature="method#body#0;class#parser#0" expanded="false" />
+                <element signature="method#statementList#0;class#parser#0" expanded="false" />
+                <element signature="method#lambda#0;class#parser#0" expanded="false" />
+                <element signature="method#optExpressionList#0;class#parser#0" expanded="false" />
+                <element signature="method#paramList#0;class#parser#0" expanded="false" />
+                <element signature="method#varExpression#0;class#parser#0" expanded="false" />
+                <element signature="method#literalPending#0;class#parser#0" expanded="false" />
+                <element signature="method#expressionPending#0;class#parser#0" expanded="false" />
+                <element signature="method#variableDef#0;class#parser#0" expanded="false" />
+                <element signature="method#paramDec#0;class#parser#0" expanded="false" />
+                <element signature="method#statement#0;class#parser#0" expanded="false" />
+                <element signature="method#paramDecList#0;class#parser#0" expanded="false" />
+                <element signature="method#functionDef#0;class#parser#0" expanded="false" />
+                <element signature="method#conditional#0;class#parser#0" expanded="false" />
+                <element signature="method#elifExpression#0;class#parser#0" expanded="false" />
+                <element signature="method#elseExpression#0;class#parser#0" expanded="false" />
+                <element signature="method#elifChain#0;class#parser#0" expanded="false" />
+                <element signature="method#whileLoop#0;class#parser#0" expanded="false" />
+                <element signature="method#forExpression#0;class#parser#0" expanded="false" />
+                <element signature="method#printCall#0;class#parser#0" expanded="false" />
+                <element signature="method#conditionalList#0;class#parser#0" expanded="false" />
+                <element signature="method#arrayIndex#0;class#parser#0" expanded="false" />
+                <element signature="method#arrayDeclaration#0;class#parser#0" expanded="false" />
+                <element signature="method#primaryList#0;class#parser#0" expanded="false" />
+                <element signature="method#main#0;class#parser#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -148,8 +173,8 @@
         <option value="$PROJECT_DIR$/src/Lexeme.java" />
         <option value="$PROJECT_DIR$/src/Lexer.java" />
         <option value="$PROJECT_DIR$/src/scanner.java" />
-        <option value="$PROJECT_DIR$/src/parser.java" />
         <option value="$PROJECT_DIR$/src/recognizer.java" />
+        <option value="$PROJECT_DIR$/src/parser.java" />
       </list>
     </option>
   </component>
@@ -666,19 +691,28 @@
       <workItem from="1459459712758" duration="4172000" />
       <workItem from="1459525980361" duration="2612000" />
       <workItem from="1460826422984" duration="3261000" />
-      <workItem from="1461025677309" duration="2563000" />
+      <workItem from="1461025677309" duration="11236000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109098000" />
+    <option name="totallyTimeSpent" value="117771000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="143" y="56" width="1223" height="681" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32707354" sideWeight="0.50269026" order="7" side_tool="true" content_ui="tabs" />
@@ -686,8 +720,9 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3615917" sideWeight="0.49730977" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24488124" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24488124" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -700,7 +735,6 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974634" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -716,7 +750,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="19" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -729,9 +763,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -754,9 +786,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -838,9 +868,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="44" column="16" selection-start-line="44" selection-start-column="16" selection-end-line="44" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1023,9 +1051,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1069,9 +1095,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="47" column="35" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1107,9 +1131,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="47" column="35" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1205,16 +1227,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scanner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Lexeme.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1223,10 +1235,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/scanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/recognizer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="589" column="20" selection-start-line="589" selection-start-column="20" selection-end-line="589" selection-end-column="20" />
+          <caret line="136" column="20" selection-start-line="136" selection-start-column="20" selection-end-line="136" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#342#343#0" expanded="true" />
@@ -1271,13 +1291,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60583943">
-          <caret line="206" column="19" selection-start-line="206" selection-start-column="19" selection-end-line="206" selection-end-column="19" />
+        <state vertical-scroll-proportion="-15.315789">
+          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#277#278#0" expanded="true" />
-            <element signature="e#337#338#0" expanded="true" />
+            <element signature="method#getFileContents#0;class#parser#0" expanded="false" />
+            <element signature="method#advance#0;class#parser#0" expanded="false" />
+            <element signature="method#match#0;class#parser#0" expanded="false" />
+            <element signature="method#matchNoAdvance#0;class#parser#0" expanded="false" />
             <element signature="method#check#0;class#parser#0" expanded="false" />
+            <element signature="method#binaryOperatorPending#0;class#parser#0" expanded="false" />
+            <element signature="method#binaryOperator#0;class#parser#0" expanded="false" />
+            <element signature="method#unaryOperator#0;class#parser#0" expanded="false" />
+            <element signature="method#returnVal#0;class#parser#0" expanded="false" />
+            <element signature="method#expression#0;class#parser#0" expanded="false" />
+            <element signature="method#literal#0;class#parser#0" expanded="false" />
+            <element signature="method#body#0;class#parser#0" expanded="false" />
+            <element signature="method#statementList#0;class#parser#0" expanded="false" />
+            <element signature="method#lambda#0;class#parser#0" expanded="false" />
+            <element signature="method#optExpressionList#0;class#parser#0" expanded="false" />
+            <element signature="method#paramList#0;class#parser#0" expanded="false" />
+            <element signature="method#varExpression#0;class#parser#0" expanded="false" />
+            <element signature="method#literalPending#0;class#parser#0" expanded="false" />
+            <element signature="method#expressionPending#0;class#parser#0" expanded="false" />
+            <element signature="method#variableDef#0;class#parser#0" expanded="false" />
+            <element signature="method#paramDec#0;class#parser#0" expanded="false" />
+            <element signature="method#statement#0;class#parser#0" expanded="false" />
+            <element signature="method#paramDecList#0;class#parser#0" expanded="false" />
+            <element signature="method#functionDef#0;class#parser#0" expanded="false" />
+            <element signature="method#conditional#0;class#parser#0" expanded="false" />
+            <element signature="method#elifExpression#0;class#parser#0" expanded="false" />
+            <element signature="method#elseExpression#0;class#parser#0" expanded="false" />
+            <element signature="method#elifChain#0;class#parser#0" expanded="false" />
+            <element signature="method#whileLoop#0;class#parser#0" expanded="false" />
+            <element signature="method#forExpression#0;class#parser#0" expanded="false" />
+            <element signature="method#printCall#0;class#parser#0" expanded="false" />
+            <element signature="method#conditionalList#0;class#parser#0" expanded="false" />
+            <element signature="method#arrayIndex#0;class#parser#0" expanded="false" />
+            <element signature="method#arrayDeclaration#0;class#parser#0" expanded="false" />
+            <element signature="method#primaryList#0;class#parser#0" expanded="false" />
+            <element signature="method#main#0;class#parser#0" expanded="false" />
           </folding>
         </state>
       </provider>

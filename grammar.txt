@@ -6,8 +6,7 @@
 
 2. Primary
     primary: varExpression
-           | INTEGER
-           | DOUBLE
+           | literal
            | arrIndex
 
 3. Keyword
@@ -46,7 +45,7 @@ primary: literal
 
 8.
 expression: primary
-          | primary operator expression
+          | primary operator primary 
           | primary unaryOperator
           | RETURN primary
 
@@ -56,7 +55,8 @@ expression: primary
 
 
 10.
-conditional: primary comparator primary
+conditional: VAR
+           | primary comparator primary
            | NOT OPAREN primary comparator primary CPAREN
 
 11.
@@ -143,7 +143,7 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
                  | statementList
 
 32. elifExpression
-    elifExpression: ELIF OPAREN constatement
+    elifExpression: ELIF OPAREN conditionalList CPAREN
 
 33. elseExpression
     elseExpression: ELSE body
@@ -153,8 +153,8 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
 
 35. conditionalList
     conditionalList: conditional
-                   | conditional AND conditional
-                   | conditional OR conditional
+                   | conditional AND conditionalList
+                   | conditional OR conditionalList
 
 36. arrayDeclaration
     arrayDeclaration: ARR OSQUARE CSQUARE VAR EQUAL OSQUARE INTEGER CSQUARE
