@@ -113,8 +113,6 @@ public class Lexer {
             currentIndex += 1;
             return new Lexeme("SPACE");
         } else if (isAlpha(ch)) { // if an alpha character
-            //System.out.println(ch)
-            //currentIndex += offset + 1;
             return lexAlpha(characters, currentIndex); // make a "word" lexeme
         }
 

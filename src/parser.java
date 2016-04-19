@@ -1,26 +1,22 @@
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 /**
- * Created by appleowner on 3/27/16.
+ * Created by appleowner on 4/18/16.
  */
-public class recognizer {
+public class parser {
     public Lexer lexer;
     public Lexeme currentLexeme;
-    Lexeme nextLexeme;
     boolean validFile = true;
 
-    public recognizer(String fileName) {
+    public parser(String fileName) {
         lexer = new Lexer(getFileContents(fileName));
     }
 
-    public void parse() throws Exception {
+    public void parser() throws Exception {
         currentLexeme = lexer.lex();
         while (currentLexeme.type != "EOF") {
-            //System.out.println("type " + currentLexeme.type);
             if (check("DEF")) {
                 functionDef();
             } else if (statementPending()) {
@@ -61,16 +57,17 @@ public class recognizer {
     /*
     * check if the lexeme is of a given type
      */
-    public void match(String type) throws Exception {
+    public Lexeme match(String type) throws Exception {
         matchNoAdvance(type);
+        Lexeme returnLex = currentLexeme;
         advance();
+        return returnLex;
     }
 
     /*
     * if the lexeme isn't matched, throw an exception
      */
     public void matchNoAdvance(String type) throws Exception {
-        System.out.println("type " + type +" currentLexeme type: " + currentLexeme.type);
         if (!check(type)) {
             throw new Exception("Syntax error");
         }
@@ -92,30 +89,31 @@ public class recognizer {
            | lambdaCall
            | functionCall
      */
-    public void primary() throws Exception {
+    public Lexeme primary() throws Exception {
+        Lexeme tree;
         if (varExpressionPending()) {
-            System.out.println("variable pending in primary fn");
             varExpression();
         } else if (literalPending()) {
-            System.out.println("literal pending in primary fn");
             literal();
         } else if (lambdaCallPending()) {
-            System.out.println("lambda call pending in primary fn");
             lambdaCall();
         } else if (varExpressionPending()) {
             varExpression();
         }
+        return tree;
     }
 
     /*
     * Rule 27: lambda call
     * lambdaCall: LAMBDA OPAREN paramList CPAREN
      */
-    public void lambdaCall() throws Exception {
+    public Lexeme lambdaCall() throws Exception {
+        Lexeme tree;
         match("LAMBDA");
         match("OPAREN");
         paramList();
         match("CPAREN");
+        return tree;
     }
 
     /*
@@ -125,12 +123,14 @@ public class recognizer {
             | comparator
             | MULT
             | MULTMULT
+
      */
     public boolean binaryOperatorPending() {
         return check("PLUS") || check("MINUS") || check("MULT") || check("MULTMULT") || check("COMPARATOR");
     }
 
-    public void binaryOperator() throws Exception {
+    public Lexeme binaryOperator() throws Exception {
+        Lexeme tree;
         if (check("PLUS")) {
             match("PLUS");
         } else if (check("MINUS")) {
@@ -142,13 +142,15 @@ public class recognizer {
         } else {
             throw new Exception("Syntax Error: expected a binary operator");
         }
+        return tree;
     }
 
     public boolean unaryOperatorPending() {
         return check("UNIOPERATOR");
     }
 
-    public void unaryOperator() throws Exception {
+    public Lexeme unaryOperator() throws Exception {
+        Lexeme tree;
         if (check("PLUSPLUS")) {
             match("PLUSPLUS");
         } else if (check("MINUSMINUS")) {
@@ -156,15 +158,18 @@ public class recognizer {
         } else {
             throw new Exception("Syntax Error: expected a unary operator");
         }
+        return tree;
     }
 
     public boolean returnPending() {
         return check("RETURN");
     }
 
-    public void returnVal() throws Exception {
+    public Lexeme returnVal() throws Exception {
+        Lexeme tree;
         match("RETURN");
         primary();
+        return tree;
     }
 
     /*
@@ -174,7 +179,8 @@ public class recognizer {
           | primary unaryOperator
           | RETURN primary
      */
-    public void expression() throws Exception {
+    public Lexeme expression() throws Exception {
+        Lexeme tree;
         if (primaryPending()) {
             primary();
             if (check("UNIOPERATOR")) {
@@ -186,19 +192,20 @@ public class recognizer {
         } else if (varDefPending()) {
             variableDef();
         } else if (check("ARR")) {
-            System.out.println("arr");
             arrayDeclaration();
         }
         else {
             new Exception("Syntax Error: invalid expression");
         }
+        return tree;
     }
 
     /*
     * parse function for literal
     * corresponds to rule 1 in grammar
      */
-    public void literal() {
+    public Lexeme literal() {
+        Lexeme tree;
         try {
             if (check("INTEGER")) {
                 match("INTEGER");
@@ -213,6 +220,7 @@ public class recognizer {
             System.out.println("caught exception in literal fn");
             validFile = false;
         }
+        return  tree;
     }
 
 
@@ -220,10 +228,12 @@ public class recognizer {
     * Rule 23:
     * body: OBRACKET expressionList CBRACKET
      */
-    public void body() throws Exception {
+    public Lexeme body() throws Exception {
+        Lexeme tree;
         match("OBRACKET");
         statementList();
         match("CBRACKET");
+        return tree;
     }
 
     /*
@@ -232,23 +242,25 @@ public class recognizer {
                  | statement
                  | statementList
  */
-    public void statementList() throws Exception{
-        //System.out.println("statement " + currentLexeme.type);
+    public Lexeme statementList() throws Exception{
+        Lexeme tree;
         if (statementPending()) {
-            System.out.println("statement pending");
             statement();
             statementList();
         }
+        return tree;
     }
 
 
     /*
     * rule 25: lambda
      */
-    public void lambda() throws Exception {
+    public Lexeme lambda() throws Exception {
+        Lexeme tree;
         match("LAMBDA");
         paramList();
         body();
+        return tree;
     }
 
     /*
@@ -256,12 +268,13 @@ public class recognizer {
     if there's an expression pending, match it and then call the fn again
     else, do nothing
      */
-    public void optExpressionList() throws Exception{
+    public Lexeme optExpressionList() throws Exception{
+        Lexeme tree;
         if (expressionPending()) {
-            System.out.println("expression pending");
             expression();
             optExpressionList();
         }
+        return tree;
     }
 
     /*
@@ -269,12 +282,14 @@ public class recognizer {
     * if parameter, match and then call the fn again
     * else do nothing
      */
-    public void paramList() throws Exception {
+    public Lexeme paramList() throws Exception {
+        Lexeme tree;
         if (primaryPending()) {
             System.out.println("primary pending");
             primary();
             paramList();
         }
+        return tree;
     }
 
     /*
@@ -284,7 +299,8 @@ public class recognizer {
                 | literal
                 | expression
      */
-    public void variable() throws Exception {
+    public Lexeme variable() throws Exception {
+        Lexeme tree;
         if (varExpressionPending()) {
             varExpressionPending();
         } else if (expressionPending()) {
@@ -294,6 +310,7 @@ public class recognizer {
         } else {
             throw new Exception("not a valid variable type");
         }
+        return tree;
     }
 
     public boolean varExpressionPending() {
@@ -305,8 +322,8 @@ public class recognizer {
     *     varExpression: VAR
                        | VAR OPAREN paramList CPAREN
      */
-    public void varExpression() throws Exception {
-        match("VAR");
+    public Lexeme varExpression() throws Exception {
+        Lexeme tree = match("VAR");
         if (check("OPAREN")) { // it's a call
             match("OPAREN");
             paramList();
@@ -317,6 +334,7 @@ public class recognizer {
         } else if (check("OSQUARE")) {
             arrayIndex();
         }
+        return tree;
     }
 
     /*
@@ -349,7 +367,6 @@ public class recognizer {
 
     public boolean expressionPending() {
         // check if a primary is pending
-
         return primaryPending() || check("VARDEF") || check("RETURN") || check("ARR");
     }
 
@@ -360,22 +377,22 @@ public class recognizer {
             | lambda
             | literal
             | expression
+
         need to double/triple check this
      */
     public boolean variablePending() {
         return check("VAR");
     }
 
-    public void variableDef() throws Exception {
-        match("VARDEF");
-        match("VAR");
+    public Lexeme variableDef() throws Exception {
+        Lexeme tree = match("VARDEF");
+        tree.left = match("VAR");
         match("EQUAL");
         expression();
+        return tree;
     }
 
     public boolean paramDecPending() {
-        System.out.println("type " + currentLexeme.type);
-        //System.out.println(check("VARDEF"));
         return check("VARDEF");
     }
 
@@ -383,10 +400,10 @@ public class recognizer {
     * Rule 30: paramDec
     *
      */
-    public void paramDec() throws Exception {
-        match("VARDEF");
-        System.out.println("CURRENT TYPE " + currentLexeme.type);
-        match("VAR");
+    public Lexeme paramDec() throws Exception {
+        Lexeme tree = match("VARDEF");
+        tree.left = match("VAR");
+        return tree;
     }
 
     /*
@@ -401,19 +418,14 @@ public class recognizer {
     *     statement: expression SEMI
              | RETURN primary SEMI
      */
-    public void statement() throws Exception {
-        System.out.println("in statement");
+    public Lexeme statement() throws Exception {
+        Lexeme tree;
         if (check("RETURN")) {
-            System.out.println("return");
             match("RETURN");
-            System.out.println("return");
             primary();
-            System.out.println("return");
             match("SEMI");
         } else if (expressionPending()) {
-            System.out.println("stateme nt " + currentLexeme.type);
             expression();
-            System.out.println("current lex " + currentLexeme.type);
             match("SEMI");
         } else if (ifExpressionPending()) {
             ifExpression();
@@ -425,7 +437,7 @@ public class recognizer {
             printCall();
             match("SEMI");
         }
-
+        return tree;
     }
 
     /*
@@ -434,31 +446,28 @@ public class recognizer {
                 | paramDec
                 | paramDecList
      */
-    public void paramDecList() throws Exception {
+    public Lexeme paramDecList() throws Exception {
+        Lexeme tree;
         if (paramDecPending()) {
-            paramDec();
-            paramDecList();
+            tree = paramDec();
+            tree.left = paramDecList();
+            return tree;
         }
+        return null;
     }
 
     /*
     * Rule 24: functionDef
     * functionDef: DEF VAR OPAREN paramDecList CPAREN body
      */
-    public void functionDef() throws Exception {
-        System.out.println("before def");
-        match("DEF");
-        System.out.println("before var");
+    public Lexeme functionDef() throws Exception {
+        Lexeme tree = match("DEF");
         match("VAR");
-        System.out.println("before oparen");
         match("OPAREN");
-        System.out.println("before paramDecList");
         paramDecList();
-        System.out.println("before CPAREN");
         match("CPAREN");
-        System.out.println("before body");
         body();
-        System.out.println("after body");
+        return tree;
     }
 
     public boolean varDefPending() {
@@ -472,7 +481,8 @@ public class recognizer {
     /*
     * Rule 10: conditional
      */
-    public void conditional() throws Exception {
+    public Lexeme conditional() throws Exception {
+        Lexeme tree;
         if (primaryPending()) {
             primary();
             match("COMPARATOR");
@@ -485,18 +495,21 @@ public class recognizer {
             primary();
             match("CPAREN");
         }
+        return tree;
     }
 
     /*
     * Rule 11: ifExpression
     * ifExpression: IF OPAREN conditional CPAREN body
      */
-    public void ifExpression() throws Exception {
+    public Lexeme ifExpression() throws Exception {
+        Lexeme tree;
         match("IF");
         match("OPAREN");
         conditionalList();
         match("CPAREN");
         body();
+        return tree;
     }
 
     public boolean ifExpressionPending() {
@@ -511,11 +524,13 @@ public class recognizer {
     * Rule 32: elifExpression
     * elifExpression: ELIF OPAREN conditional CPAREN
      */
-    public void elifExpression() throws Exception {
+    public Lexeme elifExpression() throws Exception {
+        Lexeme tree;
         match("ELIF");
         match("OPAREN");
         conditionalList();
         match("CPAREN");
+        return tree;
     }
 
     /*
@@ -523,9 +538,10 @@ public class recognizer {
     * ifChain: ifExpression
        | if Expression elifChain
      */
-    public void ifChain() throws Exception {
-        ifExpression();
-        elifChain();
+    public Lexeme ifChain() throws Exception {
+        Lexeme tree = ifExpression();
+        tree.left = elifChain();
+        return tree;
     }
 
     public boolean elseExpressionPending() {
@@ -536,9 +552,10 @@ public class recognizer {
     * Rule 33: else expression
     * elseExpression: ELSE body
      */
-    public void elseExpression() throws Exception {
-        match("ELSE");
-        body();
+    public Lexeme elseExpression() throws Exception {
+        Lexeme tree = match("ELSE");
+        tree.left = body();
+        return tree;
     }
 
     /*
@@ -547,12 +564,14 @@ public class recognizer {
          | elifExpression
          | elifExpression elifChain
      */
-    public void elifChain() throws Exception {
+    public Lexeme elifChain() throws Exception {
+        Lexeme tree;
         if (elseExpressionPending()) {
-            elseExpression();
+            tree = elseExpression();
+            return tree;
         } else if (elifExpressionPending()) {
-            elifExpression();
-            elifChain();
+            tree = elifExpression();
+            tree.left = elifChain();
         }
     }
 
@@ -572,20 +591,23 @@ public class recognizer {
     * Rule 20: while loop
     * whileLoop: WHILE OPAREN conditional CPAREN body
      */
-    public void whileLoop() throws Exception {
+    public Lexeme whileLoop() throws Exception {
+        Lexeme tree;
         match("WHILE");
         match("OPAREN");
         conditional();
         match("CPAREN");
         body();
+        return tree;
     }
 
     /*
     * Rule 21: for loop
     * for: FOR OPAREN vardef COMMA conditional COMMA expression CPAREN body
      */
-    public void forExpression() throws Exception {
-        System.out.println("in for expression");
+    public Lexeme forExpression() throws Exception {
+        //    System.out.println("in for expression");
+        Lexeme tree;
         match("FOR");
         match("OPAREN");
         variableDef();
@@ -595,6 +617,7 @@ public class recognizer {
         expression();
         match("CPAREN");
         body();
+        return tree;
     }
 
     public boolean printPending() {
@@ -605,11 +628,13 @@ public class recognizer {
     * Rule 34: print call
     * printCall: PRINT OPAREN primary CPAREN
      */
-    public void printCall() throws Exception {
+    public Lexeme printCall() throws Exception {
+        Lexeme tree;
         match("PRINT");
         match("OPAREN");
         primary();
         match("CPAREN");
+        return tree;
     }
 
     /*
@@ -618,8 +643,8 @@ public class recognizer {
                    | conditional AND conditional
                    | conditional OR conditional
      */
-    public void conditionalList() throws Exception {
-        conditional();
+    public Lexeme conditionalList() throws Exception {
+        Lexeme tree = conditional();
         if (check("AND")) {
             match("AND");
             conditional();
@@ -629,6 +654,7 @@ public class recognizer {
             conditional();
             conditionalList();
         }
+        return tree;
     }
 
     public boolean arrayDeclarationPending() {
@@ -639,11 +665,12 @@ public class recognizer {
     * Rule 37: array index
     * arrIndex: VAR OSQUARE INTEGER CSQUARE
      */
-    public void arrayIndex() throws Exception {
-        match("VAR");
+    public Lexeme arrayIndex() throws Exception {
+        Lexeme tree = match("VAR");
         match("OSQUARE");
         match("INTEGER");
         match("CSQUARE");
+        return tree;
     }
 
     /*
@@ -651,8 +678,8 @@ public class recognizer {
     * arrayDeclaration: ARR OSQUARE CSQUARE VAR
     *                 | ARR OSQUARE CSQUARE VAR EQUAL OSQUARE primaryList CSQUARE
      */
-    public void arrayDeclaration() throws Exception {
-        match("ARR");
+    public Lexeme arrayDeclaration() throws Exception {
+        Lexeme tree = match("ARR");
         match("OSQUARE");
         match("CSQUARE");
         match("VAR");
@@ -664,6 +691,7 @@ public class recognizer {
             match("INTEGER");
         }
         match("CSQUARE");
+        return tree;
     }
 
     /*
@@ -672,17 +700,16 @@ public class recognizer {
                  | primary COMMA primaryList
      */
     public void primaryList() throws Exception {
-        primary();
+        Lexeme tree = primary();
         if (check("COMMA")) {
             match("COMMA");
             primaryList();
         }
+        return tree;
     }
 
     public static void main(String[] args) throws Exception {
         recognizer rec = new recognizer("parseIn.txt");
-        //rec.currentLexeme = rec.lexer.lex();
         rec.parse();
-        //System.out.println();
     }
 }
