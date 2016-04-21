@@ -4,16 +4,12 @@ def function ( var y var z) {
     return function(1 2);
     for (var i = 0, i < 10, i++) {
         print("apple");
-        if (x == 5 and y == 2) {
+        if (apple) {
             X = 7 % 5;
         }
-        arr[] apple = [5, apple, 10, "string"];
         apple = 10;
-
     }
+    return 10;
 }
-
-var x = 5;
-
 ~
 

@@ -14,22 +14,42 @@ public class parser {
         lexer = new Lexer(getFileContents(fileName));
     }
 
-    public void parser() throws Exception {
+    public Lexeme parse() throws Exception {
+        System.out.println("hey");
         currentLexeme = lexer.lex();
+        Lexeme tree = new Lexeme("Program");
+        int i = 0;
         while (currentLexeme.type != "EOF") {
-            if (check("DEF")) {
-                functionDef();
-            } else if (statementPending()) {
-                statement();
-            } else if (ifExpressionPending()) {
-                ifExpression();
-            }
-            if (validFile) {
-                System.out.println("Legal");
-            } else {
-                System.out.println("Illegal");
+            //System.out.println(i);
+            i += 1;
+            try {
+                if (check("DEF")) {
+                    System.out.println("boop");
+                    tree.left = functionDef();
+                } else if (statementPending()) {
+                    System.out.print("beep");
+                    tree.left = statement();
+                } else if (ifExpressionPending()) {
+                    System.out.println("bop");
+                    tree.left = ifExpression();
+                }
+            } catch (Exception e) {
+                validFile = false;
+                break;
             }
         }
+        System.out.println();
+        if (validFile) {
+            System.out.println("Legal");
+        } else {
+            System.out.println("Illegal");
+        }
+        return tree;
+    }
+
+    public Lexeme parseRecursive() throws Exception {
+        currentLexeme = lexer.lex();
+        return statementList();
     }
 
     public String getFileContents (String fileName) {
@@ -92,12 +112,21 @@ public class parser {
     public Lexeme primary() throws Exception {
         // not using tree variable here because they're all single lexemes
         // don't need left and right
+        Lexeme tree = new Lexeme("primary");
         if (varExpressionPending()) {
-            return varExpression();
+            tree.right = varExpression();
+            System.out.println("<primary>");
+            System.out.println(tree.type);
+            System.out.println(tree.right.type);
+            inOrderTraversal(tree.right);
+            System.out.println("</primary>");
+            return tree;
         } else if (literalPending()) {
-            return literal();
+            tree.right = literal();
+            return tree;
         } else if (varExpressionPending()) {
-            return varExpression();
+            tree.right =  varExpression();
+            return tree;
         }
         return null;
     }
@@ -413,7 +442,7 @@ public class parser {
     * check if a statement is pending
     */
     public boolean statementPending() {
-        return expressionPending() || check("FOR") || check("WHILE") || ifExpressionPending() || printPending();
+        return expressionPending() || check("FOR") || check("WHILE") || ifExpressionPending() || printPending() || check("DEF") || check("LAMBDA");
     }
 
     /*
@@ -436,7 +465,7 @@ public class parser {
             tree.left = temp;
             return tree;
         } else if (ifExpressionPending()) {
-            tree = ifExpression();
+            tree = ifChain();
             return tree;
         } else if (whilePending()) {
             tree = whileLoop();
@@ -448,6 +477,8 @@ public class parser {
             tree = printCall();
             match("SEMI");
             return tree;
+        } else if (check("DEF")) {
+            tree = functionDef();
         }
         return null;
     }
@@ -473,6 +504,7 @@ public class parser {
     * functionDef: DEF VAR OPAREN paramDecList CPAREN body
      */
     public Lexeme functionDef() throws Exception {
+        System.out.println("lskjd");
         Lexeme tree = match("DEF");
         tree.left = match("VAR");
         tree.left.right = match("OPAREN");
@@ -494,11 +526,15 @@ public class parser {
     * Rule 10: conditional
      */
     public Lexeme conditional() throws Exception {
-        Lexeme tree;
+        System.out.println("<conditional>");
+        Lexeme tree = new Lexeme("conditonal");
         if (primaryPending()) {
-            tree = primary();
-            tree.left = match("COMPARATOR");
-            tree.left.left = primary();
+            tree.left = primary();
+            if (check("COMPARATOR")) {
+                tree.left.left = match("COMPARATOR");
+                tree.left.left.left = primary();
+            }
+            System.out.println("</conditional>");
             return tree;
         } else if (check("NOT")) {
             tree =  match("NOT");
@@ -507,6 +543,7 @@ public class parser {
             tree.left.right = match("COMPARATOR");
             tree.left.right.left = primary();
             tree.left.right.right = match("CPAREN");
+            System.out.println("</conditional>");
             return tree;
         }
         return null;
@@ -517,11 +554,14 @@ public class parser {
     * ifExpression: IF OPAREN conditional CPAREN body
      */
     public Lexeme ifExpression() throws Exception {
+        System.out.println("<ifExpression>");
         Lexeme tree = match("IF");
         tree.left = match("OPAREN");
         tree.left.left = conditionalList();
         tree.left.right = match("CPAREN");
-        tree.right = body();
+        tree.left.right.left = body();
+        inOrderTraversal(tree);
+        System.out.println("</ifExpression>");
         return tree;
     }
 
@@ -642,11 +682,14 @@ public class parser {
     * printCall: PRINT OPAREN primary CPAREN
      */
     public Lexeme printCall() throws Exception {
+        System.out.println("<printCall>");
         Lexeme tree;
         tree = match("PRINT");
         tree.left = match("OPAREN");
         tree.left.left = primary();
         tree.left.right = match("CPAREN");
+        inOrderTraversal(tree);
+        System.out.println("</printCall>");
         return tree;
     }
 
@@ -659,14 +702,19 @@ public class parser {
     public Lexeme conditionalList() throws Exception {
         Lexeme tree = conditional();
         if (check("AND")) {
+            System.out.println("heyyy");
             tree.left = match("AND");
             tree.left.left = conditional();
             tree.left.right = conditionalList();
         } else if (check("OR")) {
+            System.out.println("lalalalososod");
             tree.left = match("OR");
             tree.left.left = conditional();
             tree.left.right = conditionalList();
         }
+        System.out.println("<conditionalList>" );
+        inOrderTraversal(tree);
+        System.out.println("</conditionalList>");
         return tree;
     }
 
@@ -723,8 +771,31 @@ public class parser {
         return null;
     }
 
+    public void inOrderTraversal(Lexeme tree) {
+        if (tree == null) {
+            return;
+        }
+
+        inOrderTraversal(tree.left);
+        System.out.println(tree.type);
+        inOrderTraversal(tree.right);
+    }
+
     public static void main(String[] args) throws Exception {
-        recognizer rec = new recognizer("parseIn.txt");
-        rec.parse();
+        parser p = new parser("parseIn.txt");
+        try {
+            Lexeme tree = p.parseRecursive();
+            p.inOrderTraversal(tree);
+        } catch (Exception e) {
+            System.out.println("illegal");
+            e.printStackTrace();
+        }
+        //p.inOrderTraversal(tree);
+        /*Lexeme tree = new Lexeme("program");
+        tree.left = new Lexeme("left1");
+        tree.left.left = new Lexeme("left2");
+        tree.left.right = new Lexeme("left1right1");
+        tree.right = new Lexeme("right1");
+        p.inOrderTraversal(tree);*/
     }
 }

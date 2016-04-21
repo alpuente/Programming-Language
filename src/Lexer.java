@@ -173,9 +173,9 @@ public class Lexer {
      */
     public Lexeme getComment() {
         String buffer = "";
-        for (int i = 0; i < characters.length; i++) {
+/*        for (int i = 0; i < characters.length; i++) {
             System.out.print(characters[i]);
-        }
+        }*/
 
         while (!((characters[currentIndex] == '(') && (characters[currentIndex + 1] == ':'))) {
             buffer += characters[currentIndex];

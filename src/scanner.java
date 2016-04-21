@@ -32,7 +32,7 @@ public class scanner {
                 System.out.println(true);
             }
             if (token != null) {
-                System.out.println(token.type);
+                //System.out.println(token.type);
             }
             token = lexer.lex();
         }

@@ -16,6 +16,8 @@ public class Lexeme {
     public Lexeme(String type, String data) {
         this.type = type;
         this.sValue = data;
+        this.left = null;
+        this.right = null;
     }
 
     /*
@@ -24,11 +26,15 @@ public class Lexeme {
     public Lexeme(String type, int iData) {
         this.type = type;
         this.iValue = iData;
+        this.left = null;
+        this.right = null;
     }
 
     public Lexeme(String type, double dData) {
         this.type = type;
         this.dValue = dData;
+        this.left = null;
+        this.right = null;
     }
 
     /*
@@ -37,6 +43,8 @@ public class Lexeme {
     public Lexeme(String type, boolean bData) {
         this.type = type;
         this.bValue = bData;
+        this.left = null;
+        this.right = null;
     }
 
     /*
@@ -44,5 +52,7 @@ public class Lexeme {
      */
     public Lexeme(String type) {
         this.type = type;
+        this.left = null;
+        this.right = null;
     }
 }
