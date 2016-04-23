@@ -48,7 +48,7 @@ public class parser {
     }
 
     public Lexeme parseRecursive() throws Exception {
-        currentLexeme = lexer.lex();
+        advance();
         return statementList();
     }
 
@@ -118,7 +118,7 @@ public class parser {
             System.out.println("<primary>");
             System.out.println(tree.type);
             System.out.println(tree.right.type);
-            inOrderTraversal(tree.right);
+            //inOrderTraversal(tree.right);
             System.out.println("</primary>");
             return tree;
         } else if (literalPending()) {
@@ -442,7 +442,7 @@ public class parser {
     * check if a statement is pending
     */
     public boolean statementPending() {
-        return expressionPending() || check("FOR") || check("WHILE") || ifExpressionPending() || printPending() || check("DEF") || check("LAMBDA");
+        return expressionPending() || check("FOR") || check("WHILE") || ifExpressionPending() || printPending() || check("DEF") || check("RETURN") || check("LAMBDA");
     }
 
     /*
@@ -478,7 +478,7 @@ public class parser {
             match("SEMI");
             return tree;
         } else if (check("DEF")) {
-            tree = functionDef();
+            return functionDef();
         }
         return null;
     }
@@ -560,7 +560,7 @@ public class parser {
         tree.left.left = conditionalList();
         tree.left.right = match("CPAREN");
         tree.left.right.left = body();
-        inOrderTraversal(tree);
+        //inOrderTraversal(tree);
         System.out.println("</ifExpression>");
         return tree;
     }
@@ -688,7 +688,7 @@ public class parser {
         tree.left = match("OPAREN");
         tree.left.left = primary();
         tree.left.right = match("CPAREN");
-        inOrderTraversal(tree);
+        //inOrderTraversal(tree);
         System.out.println("</printCall>");
         return tree;
     }
@@ -713,7 +713,7 @@ public class parser {
             tree.left.right = conditionalList();
         }
         System.out.println("<conditionalList>" );
-        inOrderTraversal(tree);
+        //inOrderTraversal(tree);
         System.out.println("</conditionalList>");
         return tree;
     }
@@ -776,8 +776,8 @@ public class parser {
             return;
         }
 
-        inOrderTraversal(tree.left);
         System.out.println(tree.type);
+        inOrderTraversal(tree.left);
         inOrderTraversal(tree.right);
     }
 
