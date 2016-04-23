@@ -40,6 +40,7 @@ public class Lexer {
         keywords.put("lambda", "LAMBDA");
         keywords.put("true", "BOOLEAN");
         keywords.put("false", "BOOLEAN");
+        keywords.put("null", "NULL");
         keywords.put("arr", "ARR");
         //keywords.put();
     }
