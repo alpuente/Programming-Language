@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9210b5fe-39dc-4170-a3ef-04a85a1222d5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/environment.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Language/Scanner.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Lexer.java" afterPath="$PROJECT_DIR$/src/Lexer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/environment.java" afterPath="$PROJECT_DIR$/src/environment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/parser.java" afterPath="$PROJECT_DIR$/src/parser.java" />
     </list>
     <ignored path="Language.iws" />
@@ -35,8 +34,8 @@
       <file leaf-file-name="parser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="165.91803">
-              <caret line="114" column="41" selection-start-line="114" selection-start-column="41" selection-end-line="114" selection-end-column="41" />
+            <state vertical-scroll-proportion="-1.4590164">
+              <caret line="134" column="51" selection-start-line="134" selection-start-column="51" selection-end-line="134" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#277#278#0" expanded="true" />
@@ -70,9 +69,13 @@
       <file leaf-file-name="environment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/environment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16615385">
-              <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
-              <folding />
+            <state vertical-scroll-proportion="0.83536583">
+              <caret line="87" column="16" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#237#238#0" expanded="true" />
+                <element signature="e#281#282#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,6 +110,7 @@
         <option value="$PROJECT_DIR$/smallParse.txt" />
         <option value="$PROJECT_DIR$/src/Lexer.java" />
         <option value="$PROJECT_DIR$/src/parser.java" />
+        <option value="$PROJECT_DIR$/src/environment.java" />
       </list>
     </option>
   </component>
@@ -117,7 +121,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="143" />
-    <option name="y" value="89" />
+    <option name="y" value="109" />
     <option name="width" value="1223" />
     <option name="height" value="659" />
   </component>
@@ -664,12 +668,12 @@
       <workItem from="1461205602593" duration="12231000" />
       <workItem from="1461260613951" duration="3624000" />
       <workItem from="1461279340280" duration="2475000" />
-      <workItem from="1461288152415" duration="14800000" />
+      <workItem from="1461288152415" duration="21755000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="154393000" />
+    <option name="totallyTimeSpent" value="161348000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -681,20 +685,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="143" y="89" width="1223" height="659" extended-state="0" />
-    <editor active="false" />
+    <frame x="143" y="109" width="1223" height="659" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32833022" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32871974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4502814" sideWeight="0.5217021" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33395872" sideWeight="0.48340425" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33395872" sideWeight="0.48340425" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32833022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25021276" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25021276" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24936171" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -707,7 +712,6 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293617" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -756,7 +760,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/parser.java</url>
-          <line>517</line>
+          <line>516</line>
           <properties />
           <option name="timeStamp" value="44" />
         </line-breakpoint>
@@ -774,7 +778,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/parser.java</url>
-          <line>509</line>
+          <line>508</line>
           <properties />
           <option name="timeStamp" value="53" />
         </line-breakpoint>
@@ -1232,8 +1236,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="165.91803">
-          <caret line="114" column="41" selection-start-line="114" selection-start-column="41" selection-end-line="114" selection-end-column="41" />
+        <state vertical-scroll-proportion="-1.4590164">
+          <caret line="134" column="51" selection-start-line="134" selection-start-column="51" selection-end-line="134" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#277#278#0" expanded="true" />
@@ -1263,9 +1267,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/environment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16615385">
-          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
-          <folding />
+        <state vertical-scroll-proportion="0.83536583">
+          <caret line="87" column="16" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#237#238#0" expanded="true" />
+            <element signature="e#281#282#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

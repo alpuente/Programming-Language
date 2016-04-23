@@ -463,7 +463,6 @@ public class parser {
             tree.left.right = match("SEMI");
             return tree;
         } else if (expressionPending()) {
-            // TODO: 4/19/16 figure this out
             tree.left = expression();
             tree.left.right = match("SEMI");
             return tree;
