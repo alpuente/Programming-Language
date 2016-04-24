@@ -12,39 +12,25 @@ public class parser {
 
     public parser(String fileName) {
         lexer = new Lexer(getFileContents(fileName));
+        try {
+            Lexeme tree = parseRecursive();
+            inOrderTraversal(tree);
+            return;
+        } catch (Exception e) {
+            System.out.println("illegal");
+            e.printStackTrace();
+        }
     }
 
     public Lexeme parse() throws Exception {
-        System.out.println("hey");
-        currentLexeme = lexer.lex();
-        Lexeme tree = new Lexeme("Program");
-        int i = 0;
-        while (currentLexeme.type != "EOF") {
-            //System.out.println(i);
-            i += 1;
-            try {
-                if (check("DEF")) {
-                    System.out.println("boop");
-                    tree.left = functionDef();
-                } else if (statementPending()) {
-                    System.out.print("beep");
-                    tree.left = statement();
-                } else if (ifExpressionPending()) {
-                    System.out.println("bop");
-                    tree.left = ifExpression();
-                }
-            } catch (Exception e) {
-                validFile = false;
-                break;
-            }
+        try {
+            Lexeme tree = parseRecursive();
+            inOrderTraversal(tree);
+        } catch (Exception e) {
+            System.out.println("illegal");
+            e.printStackTrace();
         }
-        System.out.println();
-        if (validFile) {
-            System.out.println("Legal");
-        } else {
-            System.out.println("Illegal");
-        }
-        return tree;
+        return null;
     }
 
     public Lexeme parseRecursive() throws Exception {
@@ -273,7 +259,7 @@ public class parser {
         Lexeme tree = new Lexeme("statementList");
         if (statementPending()) {
             tree.left = statement();
-            tree.left.right = statementList();
+            tree.right = statementList();
             return tree;
         }
         return null;
@@ -317,7 +303,7 @@ public class parser {
         if (primaryPending()) {
             //System.out.println("primary pending");
             tree.left = primary();
-            tree.left.right = paramList();
+            tree.right.right = paramList();
             return tree;
         }
         return null;
@@ -357,11 +343,16 @@ public class parser {
         Lexeme tree = new Lexeme("VAREXPR"); // make dummy type node
         tree.left = match("VAR");
         if (check("OPAREN")) { // it's a call
-            tree.left.right = match("OPAREN");
+            Lexeme temp = tree.left;
+            tree = new Lexeme("function_call");
+            tree.left = temp;
+            //tree.left.right = match("OPAREN");
             tree.left.left = paramList();
-            tree.left.right.left = match("CPAREN");
+            //tree.left.right.left = match("CPAREN");
         } else if (check("EQUAL")) { // reassignment
-            tree.left.right = match("EQUAL");
+            Lexeme temp = tree.left;
+            tree = new Lexeme("assignment");
+            tree.left = temp;
             tree.left.left = primary();
         } else if (check("OSQUARE")) {
             tree.left = arrayIndex();
@@ -487,7 +478,7 @@ public class parser {
 
     /*
     * Rule 29: paramDecList
-    *     paramDecList: null
+    *     paramDecList: nullf
                 | paramDec
                 | paramDecList
      */
@@ -495,7 +486,7 @@ public class parser {
         Lexeme tree = new Lexeme("paramDecList");
         if (paramDecPending()) {
             tree.left = paramDec();
-            tree.left.right = paramDecList();
+            tree.right = paramDecList();
             return tree;
         }
         return null;
@@ -786,21 +777,4 @@ public class parser {
         inOrderTraversal(tree.right);
     }
 
-    public static void main(String[] args) throws Exception {
-        parser p = new parser("parseIn.txt");
-        try {
-            Lexeme tree = p.parseRecursive();
-            p.inOrderTraversal(tree);
-        } catch (Exception e) {
-            System.out.println("illegal");
-            e.printStackTrace();
-        }
-        //p.inOrderTraversal(tree);
-        /*Lexeme tree = new Lexeme("program");
-        tree.left = new Lexeme("left1");
-        tree.left.left = new Lexeme("left2");
-        tree.left.right = new Lexeme("left1right1");
-        tree.right = new Lexeme("right1");
-        p.inOrderTraversal(tree);*/
-    }
 }

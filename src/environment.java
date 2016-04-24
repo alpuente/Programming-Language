@@ -37,7 +37,7 @@ public class environment {
 
     // searches for a variable in the environment using the variable's string id
     // returns the variable's value if found or null if not
-    protected Lexeme search(String id, Lexeme env) {
+    protected Lexeme get(String id, Lexeme env) {
         if (env == null) {
             return null;
         }
@@ -50,7 +50,7 @@ public class environment {
             currentVal = currentVal.left;
             currentVar = currentVar.left;
         }
-        return search(id, env.right.right); // search the next environment
+        return get(id, env.right.right); // search the next environment
     }
 
     protected Lexeme update(String id, Lexeme value, Lexeme env) {
@@ -78,7 +78,7 @@ public class environment {
             nextVal = nextVal.left;
             nextVar = nextVar.left;
         }
-        return search(id, env.right.right); // search the next environment
+        return update(id, value, env.right.right); // search the next environment
     }
 
     protected Lexeme create() {
