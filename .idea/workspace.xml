@@ -4,7 +4,6 @@
     <list default="true" id="9210b5fe-39dc-4170-a3ef-04a85a1222d5" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Language/Scanner.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/environment.java" afterPath="$PROJECT_DIR$/src/environment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/parser.java" afterPath="$PROJECT_DIR$/src/parser.java" />
     </list>
     <ignored path="Language.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,12 +68,15 @@
       <file leaf-file-name="environment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/environment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.83536583">
-              <caret line="87" column="16" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.28658536">
+              <caret line="115" column="32" selection-start-line="115" selection-start-column="32" selection-end-line="115" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#237#238#0" expanded="true" />
-                <element signature="e#281#282#0" expanded="true" />
+                <element signature="method#addLocalVariable#0;class#environment#0" expanded="false" />
+                <element signature="method#setCdr#0;class#environment#0" expanded="false" />
+                <element signature="method#search#0;class#environment#0" expanded="false" />
+                <element signature="method#insert#0;class#environment#0" expanded="false" />
+                <element signature="method#extend#0;class#environment#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -668,12 +670,12 @@
       <workItem from="1461205602593" duration="12231000" />
       <workItem from="1461260613951" duration="3624000" />
       <workItem from="1461279340280" duration="2475000" />
-      <workItem from="1461288152415" duration="21755000" />
+      <workItem from="1461288152415" duration="28571000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="161348000" />
+    <option name="totallyTimeSpent" value="168164000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -697,7 +699,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33395872" sideWeight="0.48340425" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32833022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25021276" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25021276" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24936171" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -783,7 +785,7 @@
           <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="56" />
+      <option name="time" value="58" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1267,12 +1269,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/environment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83536583">
-          <caret line="87" column="16" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.28658536">
+          <caret line="115" column="32" selection-start-line="115" selection-start-column="32" selection-end-line="115" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#237#238#0" expanded="true" />
-            <element signature="e#281#282#0" expanded="true" />
+            <element signature="method#addLocalVariable#0;class#environment#0" expanded="false" />
+            <element signature="method#setCdr#0;class#environment#0" expanded="false" />
+            <element signature="method#search#0;class#environment#0" expanded="false" />
+            <element signature="method#insert#0;class#environment#0" expanded="false" />
+            <element signature="method#extend#0;class#environment#0" expanded="false" />
           </folding>
         </state>
       </provider>
