@@ -192,15 +192,22 @@ public class parser {
         if (primaryPending()) {
             tree.left = primary();
             if (check("UNIOPERATOR")) {
+                Lexeme temp = tree.left;
+                tree = new Lexeme("unioperation");
+                tree.left = temp;
                 tree.left.right = match("UNIOPERATOR");
                 return tree;
             } else if (check("BINOPERATOR")) {
+                Lexeme temp = tree.left;
+                tree = new Lexeme("binoperation");
+                tree.left = temp;
                 tree.left.right = match("BINOPERATOR");
                 tree.left.right.left = primary();
                 return tree;
             }
             return tree;
         } else if (varDefPending()) {
+            tree = new Lexeme("variable_definition");
             tree.left =  variableDef();
             return tree;
         } else if (check("ARR")) {
@@ -262,7 +269,7 @@ public class parser {
             tree.right = statementList();
             return tree;
         }
-        return null;
+        return tree;
     }
 
 

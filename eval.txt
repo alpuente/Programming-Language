@@ -1,0 +1,8 @@
+Currently evaluating:
+    - function definitions
+    - function calls
+    - variable definitions
+    - assignment
+    - binary operations
+    - unary operations
+

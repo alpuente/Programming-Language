@@ -86,7 +86,7 @@ public class Lexer {
             }
         } else if (ch == '%' || ch == '/') {
             currentIndex += 1;
-            return new Lexeme("BINOPERATOR");
+            return new Lexeme("BINOPERATOR", ch);
         }
         else if (ch == '<') {
             if (characters[currentIndex+1] == '=') {
@@ -99,6 +99,9 @@ public class Lexer {
         } else if (ch == '>') {
             currentIndex += 1;
             return new Lexeme("COMPARATOR", ">");
+        } else if (ch == '^') {
+            currentIndex += 1;
+            return new Lexeme("BINOPERATOR", ch);
         } else if (ch == '=') {
             if (characters[currentIndex + 1] == '>' || characters[currentIndex + 1] == '=') {
                 currentIndex += 2;
