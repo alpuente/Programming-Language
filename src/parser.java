@@ -12,20 +12,12 @@ public class parser {
 
     public parser(String fileName) {
         lexer = new Lexer(getFileContents(fileName));
-        try {
-            Lexeme tree = parseRecursive();
-            inOrderTraversal(tree);
-            return;
-        } catch (Exception e) {
-            System.out.println("illegal");
-            e.printStackTrace();
-        }
     }
 
     public Lexeme parse() throws Exception {
         try {
             Lexeme tree = parseRecursive();
-            inOrderTraversal(tree);
+            //inOrderTraversal(tree);
         } catch (Exception e) {
             System.out.println("illegal");
             e.printStackTrace();
@@ -56,6 +48,10 @@ public class parser {
     public void advance() {
         currentLexeme = lexer.lex();
         while (currentLexeme.type == "SPACE" || currentLexeme.type == "COMMENT") {
+            if (currentLexeme.type == "EOF") {
+                System.out.println("booop");
+                break;
+            }
             currentLexeme = lexer.lex();
         }
     }
@@ -101,14 +97,14 @@ public class parser {
         Lexeme tree = new Lexeme("primary");
         if (varExpressionPending()) {
             tree.right = varExpression();
-            System.out.println("<primary>");
-            System.out.println(tree.type);
-            System.out.println(tree.right.type);
+            //System.out.println("<primary>");
+            //System.out.println(tree.type);
+            //System.out.println(tree.right.type);
             //inOrderTraversal(tree.right);
-            System.out.println("</primary>");
+            //System.out.println("</primary>");
             return tree;
         } else if (literalPending()) {
-            tree.right = literal();
+            tree.left = literal();
             return tree;
         }
         return null;
@@ -681,14 +677,14 @@ public class parser {
     * printCall: PRINT OPAREN primary CPAREN
      */
     public Lexeme printCall() throws Exception {
-        System.out.println("<printCall>");
+        //System.out.println("<printCall>");
         Lexeme tree;
         tree = match("PRINT");
         tree.left = match("OPAREN");
-        tree.left.left = primary();
+        tree.left.left = expression();
         tree.left.right = match("CPAREN");
         //inOrderTraversal(tree);
-        System.out.println("</printCall>");
+        //System.out.println("</printCall>");
         return tree;
     }
 

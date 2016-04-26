@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.InputMismatchException;
 import java.util.Map;
 
 /**
@@ -180,9 +181,10 @@ public class Lexer {
 /*        for (int i = 0; i < characters.length; i++) {
             System.out.print(characters[i]);
         }*/
-
+        //currentIndex += 1;
         while (!((characters[currentIndex] == '(') && (characters[currentIndex + 1] == ':'))) {
             buffer += characters[currentIndex];
+            System.out.println("buffer " + buffer);
             currentIndex = currentIndex + 1;
         }
 
@@ -242,10 +244,11 @@ public class Lexer {
 
         offset = buffer.length() - 1; // check how much of the char array got parsed, subtract 1 to account for incre
         currentIndex += offset + 1;
+        System.out.println("buffer " + buffer);
         if (isDouble) {
-            return new Lexeme("DOUBLE", buffer);
+            return new Lexeme("DOUBLE", Integer.parseInt(buffer));
         } else {
-            return new Lexeme("INTEGER", buffer);
+            return new Lexeme("INTEGER", Integer.parseInt(buffer));
         }
     }
 
