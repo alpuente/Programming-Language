@@ -231,7 +231,7 @@ public class Lexer {
         //System.out.println("buffer " + ch);
         ch = chars[i];
         boolean isDouble = false;
-        System.out.println("i != ' ' && i <= chars.length " + (ch != ' ' && i <= chars.length));
+        //System.out.println("i != ' ' && i <= chars.length " + (ch != ' ' && i <= chars.length));
         while (ch != ' ' && i <= chars.length) { // keep going until there's a space
             //System.out.println("ch " + ch);
             if (ch == '.') {

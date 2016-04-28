@@ -301,13 +301,15 @@ public class parser {
      */
     public Lexeme paramList() throws Exception {
         Lexeme tree = new Lexeme("paramList");
+        //System.out.println("hey");
+        //System.out.println(primaryPending());
         if (primaryPending()) {
             //System.out.println("primary pending");
             tree.left = primary();
-            tree.right.right = paramList();
+            tree.right = paramList();
             return tree;
         }
-        return null;
+        return tree;
     }
 
     /*
@@ -345,12 +347,14 @@ public class parser {
         tree.left = match("VAR");
         Lexeme top = new Lexeme("primary");
         if (check("OPAREN")) { // it's a call
+            //System.out.println("function call");
+            match("OPAREN");
             Lexeme temp = tree.left;
             tree = new Lexeme("function_call");
             tree.left = temp;
-            //tree.left.right = match("OPAREN");
             tree.left.left = paramList();
             top.left = tree;
+            match("CPAREN");
             return top; // make this a primary
             //tree.left.right.left = match("CPAREN");
         } else if (check("EQUAL")) { // reassignment
@@ -470,9 +474,9 @@ public class parser {
             return tree;
         } else if (expressionPending()) {
             tree.left = expression();
-            System.out.println("<start>");
-            inOrderTraversal(tree);
-            System.out.println("</end>");
+            //System.out.println("<start>");
+            //inOrderTraversal(tree);
+            //System.out.println("</end>");
             tree.left.right = match("SEMI");
             return tree;
         } else if (ifExpressionPending()) {
@@ -507,7 +511,7 @@ public class parser {
             tree.right = paramDecList();
             return tree;
         }
-        return null;
+        return tree;
     }
 
     /*
@@ -515,7 +519,7 @@ public class parser {
     * functionDef: DEF VAR OPAREN paramDecList CPAREN body
      */
     public Lexeme functionDef() throws Exception {
-        System.out.println("lskjd");
+        //System.out.println("lskjd");
         Lexeme tree = new Lexeme("functionDef");
         tree.left = match("DEF");
         tree.left.left = match("VAR");
@@ -538,7 +542,7 @@ public class parser {
     * Rule 10: conditional
      */
     public Lexeme conditional() throws Exception {
-        System.out.println("<conditional>");
+        //System.out.println("<conditional>");
         Lexeme tree = new Lexeme("conditonal");
         if (primaryPending()) {
             tree.left = primary();
@@ -546,7 +550,7 @@ public class parser {
                 tree.left.left = match("COMPARATOR");
                 tree.left.left.left = primary();
             }
-            System.out.println("</conditional>");
+            //System.out.println("</conditional>");
             return tree;
         } else if (check("NOT")) {
             tree.left =  match("NOT");
@@ -712,12 +716,12 @@ public class parser {
     public Lexeme conditionalList() throws Exception {
         Lexeme tree = conditional();
         if (check("AND")) {
-            System.out.println("heyyy");
+            //System.out.println("heyyy");
             tree.left = match("AND");
             tree.left.left = conditional();
             tree.left.right = conditionalList();
         } else if (check("OR")) {
-            System.out.println("lalalalososod");
+            //System.out.println("lalalalososod");
             tree.left = match("OR");
             tree.left.left = conditional();
             tree.left.right = conditionalList();

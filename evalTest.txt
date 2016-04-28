@@ -1,7 +1,11 @@
 var x = "apple";
-var y = 10;
+var y = "banana";
+print(y);
+def function (var p var l) {
+    print(p);
+}
+function(x y);
 x = 12;
-print(x);
-x = 10 + y;
-print(x);
+y = 10 + x;
+print(y);
 ~
