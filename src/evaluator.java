@@ -20,6 +20,7 @@ public class evaluator {
     }
 
     private Lexeme eval(Lexeme tree, Lexeme env) {
+        System.out.println("lsdjlksjlksd " + tree);
         String tree_type = tree.type;
         System.out.println("evaluating tree of type " + tree_type);
         //System.out.println("tree.left " + tree.left);
@@ -84,9 +85,12 @@ public class evaluator {
     private Lexeme evalVar(Lexeme tree, Lexeme env) {
         System.out.println("tree " + tree.type);
         System.out.println("just_var " + tree.left.sValue);
-        System.out.println("value " + global.get(tree.left.sValue, env));
+        System.out.println("value in justVar " + global.get(tree.left.sValue, env).type);
+        Lexeme value = eval(global.get(tree.left.sValue, env), env);
+        System.out.println("valllll " + value.type);
         return global.get(tree.left.sValue, env); // use the string value of the variable name
     }
+
 
     // evaluate a function call
     private Lexeme evalFunctionCall(Lexeme tree, Lexeme env) {

@@ -94,6 +94,7 @@ public class environment {
     }
 
     protected Lexeme insert(Lexeme env, Lexeme variable, Lexeme value) {
+        System.out.println("var " + variable.sValue + " " + value.type);
         variable.left = env.left;
         value.left = env.right.left;
         env.left = variable;

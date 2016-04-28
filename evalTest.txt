@@ -1,11 +1,4 @@
 var x = "apple";
 var y = "banana";
 print(y);
-def function (var p var l) {
-    print(p);
-}
-function(x y);
-x = 12;
-y = 10 + x;
-print(y);
 ~
