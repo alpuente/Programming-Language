@@ -87,7 +87,7 @@ public class Lexer {
             }
         } else if (ch == '%' || ch == '/') {
             currentIndex += 1;
-            return new Lexeme("BINOPERATOR", ch);
+            return new Lexeme("BINOPERATOR", "" + ch);
         }
         else if (ch == '<') {
             if (characters[currentIndex+1] == '=') {
@@ -246,7 +246,7 @@ public class Lexer {
         currentIndex += offset + 1;
         System.out.println("buffer " + buffer);
         if (isDouble) {
-            return new Lexeme("DOUBLE", Integer.parseInt(buffer));
+            return new Lexeme("DOUBLE", Double.parseDouble(buffer));
         } else {
             return new Lexeme("INTEGER", Integer.parseInt(buffer));
         }

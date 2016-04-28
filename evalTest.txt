@@ -1,3 +1,7 @@
-print("Hello, world!");
-print(6 / 7);
+var x = 1;
+x = "apple";
+print(x);
+y = 10;
+x = 10 + y;
+print(x);
 ~

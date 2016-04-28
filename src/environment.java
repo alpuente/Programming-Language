@@ -44,7 +44,7 @@ public class environment {
         Lexeme currentVar = env.left;
         Lexeme currentVal = env.right.left;
         while(currentVar != null) {
-            if (currentVar.type == id) {
+            if (currentVar.sValue.contentEquals(id)) {
                 return currentVal;
             }
             currentVal = currentVal.left;
@@ -54,12 +54,15 @@ public class environment {
     }
 
     protected Lexeme update(String id, Lexeme value, Lexeme env) {
+        System.out.println("id " + id);
         if (env == null) {
             return null;
         }
         Lexeme currentVar = env.left;
         Lexeme currentVal = env.right.left;
-        if (currentVar.type == id) {
+        System.out.println("current var " + currentVar.sValue);
+        if (currentVar.sValue.contentEquals(id)) {
+            System.out.println("hey");
             Lexeme temp = currentVal.left;
             env.right.left = value;
             value.left = temp;
@@ -68,7 +71,7 @@ public class environment {
         Lexeme nextVar = env.left.left;
         Lexeme nextVal = env.right.left.left;
         while(currentVar != null) {
-            if (nextVar.type == id) {
+            if (nextVar.sValue.contentEquals(id)) {
                 value.left = nextVal.left;
                 currentVal.left = value;
                 return value;
@@ -82,7 +85,9 @@ public class environment {
     }
 
     protected Lexeme create() {
-        return new Lexeme("env");
+        Lexeme cool_new_environment = new Lexeme("env");
+        cool_new_environment.right = new Lexeme("values_join");
+        return cool_new_environment;
     }
 
     protected Lexeme insert(Lexeme env, Lexeme variable, Lexeme value) {

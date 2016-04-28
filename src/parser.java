@@ -96,13 +96,8 @@ public class parser {
         // don't need left and right
         Lexeme tree = new Lexeme("primary");
         if (varExpressionPending()) {
-            tree.right = varExpression();
-            //System.out.println("<primary>");
-            //System.out.println(tree.type);
-            //System.out.println(tree.right.type);
-            //inOrderTraversal(tree.right);
-            //System.out.println("</primary>");
-            return tree;
+            //System.out.println("var expression pending");
+            return varExpression();
         } else if (literalPending()) {
             tree.left = literal();
             return tree;
@@ -185,7 +180,9 @@ public class parser {
      */
     public Lexeme expression() throws Exception {
         Lexeme tree = new Lexeme("expression");
+        //System.out.println("in expr");
         if (primaryPending()) {
+            //System.out.println("primary pending");
             tree.left = primary();
             if (check("UNIOPERATOR")) {
                 Lexeme temp = tree.left;
@@ -345,22 +342,35 @@ public class parser {
     public Lexeme varExpression() throws Exception {
         Lexeme tree = new Lexeme("VAREXPR"); // make dummy type node
         tree.left = match("VAR");
+        Lexeme top = new Lexeme("primary");
         if (check("OPAREN")) { // it's a call
             Lexeme temp = tree.left;
             tree = new Lexeme("function_call");
             tree.left = temp;
             //tree.left.right = match("OPAREN");
             tree.left.left = paramList();
+            top.left = tree;
+            return top; // make this a primary
             //tree.left.right.left = match("CPAREN");
         } else if (check("EQUAL")) { // reassignment
+            //System.out.println("assignment");
+            match("EQUAL");
             Lexeme temp = tree.left;
             tree = new Lexeme("assignment");
             tree.left = temp;
             tree.left.left = primary();
         } else if (check("OSQUARE")) {
             tree.left = arrayIndex();
+            top.left = tree;
+            return top;
+        } else { // just a variable and the evaluater will need to grab its value
+            Lexeme jv = new Lexeme("just_var");
+            jv.left = tree.left;
+            top.left = jv;
+            return jv;
         }
-        return tree;
+        top.left = tree;
+        return top;
     }
 
     /*
@@ -549,14 +559,14 @@ public class parser {
     * ifExpression: IF OPAREN conditional CPAREN body
      */
     public Lexeme ifExpression() throws Exception {
-        System.out.println("<ifExpression>");
+        //System.out.println("<ifExpression>");
         Lexeme tree = match("IF");
         tree.left = match("OPAREN");
         tree.left.left = conditionalList();
         tree.left.right = match("CPAREN");
         tree.left.right.left = body();
         //inOrderTraversal(tree);
-        System.out.println("</ifExpression>");
+        //System.out.println("</ifExpression>");
         return tree;
     }
 

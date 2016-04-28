@@ -37,7 +37,7 @@ public class evaluator {
                 return evalUniOperation(tree, env);
             case "assignment": // assignment
                 return evalAssingment(tree, env);
-            case "VARDEF": // variable definition
+            case "variable_definition": // variable definition
                 return evalVariableDef(tree, env);
             case "statementList":
                 return evalStatementList(tree, env);
@@ -60,6 +60,8 @@ public class evaluator {
                 return evalPrimary(tree, env);
             case "expression":
                 return evalExpression(tree, env);
+            case "just_var":
+                return evalVar(tree, env);
         }
         return null;
     }
@@ -75,6 +77,13 @@ public class evaluator {
         String fnName = tree.left.left.sValue; // get the function name
 
         global.insert(env, new Lexeme("function_name", fnName), closure); // add the closure to the environment
+    }
+
+    // evaluate a variable access by getting its value if defined
+    // Todo if this works, throw exception for undefined variables
+    private Lexeme evalVar(Lexeme tree, Lexeme env) {
+        System.out.println("just_var");
+        return global.get(tree.left.sValue, env); // use the string value of the variable name
     }
 
     // evaluate a function call
@@ -175,6 +184,10 @@ public class evaluator {
         return null;
     }
 
+/*    private Lexeme evalVarExpr(Lexeme tree, Lexeme env) {
+
+    }*/
+
     // evaluate binary addition
     private Lexeme evalPlus(Lexeme tree, Lexeme env) {
         Lexeme left = eval(tree.left, env); // evaluate the left operand
@@ -210,9 +223,12 @@ public class evaluator {
     // evaluate division
     private Lexeme evalDivision(Lexeme tree, Lexeme env) {
         Lexeme left = eval(tree.left, env); // evaluate the left operand
+        System.out.println("left type " + left.type + " of value " + left.iValue);
         Lexeme right = eval(tree.left.right.left, env); // evaluate right operand
+        System.out.println("right type " + right.type + " of value " + right.iValue);
         if (left.type == "INTEGER" && right.type == "INTEGER") {
-            return new Lexeme("DOUBLE", left.iValue / right.iValue);
+            System.out.println("division " + (double) (left.iValue / right.iValue));
+            return new Lexeme("DOUBLE",(double) left.iValue / right.iValue);
         } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
             return new Lexeme("DOUBLE", left.dValue / right.iValue);
         } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
@@ -223,7 +239,7 @@ public class evaluator {
     }
 
     private Lexeme evalPrimary(Lexeme tree, Lexeme env) {
-        //System.out.println("tree.type " + tree.type);
+        System.out.println("tree.type in evalPrimary " + tree.type);
         return eval(tree.left, env); // evaluate the primary's value
     }
 
@@ -323,8 +339,11 @@ public class evaluator {
     // evaluate a variable defintion by adding the variable to the environment
     // returns the value of the new variable
     private Lexeme evalVariableDef(Lexeme tree, Lexeme env) {
-        Lexeme variable = new Lexeme("VAR", tree.left.sValue); // make a new lexeme of type var with variable's name
-        Lexeme value = eval(tree.left.left, env); // evaluate the expression you're setting the variable's value to (expression subtree in vardef parse tree)
+        //System.out.println("variable def tree type " + tree.type);
+        Lexeme variable = new Lexeme("VAR", tree.left.left.sValue); // make a new lexeme of type var with variable's name
+        //Lexeme value = eval(tree.left.left, env); // evaluate the expression you're setting the variable's value to (expression subtree in vardef parse tree)
+        Lexeme value = tree.left.left.left;
+        //System.out.println("var type " + variable.type + " val type " + value.type);
         return global.insert(env, variable, value);
     }
 
