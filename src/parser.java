@@ -47,6 +47,7 @@ public class parser {
 
     public void advance() {
         currentLexeme = lexer.lex();
+        //System.out.println("current " + currentLexeme.type);
         while (currentLexeme.type == "SPACE" || currentLexeme.type == "COMMENT") {
             if (currentLexeme.type == "EOF") {
                 System.out.println("booop");
@@ -359,6 +360,7 @@ public class parser {
             tree = new Lexeme("assignment");
             tree.left = temp;
             tree.left.left = primary();
+            return tree;
         } else if (check("OSQUARE")) {
             tree.left = arrayIndex();
             top.left = tree;
@@ -369,8 +371,8 @@ public class parser {
             top.left = jv;
             return jv;
         }
-        top.left = tree;
-        return top;
+        //.left = tree;
+        //return top;
     }
 
     /*
@@ -468,6 +470,9 @@ public class parser {
             return tree;
         } else if (expressionPending()) {
             tree.left = expression();
+            System.out.println("<start>");
+            inOrderTraversal(tree);
+            System.out.println("</end>");
             tree.left.right = match("SEMI");
             return tree;
         } else if (ifExpressionPending()) {

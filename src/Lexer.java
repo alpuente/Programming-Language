@@ -225,11 +225,15 @@ public class Lexer {
     * should return error if a character is
      */
     public Lexeme lexNumber(char ch, char[] chars, int index) {
+        //System.out.println("call");
         int i = index;
         String buffer = "" + ch; // don't forget the first digit!
+        //System.out.println("buffer " + ch);
         ch = chars[i];
         boolean isDouble = false;
-        while (i != ' ' && i <= chars.length) { // keep going until there's a space
+        System.out.println("i != ' ' && i <= chars.length " + (ch != ' ' && i <= chars.length));
+        while (ch != ' ' && i <= chars.length) { // keep going until there's a space
+            //System.out.println("ch " + ch);
             if (ch == '.') {
                 isDouble = true; // if there's a decimal, then it's a double
                 buffer += ch; // add the decimal to buffer
@@ -244,7 +248,7 @@ public class Lexer {
 
         offset = buffer.length() - 1; // check how much of the char array got parsed, subtract 1 to account for incre
         currentIndex += offset + 1;
-        System.out.println("buffer " + buffer);
+        //System.out.println("buffer " + buffer);
         if (isDouble) {
             return new Lexeme("DOUBLE", Double.parseDouble(buffer));
         } else {

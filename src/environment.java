@@ -54,15 +54,16 @@ public class environment {
     }
 
     protected Lexeme update(String id, Lexeme value, Lexeme env) {
-        System.out.println("id " + id);
+        //System.out.println("id in update" + id);
         if (env == null) {
             return null;
         }
         Lexeme currentVar = env.left;
         Lexeme currentVal = env.right.left;
-        System.out.println("current var " + currentVar.sValue);
+        //System.out.println("current var.type " + currentVar.type);
+        //System.out.println("current var " + currentVar.sValue);
         if (currentVar.sValue.contentEquals(id)) {
-            System.out.println("hey");
+            //System.out.println("hey");
             Lexeme temp = currentVal.left;
             env.right.left = value;
             value.left = temp;
