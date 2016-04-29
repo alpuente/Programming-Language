@@ -666,7 +666,7 @@ public class parser {
             tree.left.right = elifChain();
             return tree;
         }
-        return null;
+        return tree;
     }
 
     public boolean conditionalPending() {
@@ -690,8 +690,8 @@ public class parser {
         tree = match("WHILE");
         tree.left = match("OPAREN");
         tree.left.left = conditional();
-        tree.left.right = match("CPAREN");
-        tree.left.right.left = body();
+        match("CPAREN");
+        tree.left.right = body();
         return tree;
     }
 
@@ -729,8 +729,6 @@ public class parser {
         tree.left = match("OPAREN");
         tree.left.left = expression();
         tree.left.right = match("CPAREN");
-        //inOrderTraversal(tree);
-        //System.out.println("</printCall>");
         return tree;
     }
 

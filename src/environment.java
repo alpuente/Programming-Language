@@ -30,7 +30,6 @@ public class environment {
     // searches for a variable in the environment using the variable's string id
     // returns the variable's value if found or null if not
     protected Lexeme get(String id, Lexeme env) {
-        System.out.println("ENVIRONMENT IN GET");
         if (env == null) {
             return null;
         }
@@ -49,7 +48,6 @@ public class environment {
     }
 
     protected Lexeme update(String id, Lexeme value, Lexeme env) {
-        System.out.println("ENVIRONMENT IN UPDATE");
         //System.out.println("id in update" + id);
         if (env == null) {
             return null;
@@ -82,15 +80,12 @@ public class environment {
     }
 
     protected Lexeme create() {
-        System.out.println("ENVIRONMENT IN CREATE");
         Lexeme cool_new_environment = new Lexeme("env");
         cool_new_environment.right = new Lexeme("values_join");
         return cool_new_environment;
     }
 
     protected Lexeme insert(Lexeme env, Lexeme variable, Lexeme value) {
-        //System.out.println("var " + variable.sValue + " " + value.type);
-        System.out.println("ENVIRONMENT IN INSERT");
         variable.left = env.left;
         value.right = env.right.left;
         env.left = variable;
@@ -99,7 +94,6 @@ public class environment {
     }
 
     protected Lexeme extend(Lexeme varList, Lexeme valList, Lexeme env) {
-        System.out.println("ENVIRONMENT IN EXTEND");
         Lexeme newEnv = new Lexeme("env");
         newEnv.left = varList;
         newEnv.right = new Lexeme("vals");
@@ -109,7 +103,6 @@ public class environment {
     }
 
     protected void displayLocal(Lexeme env) {
-        System.out.println("ENVIRONMENT IN DISPLAYLOCAL");
         Lexeme currentVar = env.left;
         Lexeme currentVal = env.right.left;
         while (currentVal != null) {
@@ -120,7 +113,6 @@ public class environment {
     }
 
     protected void displayAll(Lexeme env) {
-        System.out.println("ENVIRONMENT IN ALL");
         Lexeme currentEnv = env;
         while (env != null) {
             displayLocal(env);

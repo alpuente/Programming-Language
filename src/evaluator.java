@@ -19,7 +19,7 @@ public class evaluator {
     private Lexeme eval(Lexeme tree, Lexeme env) {
         //System.out.println("lsdjlksjlksd " + tree);
         String tree_type = tree.type;
-        System.out.println("evaluating tree of type " + tree_type);
+        //System.out.println("evaluating tree of type " + tree_type);
         //System.out.println("tree.left " + tree.left);
         switch (tree_type) {
             case "functionDef": // function definition
@@ -64,6 +64,8 @@ public class evaluator {
                 return  evalConditional(tree, env);
             case "IF":
                 return evalIfChain(tree, env);
+            case "WHILE":
+                return evalWhileLoop(tree, env);
         }
         return null;
     }
@@ -126,9 +128,6 @@ public class evaluator {
                 current_lexeme = current_lexeme.right;
                 System.out.println("WAHOOO " + current_lexeme.type);
             }
-            System.out.println("<args>");
-            inOrderTraversal(args);
-            System.out.println("</args>");
             return args;
         }
         return null;
@@ -241,7 +240,7 @@ public class evaluator {
             return new Lexeme("DOUBLE", left.dValue + right.iValue);
         } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
             return new Lexeme("DOUBLE", left.iValue + right.dValue);
-        } else if (left.type == "STRING" && right.type == "") {
+        } else if (left.type == "STRING" && right.type == "INTEGER") {
             return new Lexeme("STRING", left.sValue + right.iValue);
         } else if (left.type == "INTEGER" && right.type == "STRING") {
             return new Lexeme("STRING", left.iValue + right.sValue);
@@ -523,18 +522,28 @@ public class evaluator {
 
     private Lexeme evalElifChain(Lexeme tree, Lexeme env) {
         Lexeme parent = tree.left;
-        Lexeme elif = tree.left.left;
-        while (parent.left != null) { // current elifChain
-            if (parent.type.contentEquals("ELSE")) { // if its an else
-                return eval(tree.left.left, env); // evaluate the else statement
-            } else if (parent.left.type.contentEquals("ELSE")) {
-                return eval(parent.left.left, env); // evaluate else body
-            } else if  (eval(elif.left.left, env).bValue) { // if the current elif should be evaluated
-                return eval(elif.left.right, env); // evaluate its body
-            } else {
-                parent = parent.right;
+        if (parent != null) {
+            Lexeme elif = tree.left.left;
+            while (parent.left != null) { // current elifChain
+                if (parent.type.contentEquals("ELSE")) { // if its an else
+                    return eval(tree.left.left, env); // evaluate the else statement
+                } else if (parent.left.type.contentEquals("ELSE")) {
+                    return eval(parent.left.left, env); // evaluate else body
+                } else if (eval(elif.left.left, env).bValue) { // if the current elif should be evaluated
+                    return eval(elif.left.right, env); // evaluate its body
+                } else {
+                    parent = parent.right;
+                }
             }
         }
         return null;
+    }
+
+    protected Lexeme evalWhileLoop(Lexeme tree, Lexeme env) {
+        Lexeme result = null;
+        while (eval(tree.left.left, env).bValue) {
+            result = evalBlock(tree.left.right, env);
+        }
+        return result;
     }
 }

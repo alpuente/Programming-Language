@@ -1,10 +1,10 @@
-var x = 10;
+var x = 5;
 var y = 15;
-if (10 < y) {
-    print("hello");
-} elif (x == 10) {
-    print("what do i say here");
-} else {
-    print("bye!");
+def function(var x) {
+    if (x <= 10) {
+        print(" HELLLO " + x);
+        function(x + 1);
+    }
 }
+var apple = function;
 ~
