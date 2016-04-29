@@ -41,7 +41,7 @@ public class evaluator {
                 return evalStatementList(tree, env);
             case "statement":
                 return evalStatement(tree, env);
-            case "return":
+            case "RETURN":
                 return evalReturn(tree, env);
             case "PRINT":
                 evalPrint(tree, env); // doesn't return lexeme
@@ -83,11 +83,13 @@ public class evaluator {
     // Todo if this works, throw exception for undefined variables
     private Lexeme evalVar(Lexeme tree, Lexeme env) {
         //System.out.println("tree " + tree.type);
-        //System.out.println("just_var " + tree.left.sValue);
+        System.out.println("just_var " + tree.left.sValue);
         //System.out.println("value in justVar " + global.get(tree.left.sValue, env).type);
-        Lexeme value = eval(global.get(tree.left.sValue, env), env);
+        Lexeme get = global.get(tree.left.sValue, env);
+        Lexeme value = eval(get, env);
         //System.out.println("valllll " + value.type);
-        return global.get(tree.left.sValue, env); // use the string value of the variable name
+        //return global.get(tree.left.sValue, env); // use the string value of the variable name
+        return value;
     }
 
 
@@ -112,9 +114,8 @@ public class evaluator {
             Lexeme args = current_lexeme.left;
             System.out.println("arg type " + args.left.type);
             current_lexeme = current_lexeme.right;
-            System.out.println(" current now " + current_lexeme.left.type);
+//            System.out.println(" current now " + current_lexeme.left.type);
             while (current_lexeme.left != null) { // walk through list getting args
-                //args.left = current_lexeme.left;
                 System.out.println("WHY IS THIS NULL FUCK YOU OH MY GOD I AM ACTUAL TRASH " + current_lexeme.left.left.sValue);
                 Lexeme temp = args;
                 args = current_lexeme.left;
@@ -151,11 +152,12 @@ public class evaluator {
 
     private Lexeme evalArgList(Lexeme tree, Lexeme env) {
         Lexeme arg = tree;
-        //System.out.println(" arg tree type " + tree.type +  " value " + tree.type);
+        System.out.println(" arg tree type " + tree.type +  " value " + tree.type);
         Lexeme vals = null;
         while (arg != null) {
             //System.out.println("arg wasnt null");
             Lexeme temp = vals;
+            System.out.println("arg " + arg.type);
             vals = eval(arg, env); // get the variable
             vals.right = temp;
             //System.out.println("value of argument " + eval(arg.left, env));
@@ -175,7 +177,8 @@ public class evaluator {
     // need to evaluate each statement in the block's list of statements
     private Lexeme evalBlock(Lexeme tree, Lexeme env) {
         Lexeme statement_list = tree.left; // ignore brackets
-        return evalStatementList(statement_list, env); // evaluate the statement list and return result
+        Lexeme result = evalStatementList(statement_list, env); // evaluate the statement list and return result
+        return result;
     }
 
     // evaluate a statement
@@ -204,9 +207,9 @@ public class evaluator {
 
     private Lexeme evalBinaryOp(Lexeme tree, Lexeme env) {
         String op = tree.left.right.sValue;
-        //System.out.println("op type " + op /*+ "equal? " + (op.contentEquals("+"))*/);
+        System.out.println("op type " + op /*+ "equal? " + (op.contentEquals("+"))*/);
         if (op.contentEquals("+")) {
-            //System.out.println("evaluating plus");
+            System.out.println("evaluating plus");
             return evalPlus(tree, env);
         } else if (op.contentEquals("*")) {
             return evalMult(tree, env);
@@ -371,7 +374,7 @@ public class evaluator {
     // returns the variable's new value
     private Lexeme evalAssingment(Lexeme tree, Lexeme env) {
         String varname = tree.left.sValue; // get the variable's name
-        //System.out.println("type " + tree.left.left.type);
+        System.out.println("type " + tree.left.left.type);
         Lexeme value = eval(tree.left.left, env); // evaluate the value you want to set the var to
         //System.out.println("value.type " + value);
         return global.update(varname, value, env); // update the variable's value in the environment

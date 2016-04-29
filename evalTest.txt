@@ -1,10 +1,7 @@
 var x = 10;
-def function (var p var y) {
-    print(p);
-    print(y);
-    print(p);
-    p = 15;
-    print(p);
+var y = 15;
+def function(var x var y) {
+    return x + x;
 }
-function(x 12);
+print(function(x y));
 ~

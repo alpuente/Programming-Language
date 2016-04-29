@@ -128,7 +128,7 @@ public class parser {
             | MULTMULT
      */
     public boolean binaryOperatorPending() {
-        return check("PLUS") || check("MINUS") || check("MULT") || check("MULTMULT") || check("COMPARATOR");
+        return check("BINOPERATOR"); //check("PLUS") || check("MINUS") || check("MULT") || check("MULTMULT") || check("COMPARATOR");
     }
 
     public Lexeme binaryOperator() throws Exception {
@@ -368,6 +368,16 @@ public class parser {
             tree.left = arrayIndex();
             top.left = tree;
             return top;
+        } else if (binaryOperatorPending()) {
+            //Lexeme temp = tree.left;
+            Lexeme jv = new Lexeme("just_var");
+            jv.left = tree.left;
+            tree = new Lexeme("binoperation");
+            tree.left = jv;
+            tree.left.right = match("BINOPERATOR");
+            tree.left.right.left = primary();
+            top.left = tree;
+            return top;
         } else { // just a variable and the evaluater will need to grab its value
             Lexeme jv = new Lexeme("just_var");
             jv.left = tree.left;
@@ -544,17 +554,19 @@ public class parser {
         Lexeme tree = new Lexeme("conditonal");
         if (primaryPending()) {
             tree.left = primary();
+            Lexeme temp = tree.left;
             if (check("COMPARATOR")) {
-                tree.left.left = match("COMPARATOR");
-                tree.left.left.left = primary();
+                tree.left = match("COMPARATOR");
+                tree.left.left = temp;
+                tree.left.right = primary();
             }
             //System.out.println("</conditional>");
             return tree;
         } else if (check("NOT")) {
             tree.left =  match("NOT");
-            tree.left.left = match("OPAREN");
-            tree.left.left.left = conditional();
-            tree.left.right = match("CPAREN");
+            match("OPAREN");
+            tree.left.left = conditional();
+            match("CPAREN");
             System.out.println("</conditional>");
             return tree;
         }
@@ -570,8 +582,8 @@ public class parser {
         Lexeme tree = match("IF");
         tree.left = match("OPAREN");
         tree.left.left = conditionalList();
-        tree.left.right = match("CPAREN");
-        tree.left.right.left = body();
+        match("CPAREN");
+        tree.left.right = body();
         //inOrderTraversal(tree);
         //System.out.println("</ifExpression>");
         return tree;
@@ -593,7 +605,8 @@ public class parser {
         Lexeme tree = match("ELIF");
         tree.left = match("OPAREN");
         tree.left.left = conditionalList();
-        tree.left.right = match("CPAREN");
+        tree.left.right = body();
+        match("CPAREN");
         return tree;
     }
 
@@ -604,7 +617,7 @@ public class parser {
      */
     public Lexeme ifChain() throws Exception {
         Lexeme tree = ifExpression();
-        tree.left = elifChain();
+        tree.right = elifChain();
         return tree;
     }
 
@@ -712,16 +725,18 @@ public class parser {
                    | conditional OR conditional
      */
     public Lexeme conditionalList() throws Exception {
-        Lexeme tree = conditional();
+        Lexeme tree = new Lexeme("conditionalList");
+        tree.left = new Lexeme("join");
+        Lexeme temp = conditional();
         if (check("AND")) {
-            //System.out.println("heyyy");
-            tree.left = match("AND");
-            tree.left.left = conditional();
+            tree.left.left = match("AND");
+            tree.left.left.left = temp;
+            tree.left.left.right = conditional();
             tree.left.right = conditionalList();
         } else if (check("OR")) {
-            //System.out.println("lalalalososod");
-            tree.left = match("OR");
-            tree.left.left = conditional();
+            tree.left.left = match("OR");
+            tree.left.left.right = conditional();
+            tree.left.left.left = temp;
             tree.left.right = conditionalList();
         }
         System.out.println("<conditionalList>" );
