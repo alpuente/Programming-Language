@@ -47,13 +47,13 @@ public class evaluator {
                 evalPrint(tree, env); // doesn't return lexeme
                 break;
             case "INTEGER":
-                return tree; // maybe this is right? i don't think there's any case where it would have a left or right
+                return new Lexeme("INTEGER", tree.iValue); // maybe this is right? i don't think there's any case where it would have a left or right
             case "DOUBLE":
-                return tree;
+                return new Lexeme("DOUBLE", tree.dValue);
             case "STRING":
-                return tree;
+                return new Lexeme("STRING", tree.sValue);
             case "BOOLEAN":
-                return tree;
+                return new Lexeme("BOOLEAN", tree.bValue);
             case "primary":
                 return evalPrimary(tree, env);
             case "expression":

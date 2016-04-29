@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9210b5fe-39dc-4170-a3ef-04a85a1222d5" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Language/Scanner.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evalTest.txt" afterPath="$PROJECT_DIR$/evalTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/environment.java" afterPath="$PROJECT_DIR$/src/environment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/evaluator.java" afterPath="$PROJECT_DIR$/src/evaluator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/parser.java" afterPath="$PROJECT_DIR$/src/parser.java" />
     </list>
     <ignored path="Language.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,13 +46,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="environment.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="environment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/environment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.7213116">
-              <caret line="31" column="48" selection-start-line="31" selection-start-column="48" selection-end-line="31" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.6715867">
+              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding>
+                <element signature="method#addLocalVariable#0;class#environment#0" expanded="false" />
+                <element signature="method#setCar#0;class#environment#0" expanded="false" />
+                <element signature="method#setCdr#0;class#environment#0" expanded="false" />
                 <element signature="method#get#0;class#environment#0" expanded="false" />
+                <element signature="method#update#0;class#environment#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -65,35 +66,32 @@
         <entry file="file://$PROJECT_DIR$/evalTest.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="evaluator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="evaluator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/evaluator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.0479703">
-              <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
+            <state vertical-scroll-proportion="43.65574">
+              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
               <folding>
                 <element signature="e#362#363#0" expanded="true" />
                 <element signature="e#393#394#0" expanded="true" />
-                <element signature="method#evalVar#0;class#evaluator#0" expanded="false" />
-                <element signature="method#getParamList#0;class#evaluator#0" expanded="false" />
-                <element signature="e#7645#7646#0" expanded="true" />
-                <element signature="e#7685#7686#0" expanded="true" />
+                <element signature="method#eval#0;class#evaluator#0" expanded="false" />
+                <element signature="method#evalFuncDef#0;class#evaluator#0" expanded="false" />
+                <element signature="e#7630#7631#0" expanded="true" />
+                <element signature="e#7704#7705#0" expanded="true" />
+                <element signature="e#7763#7764#0" expanded="true" />
+                <element signature="e#7803#7804#0" expanded="true" />
                 <element signature="method#evalStatement#0;class#evaluator#0" expanded="false" />
                 <element signature="method#evalStatementList#0;class#evaluator#0" expanded="false" />
-                <element signature="e#8890#8891#0" expanded="true" />
-                <element signature="e#8933#8934#0" expanded="true" />
-                <element signature="method#evalMult#0;class#evaluator#0" expanded="false" />
-                <element signature="method#evalDivision#0;class#evaluator#0" expanded="false" />
+                <element signature="e#9008#9009#0" expanded="true" />
+                <element signature="e#9051#9052#0" expanded="true" />
                 <element signature="method#evalExponentiation#0;class#evaluator#0" expanded="false" />
                 <element signature="method#evalMod#0;class#evaluator#0" expanded="false" />
-                <element signature="method#evalUniOperation#0;class#evaluator#0" expanded="false" />
-                <element signature="method#evalIncrement#0;class#evaluator#0" expanded="false" />
-                <element signature="method#evalDecrement#0;class#evaluator#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -141,8 +139,8 @@
         <option value="$PROJECT_DIR$/src/Lexer.java" />
         <option value="$PROJECT_DIR$/src/environment.java" />
         <option value="$PROJECT_DIR$/src/parser.java" />
-        <option value="$PROJECT_DIR$/src/evaluator.java" />
         <option value="$PROJECT_DIR$/evalTest.txt" />
+        <option value="$PROJECT_DIR$/src/evaluator.java" />
       </list>
     </option>
   </component>
@@ -705,12 +703,12 @@
       <workItem from="1461681420270" duration="10538000" />
       <workItem from="1461766710454" duration="30931000" />
       <workItem from="1461872441959" duration="5944000" />
-      <workItem from="1461880616445" duration="21567000" />
+      <workItem from="1461880616445" duration="23348000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="258846000" />
+    <option name="totallyTimeSpent" value="260627000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -790,27 +788,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/evaluator.java</url>
-          <line>98</line>
-          <properties />
-          <option name="timeStamp" value="152" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/evaluator.java</url>
-          <line>103</line>
-          <properties />
-          <option name="timeStamp" value="153" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/evaluator.java</url>
-          <line>180</line>
-          <properties />
-          <option name="timeStamp" value="158" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="163" />
+      <option name="time" value="165" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1185,14 +1163,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Lexeme.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1">
-          <caret line="45" column="25" selection-start-line="45" selection-start-column="25" selection-end-line="45" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Lexer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.48360655">
@@ -1212,6 +1182,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/evalTest.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/parser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.409836">
@@ -1225,46 +1203,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/environment.java">
+    <entry file="file://$PROJECT_DIR$/src/evaluator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.7213116">
-          <caret line="31" column="48" selection-start-line="31" selection-start-column="48" selection-end-line="31" selection-end-column="48" />
+        <state vertical-scroll-proportion="43.65574">
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
           <folding>
-            <element signature="method#get#0;class#environment#0" expanded="false" />
+            <element signature="e#362#363#0" expanded="true" />
+            <element signature="e#393#394#0" expanded="true" />
+            <element signature="method#eval#0;class#evaluator#0" expanded="false" />
+            <element signature="method#evalFuncDef#0;class#evaluator#0" expanded="false" />
+            <element signature="e#7630#7631#0" expanded="true" />
+            <element signature="e#7704#7705#0" expanded="true" />
+            <element signature="e#7763#7764#0" expanded="true" />
+            <element signature="e#7803#7804#0" expanded="true" />
+            <element signature="method#evalStatement#0;class#evaluator#0" expanded="false" />
+            <element signature="method#evalStatementList#0;class#evaluator#0" expanded="false" />
+            <element signature="e#9008#9009#0" expanded="true" />
+            <element signature="e#9051#9052#0" expanded="true" />
+            <element signature="method#evalExponentiation#0;class#evaluator#0" expanded="false" />
+            <element signature="method#evalMod#0;class#evaluator#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evalTest.txt">
+    <entry file="file://$PROJECT_DIR$/src/Lexeme.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+        <state vertical-scroll-proportion="2.7108433">
+          <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/evaluator.java">
+    <entry file="file://$PROJECT_DIR$/src/environment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.0479703">
-          <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6715867">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding>
-            <element signature="e#362#363#0" expanded="true" />
-            <element signature="e#393#394#0" expanded="true" />
-            <element signature="method#evalVar#0;class#evaluator#0" expanded="false" />
-            <element signature="method#getParamList#0;class#evaluator#0" expanded="false" />
-            <element signature="e#7645#7646#0" expanded="true" />
-            <element signature="e#7685#7686#0" expanded="true" />
-            <element signature="method#evalStatement#0;class#evaluator#0" expanded="false" />
-            <element signature="method#evalStatementList#0;class#evaluator#0" expanded="false" />
-            <element signature="e#8890#8891#0" expanded="true" />
-            <element signature="e#8933#8934#0" expanded="true" />
-            <element signature="method#evalMult#0;class#evaluator#0" expanded="false" />
-            <element signature="method#evalDivision#0;class#evaluator#0" expanded="false" />
-            <element signature="method#evalExponentiation#0;class#evaluator#0" expanded="false" />
-            <element signature="method#evalMod#0;class#evaluator#0" expanded="false" />
-            <element signature="method#evalUniOperation#0;class#evaluator#0" expanded="false" />
-            <element signature="method#evalIncrement#0;class#evaluator#0" expanded="false" />
-            <element signature="method#evalDecrement#0;class#evaluator#0" expanded="false" />
+            <element signature="method#addLocalVariable#0;class#environment#0" expanded="false" />
+            <element signature="method#setCar#0;class#environment#0" expanded="false" />
+            <element signature="method#setCdr#0;class#environment#0" expanded="false" />
+            <element signature="method#get#0;class#environment#0" expanded="false" />
+            <element signature="method#update#0;class#environment#0" expanded="false" />
           </folding>
         </state>
       </provider>
