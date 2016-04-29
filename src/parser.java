@@ -126,7 +126,6 @@ public class parser {
             | comparator
             | MULT
             | MULTMULT
-
      */
     public boolean binaryOperatorPending() {
         return check("PLUS") || check("MINUS") || check("MULT") || check("MULTMULT") || check("COMPARATOR");
@@ -419,7 +418,6 @@ public class parser {
             | lambda
             | literal
             | expression
-
         need to double/triple check this
      */
     public boolean variablePending() {
@@ -480,16 +478,16 @@ public class parser {
             tree.left.right = match("SEMI");
             return tree;
         } else if (ifExpressionPending()) {
-            tree = ifChain();
+            tree.left = ifChain();
             return tree;
         } else if (whilePending()) {
-            tree = whileLoop();
+            tree.left = whileLoop();
             return tree;
         } else if (forPending()) {
-            tree = forExpression();
+            tree.left = forExpression();
             return tree;
         } else if (printPending()) {
-            tree = printCall();
+            tree.left = printCall();
             match("SEMI");
             return tree;
         } else if (check("DEF")) {
@@ -521,12 +519,12 @@ public class parser {
     public Lexeme functionDef() throws Exception {
         //System.out.println("lskjd");
         Lexeme tree = new Lexeme("functionDef");
-        tree.left = match("DEF");
-        tree.left.left = match("VAR");
-        tree.left.right = match("OPAREN");
-        tree.left.left.left = paramDecList();
-        tree.left.left.right = match("CPAREN");
-        tree.left.right.left = body();
+        match("DEF");
+        tree.left = match("VAR");
+        match("OPAREN");
+        tree.left.left = paramDecList();
+        match("CPAREN");
+        tree.left.right = body();
         return tree;
     }
 

@@ -1,11 +1,3 @@
-import com.sun.deploy.Environment;
-import com.sun.xml.internal.bind.v2.TODO;
-
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.StringJoiner;
-
 /**
  * Created by appleowner on 4/23/16.
  */
@@ -43,13 +35,13 @@ public class environment {
         }
         Lexeme currentVar = env.left;
         Lexeme currentVal = env.right.left;
-        System.out.println("id " +  id);
+        //System.out.println("id " +  id);
         while(currentVar != null) {
             if (currentVar.sValue.contentEquals(id)) {
-                System.out.println("current val " + currentVal);
+                //System.out.println("current val " + currentVal);
                 return currentVal;
             }
-            currentVal = currentVal.left;
+            currentVal = currentVal.right;
             currentVar = currentVar.left;
         }
         return get(id, env.right.right); // search the next environment
@@ -68,18 +60,18 @@ public class environment {
             //System.out.println("hey");
             Lexeme temp = currentVal.left;
             env.right.left = value;
-            value.left = temp;
+            value.right = temp;
             return value;
         }
         Lexeme nextVar = env.left.left;
-        Lexeme nextVal = env.right.left.left;
-        while(currentVar != null) {
+        Lexeme nextVal = env.right.left.right;
+        while(nextVar != null) {
             if (nextVar.sValue.contentEquals(id)) {
-                value.left = nextVal.left;
-                currentVal.left = value;
+                value.right = nextVal.right;
+                currentVal.right = value;
                 return value;
             }
-            currentVal = currentVal.left;
+            currentVal = currentVal.right;
             currentVar = currentVar.left;
             nextVal = nextVal.left;
             nextVar = nextVar.left;
@@ -94,9 +86,9 @@ public class environment {
     }
 
     protected Lexeme insert(Lexeme env, Lexeme variable, Lexeme value) {
-        System.out.println("var " + variable.sValue + " " + value.type);
+        //System.out.println("var " + variable.sValue + " " + value.type);
         variable.left = env.left;
-        value.left = env.right.left;
+        value.right = env.right.left;
         env.left = variable;
         env.right.left = value;
         return value;
@@ -117,7 +109,7 @@ public class environment {
         while (currentVal != null) {
             System.out.println(currentVar.type + " " + currentVal.type);
             currentVar = currentVar.left;
-            currentVal = currentVal.left;
+            currentVal = currentVal.right;
         }
     }
 
