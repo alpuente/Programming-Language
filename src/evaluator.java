@@ -19,7 +19,7 @@ public class evaluator {
     private Lexeme eval(Lexeme tree, Lexeme env) {
         //System.out.println("lsdjlksjlksd " + tree);
         String tree_type = tree.type;
-        //System.out.println("evaluating tree of type " + tree_type);
+        System.out.println("evaluating tree of type " + tree_type);
         //System.out.println("tree.left " + tree.left);
         switch (tree_type) {
             case "functionDef": // function definition
@@ -88,8 +88,8 @@ public class evaluator {
     // evaluate a variable access by getting its value if defined
     // Todo if this works, throw exception for undefined variables
     private Lexeme evalVar(Lexeme tree, Lexeme env) {
-        //System.out.println("tree " + tree.type);
-        System.out.println("just_var " + tree.left.sValue);
+        System.out.println("tree " + tree.type);
+        //System.out.println("just_var " + tree.left.sValue);
         //System.out.println("value in justVar " + global.get(tree.left.sValue, env).type);
         Lexeme get = global.get(tree.left.sValue, env);
         Lexeme value = eval(get, env);
@@ -115,10 +115,10 @@ public class evaluator {
     // get parameters from function call tree
     private Lexeme getArgList(Lexeme tree) {
         Lexeme current_lexeme = tree.left.left; // first part of param list
-        System.out.println("type " + current_lexeme.type);
+        //System.out.println("type " + current_lexeme.type);
         if(current_lexeme.left != null) {
             Lexeme args = current_lexeme.left;
-            System.out.println("arg type " + args.left.type);
+            //System.out.println("arg type " + args.left.type);
             current_lexeme = current_lexeme.right;
 //            System.out.println(" current now " + current_lexeme.left.type);
             while (current_lexeme.left != null) { // walk through list getting args
@@ -126,7 +126,7 @@ public class evaluator {
                 args = current_lexeme.left;
                 args.right = temp;
                 current_lexeme = current_lexeme.right;
-                System.out.println("WAHOOO " + current_lexeme.type);
+                //System.out.println("WAHOOO " + current_lexeme.type);
             }
             return args;
         }
@@ -154,12 +154,12 @@ public class evaluator {
 
     private Lexeme evalArgList(Lexeme tree, Lexeme env) {
         Lexeme arg = tree;
-        System.out.println(" arg tree type " + tree.type +  " value " + tree.type);
+        //System.out.println(" arg tree type " + tree.type +  " value " + tree.type);
         Lexeme vals = null;
         while (arg != null) {
             //System.out.println("arg wasnt null");
             Lexeme temp = vals;
-            System.out.println("arg " + arg.type);
+            //System.out.println("arg " + arg.type);
             vals = eval(arg, env); // get the variable
             vals.right = temp;
             //System.out.println("value of argument " + eval(arg.left, env));
@@ -209,9 +209,9 @@ public class evaluator {
 
     private Lexeme evalBinaryOp(Lexeme tree, Lexeme env) {
         String op = tree.left.right.sValue;
-        System.out.println("op type " + op /*+ "equal? " + (op.contentEquals("+"))*/);
+        //System.out.println("op type " + op /*+ "equal? " + (op.contentEquals("+"))*/);
         if (op.contentEquals("+")) {
-            System.out.println("evaluating plus");
+            //System.out.println("evaluating plus");
             return evalPlus(tree, env);
         } else if (op.contentEquals("*")) {
             return evalMult(tree, env);
@@ -354,9 +354,6 @@ public class evaluator {
 
     // evaluate a print call
     private void evalPrint(Lexeme tree, Lexeme env) {
-        //System.out.println("lexeme tree type " + tree.type);
-        //System.out.println("lexeme tree type " + tree.left.type);
-        //System.out.println("lexeme tree type " + tree.left.left.type);
         Lexeme result = eval(tree.left.left, env); // get the print argument and evaluate it
         if (result.type == "STRING") {
             System.out.println(result.sValue);

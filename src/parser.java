@@ -560,7 +560,6 @@ public class parser {
     * Rule 10: conditional
      */
     public Lexeme conditional() throws Exception {
-        //System.out.println("<conditional>");
         Lexeme tree = new Lexeme("conditional");
         if (primaryPending()) {
             tree.left = primary();
@@ -580,7 +579,6 @@ public class parser {
             match("OPAREN");
             tree.left.left = conditional();
             match("CPAREN");
-            System.out.println("</conditional>");
             return tree;
         }
         return null;
