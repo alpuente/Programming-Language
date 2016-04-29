@@ -31,6 +31,7 @@ public class Lexer {
         keywords.put("var", "VARDEF");
         keywords.put("if", "IF");
         keywords.put("elif", "ELIF");
+        keywords.put("else", "ELSE");
         keywords.put("while", "WHILE");
         keywords.put("def", "DEF");
         keywords.put("return", "RETURN");
@@ -105,8 +106,10 @@ public class Lexer {
             return new Lexeme("BINOPERATOR", ch);
         } else if (ch == '=') {
             if (characters[currentIndex + 1] == '>' || characters[currentIndex + 1] == '=') {
-                currentIndex += 2;
-                return new Lexeme("COMPARATOR", "=" + characters[currentIndex + 1]);
+                System.out.println("ch at curr + 1 " + characters[currentIndex + 1]);
+                char value = characters[currentIndex + 1];
+                currentIndex = currentIndex + 2;
+                return new Lexeme("COMPARATOR", "=" + value);
             } else {
                 currentIndex += 1;
                 return new Lexeme("EQUAL");

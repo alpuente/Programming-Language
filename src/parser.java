@@ -490,15 +490,15 @@ public class parser {
             }
             tree.left.right = match("SEMI");
             return tree;
+        } else if (ifExpressionPending()) {
+            tree.left = ifChain();
+            return tree;
         } else if (expressionPending()) {
             tree.left = expression();
             //System.out.println("<start>");
             //inOrderTraversal(tree);
             //System.out.println("</end>");
             tree.left.right = match("SEMI");
-            return tree;
-        } else if (ifExpressionPending()) {
-            tree.left = ifChain();
             return tree;
         } else if (whilePending()) {
             tree.left = whileLoop();
@@ -618,9 +618,9 @@ public class parser {
     public Lexeme elifExpression() throws Exception {
         Lexeme tree = match("ELIF");
         tree.left = match("OPAREN");
-        tree.left.left = conditionalList();
-        tree.left.right = body();
+        tree.left.left = conditional();
         match("CPAREN");
+        tree.left.right = body();
         return tree;
     }
 
@@ -661,8 +661,10 @@ public class parser {
             tree.left = elseExpression();
             return tree;
         } else if (elifExpressionPending()) {
-            tree.left = elifExpression();
+            tree.left = new Lexeme("join");
+            tree.left.left = elifExpression();
             tree.left.right = elifChain();
+            return tree;
         }
         return null;
     }

@@ -63,7 +63,7 @@ public class evaluator {
             case "conditional":
                 return  evalConditional(tree, env);
             case "IF":
-                return evalIfExpression(tree, env);
+                return evalIfChain(tree, env);
         }
         return null;
     }
@@ -507,7 +507,11 @@ public class evaluator {
     }
 
     private Lexeme evalIfChain(Lexeme tree, Lexeme env) {
-        return evalIfExpression(tree.left, env); // what do i return in here????
+        if (eval(tree.left.left, env).bValue) { // evaluate an if expression
+            return evalIfExpression(tree, env); // what do i return in here????
+        } else {
+            return evalElifChain(tree.right, env);
+        }
     }
 
     private Lexeme evalIfExpression(Lexeme tree, Lexeme env) {
@@ -515,5 +519,22 @@ public class evaluator {
             return evalBlock(tree.left.right, env);
         }
         else return null;
+    }
+
+    private Lexeme evalElifChain(Lexeme tree, Lexeme env) {
+        Lexeme parent = tree.left;
+        Lexeme elif = tree.left.left;
+        while (parent.left != null) { // current elifChain
+            if (parent.type.contentEquals("ELSE")) { // if its an else
+                return eval(tree.left.left, env); // evaluate the else statement
+            } else if (parent.left.type.contentEquals("ELSE")) {
+                return eval(parent.left.left, env); // evaluate else body
+            } else if  (eval(elif.left.left, env).bValue) { // if the current elif should be evaluated
+                return eval(elif.left.right, env); // evaluate its body
+            } else {
+                parent = parent.right;
+            }
+        }
+        return null;
     }
 }

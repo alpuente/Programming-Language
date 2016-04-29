@@ -1,6 +1,10 @@
 var x = 10;
 var y = 15;
-if (x < y) {
+if (10 < y) {
     print("hello");
+} elif (x == 10) {
+    print("what do i say here");
+} else {
+    print("bye!");
 }
 ~
