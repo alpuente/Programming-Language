@@ -60,6 +60,10 @@ public class evaluator {
                 return evalExpression(tree, env);
             case "just_var":
                 return evalVar(tree, env);
+            case "conditional":
+                return  evalConditional(tree, env);
+            case "IF":
+                return evalIfExpression(tree, env);
         }
         return null;
     }
@@ -116,7 +120,6 @@ public class evaluator {
             current_lexeme = current_lexeme.right;
 //            System.out.println(" current now " + current_lexeme.left.type);
             while (current_lexeme.left != null) { // walk through list getting args
-                System.out.println("WHY IS THIS NULL FUCK YOU OH MY GOD I AM ACTUAL TRASH " + current_lexeme.left.left.sValue);
                 Lexeme temp = args;
                 args = current_lexeme.left;
                 args.right = temp;
@@ -281,7 +284,6 @@ public class evaluator {
     }
 
     private Lexeme evalPrimary(Lexeme tree, Lexeme env) {
-        //System.out.println("tree.type in evalPrimary " + tree.type);
         return eval(tree.left, env); // evaluate the primary's value
     }
 
@@ -400,4 +402,118 @@ public class evaluator {
         inOrderTraversal(tree.right);
     }
 
+    private Lexeme evalConditional(Lexeme tree, Lexeme env) {
+        if (tree.left.type.contentEquals("primary")) { // single value that should evaluate to be a boolean
+            return eval(tree.left, env); //Todo: figure this out. should be a boolean
+        }
+        Lexeme comparator = tree.left;
+        Lexeme left = eval(tree.left.left, env); // get the primary value on the left
+        Lexeme right = eval(tree.left.right, env); // get the primary value on the right
+        if (comparator.sValue.contentEquals("<")) {
+            return evalLessThan(left, right);
+        } else if (comparator.sValue.contentEquals("<=")) {
+            return evalLessEqual(left, right);
+        } else if (comparator.sValue.contentEquals(">")) {
+            return evalGreaterThan(left, right);
+        } else if (comparator.sValue.contentEquals("=>")) {
+            return evalGreaterEqual(left, right);
+        } else if (comparator.sValue.contentEquals("==")) {
+            return evalIsEqual(left, right);
+        } else {
+            System.out.println("Error: invalid conditional expression.");
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private Lexeme evalLessThan(Lexeme left, Lexeme right) {
+        if (left.type == "INTEGER" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.iValue < right.iValue);
+        } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.dValue < right.iValue);
+        } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.iValue < right.dValue);
+        } else if (left.type == "DOUBLE" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.dValue < right.dValue);
+        } else {
+            System.out.println("Error: cannot compare values of type " + left.type +  " and " + right.type);
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private Lexeme evalLessEqual(Lexeme left, Lexeme right) {
+        if (left.type == "INTEGER" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.iValue <= right.iValue);
+        } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.dValue <= right.iValue);
+        } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.iValue <= right.dValue);
+        } else if (left.type == "DOUBLE" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.dValue <= right.dValue);
+        } else {
+            System.out.println("Error: cannot compare values of type " + left.type +  " and " + right.type);
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private Lexeme evalGreaterThan(Lexeme left, Lexeme right) {
+        if (left.type == "INTEGER" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.iValue > right.iValue);
+        } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.dValue > right.iValue);
+        } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.iValue > right.dValue);
+        } else if (left.type == "DOUBLE" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.dValue > right.dValue);
+        } else {
+            System.out.println("Error: cannot compare values of type " + left.type +  " and " + right.type);
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private Lexeme evalGreaterEqual(Lexeme left, Lexeme right) {
+        if (left.type == "INTEGER" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.iValue >= right.iValue);
+        } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.dValue >= right.iValue);
+        } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.iValue >= right.dValue);
+        } else if (left.type == "DOUBLE" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.dValue >= right.dValue);
+        } else {
+            System.out.println("Error: cannot compare values of type " + left.type +  " and " + right.type);
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private Lexeme evalIsEqual(Lexeme left, Lexeme right) {
+        if (left.type == "INTEGER" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.iValue == right.iValue);
+        } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.dValue == right.iValue);
+        } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.iValue == right.dValue);
+        } else if (left.type == "DOUBLE" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.dValue == right.dValue);
+        } else {
+            System.out.println("Error: cannot compare values of type " + left.type +  " and " + right.type);
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private Lexeme evalIfChain(Lexeme tree, Lexeme env) {
+        return evalIfExpression(tree.left, env); // what do i return in here????
+    }
+
+    private Lexeme evalIfExpression(Lexeme tree, Lexeme env) {
+        if (eval(tree.left.left, env).bValue) {
+            return evalBlock(tree.left.right, env);
+        }
+        else return null;
+    }
 }

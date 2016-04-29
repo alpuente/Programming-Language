@@ -378,6 +378,16 @@ public class parser {
             tree.left.right.left = primary();
             top.left = tree;
             return top;
+        } else if (check("COMPARATOR")) {
+            Lexeme prim = new Lexeme("primary");
+            Lexeme jv = new Lexeme("just_var");
+            jv.left = tree.left;
+            prim.left = jv;
+            top = new Lexeme("conditional");
+            top.left = match("COMPARATOR");
+            top.left.left = prim;
+            top.left.right = primary();
+            return top;
         } else { // just a variable and the evaluater will need to grab its value
             Lexeme jv = new Lexeme("just_var");
             jv.left = tree.left;
@@ -551,14 +561,17 @@ public class parser {
      */
     public Lexeme conditional() throws Exception {
         //System.out.println("<conditional>");
-        Lexeme tree = new Lexeme("conditonal");
+        Lexeme tree = new Lexeme("conditional");
         if (primaryPending()) {
             tree.left = primary();
             Lexeme temp = tree.left;
             if (check("COMPARATOR")) {
                 tree.left = match("COMPARATOR");
                 tree.left.left = temp;
-                tree.left.right = primary();
+                Lexeme newTemp = primary();
+                tree.left.right = newTemp;
+            } else if (tree.left.type.contentEquals("conditional")) {
+                return tree.left;
             }
             //System.out.println("</conditional>");
             return tree;
@@ -581,7 +594,8 @@ public class parser {
         //System.out.println("<ifExpression>");
         Lexeme tree = match("IF");
         tree.left = match("OPAREN");
-        tree.left.left = conditionalList();
+        //tree.left.left = conditionalList();
+        tree.left.left = conditional();
         match("CPAREN");
         tree.left.right = body();
         //inOrderTraversal(tree);
@@ -733,15 +747,15 @@ public class parser {
             tree.left.left.left = temp;
             tree.left.left.right = conditional();
             tree.left.right = conditionalList();
+            return tree;
         } else if (check("OR")) {
             tree.left.left = match("OR");
             tree.left.left.right = conditional();
             tree.left.left.left = temp;
             tree.left.right = conditionalList();
+            return tree;
         }
-        System.out.println("<conditionalList>" );
-        //inOrderTraversal(tree);
-        System.out.println("</conditionalList>");
+        tree.left = temp;
         return tree;
     }
 
