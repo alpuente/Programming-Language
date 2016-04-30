@@ -1,5 +1,4 @@
-arr hello = [];
-hello[0] = "hi";
-hello[5] = "five";
-print(hello);
+var x = 5 - -7;
+:) hieeee (:
+print(x);
 ~

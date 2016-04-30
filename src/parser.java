@@ -50,7 +50,7 @@ public class parser {
         //System.out.println("current " + currentLexeme.type);
         while (currentLexeme.type == "SPACE" || currentLexeme.type == "COMMENT") {
             if (currentLexeme.type == "EOF") {
-                System.out.println("booop");
+                //System.out.println("booop");
                 break;
             }
             currentLexeme = lexer.lex();

@@ -229,6 +229,8 @@ public class evaluator {
             return evalMod(tree, env);
         } else if (op.contentEquals("^")) {
             return evalExponentiation(tree, env);
+        } else if (op.contentEquals("-")) {
+            return evalMinus(tree, env);
         }
         return null;
     }
@@ -254,6 +256,26 @@ public class evaluator {
             return new Lexeme("STRING", left.iValue + right.sValue);
         } else {
             return new Lexeme("DOUBLE", left.dValue + right.dValue);
+        }
+    }
+
+    private Lexeme evalMinus(Lexeme tree, Lexeme env) {
+        Lexeme left = eval(tree.left, env); // evaluate the left operand
+        //System.out.println("left type " + left.type + " of value " + left.iValue);
+        Lexeme right = eval(tree.left.right.left, env); // evaluate right operand
+        //System.out.println("right type " + right.type + " of value " + right.iValue);
+        if (left.type == "INTEGER" && right.type == "INTEGER") {
+            return new Lexeme("INTEGER", left.iValue - right.iValue);
+        } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
+            return new Lexeme("DOUBLE", left.dValue - right.iValue);
+        } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
+            return new Lexeme("DOUBLE", left.iValue - right.dValue);
+        } else if (left.type == "DOUBLE" && right.type == "DOUBLE"){
+            return new Lexeme("DOUBLE", left.dValue - right.dValue);
+        } else {
+            System.out.println("Error: cannot subtract types " + left.type + " and " + right.type);
+            System.exit(0);
+            return null;
         }
     }
 
