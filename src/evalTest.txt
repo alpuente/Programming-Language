@@ -1,0 +1,5 @@
+arr hello = [];
+hello[0] = "hi";
+hello[5] = "five";
+print(hello[5]);
+~

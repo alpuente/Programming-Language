@@ -3,17 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9210b5fe-39dc-4170-a3ef-04a85a1222d5" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Language/Scanner.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Language/Lexeme.class" afterPath="$PROJECT_DIR$/out/production/Language/Lexeme.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Language/evaluator.class" afterPath="$PROJECT_DIR$/out/production/Language/evaluator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Language/parser.class" afterPath="$PROJECT_DIR$/out/production/Language/parser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/evalTest.txt" afterPath="$PROJECT_DIR$/evalTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grammar.txt" afterPath="$PROJECT_DIR$/grammar.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Lexeme.java" afterPath="$PROJECT_DIR$/src/Lexeme.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Lexer.java" afterPath="$PROJECT_DIR$/src/Lexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/environment.java" afterPath="$PROJECT_DIR$/src/environment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/evaluator.java" afterPath="$PROJECT_DIR$/src/evaluator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/parser.java" afterPath="$PROJECT_DIR$/src/parser.java" />
     </list>
     <ignored path="Language.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,7 +82,7 @@
       <file leaf-file-name="evaluator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/evaluator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15606937">
+            <state vertical-scroll-proportion="0.1978022">
               <caret line="363" column="26" selection-start-line="363" selection-start-column="17" selection-end-line="363" selection-end-column="26" />
               <folding>
                 <element signature="method#evalVar#0;class#evaluator#0" expanded="false" />
@@ -199,9 +188,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="95" />
     <option name="y" value="27" />
-    <option name="width" value="683" />
-    <option name="height" value="741" />
+    <option name="width" value="1223" />
+    <option name="height" value="668" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -751,12 +741,12 @@
       <workItem from="1461681420270" duration="10538000" />
       <workItem from="1461766710454" duration="30931000" />
       <workItem from="1461872441959" duration="5944000" />
-      <workItem from="1461880616445" duration="47001000" />
+      <workItem from="1461880616445" duration="48161000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="284280000" />
+    <option name="totallyTimeSpent" value="285440000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -768,7 +758,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="683" height="741" extended-state="4" />
+    <frame x="95" y="27" width="1223" height="668" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -777,10 +767,10 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.4765687" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2894309" sideWeight="0.46942016" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32841328" sideWeight="0.46942016" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32833022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46068308" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24851064" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24936171" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1304,7 +1294,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/evaluator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15606937">
+        <state vertical-scroll-proportion="0.1978022">
           <caret line="363" column="26" selection-start-line="363" selection-start-column="17" selection-end-line="363" selection-end-column="26" />
           <folding>
             <element signature="method#evalVar#0;class#evaluator#0" expanded="false" />
