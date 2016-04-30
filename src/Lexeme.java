@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by appleowner on 2/12/16.
  */
@@ -9,6 +11,7 @@ public class Lexeme {
     protected boolean bValue;
     protected Lexeme right;
     protected Lexeme left;
+    protected ArrayList aValue;
 
     /*
     * constructor for a string lexeme
@@ -54,5 +57,13 @@ public class Lexeme {
         this.type = type;
         this.left = null;
         this.right = null;
+    }
+
+    /*
+    * constructor for array lexeme
+     */
+    public Lexeme(String type, ArrayList array) {
+        this.type = type;
+        this.aValue = array;
     }
 }

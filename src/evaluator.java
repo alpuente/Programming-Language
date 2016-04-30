@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by appleowner on 4/23/16.
  */
@@ -66,6 +68,12 @@ public class evaluator {
                 return evalIfChain(tree, env);
             case "WHILE":
                 return evalWhileLoop(tree, env);
+            case "arrayDec":
+                return evalArrayDec(tree, env);
+            case "arrIndexAssignment":
+                return evalArrayIndexAssignment(tree, env);
+            case "arrIndex":
+                return evalArrayIndex(tree, env);
         }
         return null;
     }
@@ -140,9 +148,9 @@ public class evaluator {
             Lexeme params = current_lexeme.left.left;
             current_lexeme = current_lexeme.right;
             while (current_lexeme.left != null) { // walk through list getting args
-                Lexeme temp = params; // have to preserve backwards ordering because that's how i'm doing it in getArgs
-                params = current_lexeme.left.left;
-                params.left = temp;
+                //Lexeme temp = params; // have to preserve backwards ordering because that's how i'm doing it in getArgs
+                //params = current_lexeme.left.left;
+                params.left = current_lexeme.left.left;
                 //System.out.println("current_lexeme param " + current_lexeme.left.left.type + " woah string value " + current_lexeme.left.left.sValue);
                 //System.out.println("params.left " + params.left.sValue);
                 current_lexeme = current_lexeme.right;
@@ -542,5 +550,31 @@ public class evaluator {
             result = evalBlock(tree.left.right, env);
         }
         return result;
+    }
+
+    protected Lexeme evalArrayDec(Lexeme tree, Lexeme env) {
+        Lexeme name = new Lexeme("VAR", tree.left.left.sValue); // new lexeme with the string value of the array's name
+        ArrayList<Lexeme> array = new ArrayList<>();
+        Lexeme value = global.insert(env, name, new Lexeme("ARRAY", array));
+        return value;
+    }
+
+    protected Lexeme evalArrayIndex(Lexeme tree, Lexeme env) {
+        String array_name = tree.left.left.left.sValue; // the array's name
+        ArrayList<Lexeme> array = global.get(array_name, env).aValue;
+        int index = eval(tree.left.right, env).iValue; // get the index as an int
+        return array.get(index); // return the object at the index
+    }
+
+    protected Lexeme evalArrayIndexAssignment(Lexeme tree, Lexeme env) {
+        String array_name = tree.left.left.left.sValue;
+        ArrayList<Lexeme> array = global.get(array_name, env).aValue;
+        int index = eval(tree.left.right.left, env).iValue;
+        if (array.size() <= index) {
+            for (int i = array.size(); i <= index; i++) {
+                array.add(new Lexeme("null"));
+            }
+        }
+        return array.set(index, eval(tree.left.right.right, env));
     }
 }

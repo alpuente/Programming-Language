@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.InputMismatchException;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Created by appleowner on 2/12/16.
@@ -132,6 +133,7 @@ public class Lexer {
         char ch = chars[index];
         String buffer = "";
         while (ch != ' ' && i <= chars.length && (isNumeric(ch) || isAlpha(ch))) { // check how much of the char array got parsed, subtract 1 to account for increment
+            System.out.println("ch " + ch + (int) ch);
             buffer += ch;
             if (keywords.containsKey(buffer)) {
                 offset = buffer.length() - 1;
@@ -173,7 +175,7 @@ public class Lexer {
      */
     public boolean isAlpha(char ch) {
         //System.out.println(((int) ch >= 65 && (int) ch <=122));
-        return ((int) ch >= 65 && (int) ch <=122);
+        return (((int) ch >= 65 && (int) ch <=90) || ((int) ch >= 97 && (int) ch <= 122));
     }
 
     /*

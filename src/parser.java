@@ -365,8 +365,9 @@ public class parser {
             tree.left.left = primary();
             return tree;
         } else if (check("OSQUARE")) {
-            tree.left = arrayIndex();
-            top.left = tree;
+/*            tree.left = arrayIndex();
+            top.left = tree;*/
+            top.left = arrayExpression(tree.left); // make an array expression, passing in the array name (previously acquired VAR lexeme)
             return top;
         } else if (binaryOperatorPending()) {
             //Lexeme temp = tree.left;
@@ -762,20 +763,6 @@ public class parser {
     }
 
     /*
-    * Rule 37: array index
-    * arrIndex: VAR OSQUARE INTEGER CSQUARE
-     */
-    public Lexeme arrayIndex() throws Exception {
-        //Lexeme tree = match("VAR"); jk this is already in varExpression()
-        Lexeme tree = new Lexeme("arrIndex");
-        tree.left = match("OSQUARE");
-        //match("INTEGER");
-        tree.left.left = primary(); // i guess this should be a primary ????
-        tree.left.right = match("CSQUARE");
-        return tree;
-    }
-
-    /*
     * Rule 36: array declaration
     * arrayDeclaration: ARR OSQUARE CSQUARE VAR
     *                 | ARR OSQUARE CSQUARE VAR EQUAL OSQUARE primaryList CSQUARE
@@ -783,19 +770,58 @@ public class parser {
     public Lexeme arrayDeclaration() throws Exception {
         Lexeme tree = new Lexeme("arrayDec");
         tree.left = match("ARR");
-        tree.left.left = match("OSQUARE");
-        tree.left.right = match("CSQUARE");
-        tree.left.left.left = match("VAR");
-        tree.left.left.right = match("EQUAL");
-        tree.left.right = match("OSQUARE");
-        if (primaryPending()) {
-            tree.left.right.left = primaryList();
-        } else {
-            tree.left.right.left = match("INTEGER");
-        }
-        tree.left.left.left.left = match("CSQUARE");
+        //match("OSQUARE");
+        //match("CSQUARE");
+        tree.left.left = match("VAR");
+        match("EQUAL");
+        match("OSQUARE");
+        match("CSQUARE");
         return tree;
     }
+
+    public Lexeme arrayExpression(Lexeme array_name) throws Exception{
+        Lexeme ohBracket = match("OSQUARE");
+        Lexeme index = primary();
+        Lexeme cBracket = match("CSQUARE");
+        if (check("EQUAL")) {
+            match("EQUAL");
+            Lexeme tree = new Lexeme("arrIndexAssignment");
+            tree.left = ohBracket;
+            Lexeme jv = new Lexeme("just_var"); // so that the evaluator will get the variable's value (an array)
+            jv.left = array_name;
+            tree.left.left = jv;
+            Lexeme join = new Lexeme("join");
+            join.left = index; // the index
+            join.right = primary(); // the value we're assigning
+            tree.left.right = join;
+            return tree;
+        }
+        Lexeme tree = new Lexeme("arrIndex");
+        Lexeme jv = new Lexeme("just_var"); // so that the evaluator will get the variable's value (an array)
+        jv.left = array_name;
+        tree.left = ohBracket;
+        tree.left.left = jv;
+        tree.left.right = index;
+        Lexeme top =  new Lexeme("primary");
+        top.left = tree;
+        return top;
+    }
+
+
+    /*
+    * Rule 37: array index
+    * arrIndex: VAR OSQUARE INTEGER CSQUARE
+     */
+    public Lexeme arrayIndex() throws Exception {
+        //Lexeme tree = match("VAR"); jk this is already in varExpression()
+        Lexeme tree = new Lexeme("arrIndex");
+        match("OSQUARE");
+        //match("INTEGER");
+        tree.left = primary(); // i guess this should be a primary ????
+        match("CSQUARE");
+        return tree;
+    }
+
 
     /*
     * Rule 39: primary list

@@ -1,10 +1,5 @@
-var x = 5;
-var y = 15;
-def function(var x) {
-    if (x <= 10) {
-        print(" HELLLO " + x);
-        function(x + 1);
-    }
-}
-var apple = function;
+arr hello = [];
+hello[0] = "hi";
+hello[5] = "five";
+print(hello);
 ~

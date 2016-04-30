@@ -169,3 +169,10 @@ functionDef: DEF VAR OPAREN paramDecList CPAREN body
 39. primaryList
     primaryList: primary
                | primary COMMA primaryList
+
+40. array expression
+    arrayExpression: arrayIndex
+                   | arrayIndexAssignment
+
+41. arrayIndexAssignment
+    arrayIndexAssignment: VAR OBRACKET primary CBRACKET EQUAL primary
