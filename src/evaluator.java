@@ -19,10 +19,7 @@ public class evaluator {
     }
 
     private Lexeme eval(Lexeme tree, Lexeme env) {
-        //System.out.println("lsdjlksjlksd " + tree);
         String tree_type = tree.type;
-        System.out.println("evaluating tree of type " + tree_type);
-        //System.out.println("tree.left " + tree.left);
         switch (tree_type) {
             case "functionDef": // function definition
                 evalFuncDef(tree, env);
@@ -90,19 +87,18 @@ public class evaluator {
         String fnName = tree.left.sValue; // get the function name
 
         global.insert(env, new Lexeme("function_name", fnName), closure);// add the closure to the environment
-        global.displayAll(env);
+        //global.displayAll(env);
     }
 
     // evaluate a variable access by getting its value if defined
     // Todo if this works, throw exception for undefined variables
     private Lexeme evalVar(Lexeme tree, Lexeme env) {
-        System.out.println("tree " + tree.type);
-        //System.out.println("just_var " + tree.left.sValue);
-        //System.out.println("value in justVar " + global.get(tree.left.sValue, env).type);
         Lexeme get = global.get(tree.left.sValue, env);
+        if (get== null) {
+            System.out.println("Error: " + tree.left.sValue + " is undefined.");
+            System.exit(0);
+        }
         Lexeme value = eval(get, env);
-        //System.out.println("valllll " + value.type);
-        //return global.get(tree.left.sValue, env); // use the string value of the variable name
         return value;
     }
 
@@ -297,11 +293,10 @@ public class evaluator {
     // evaluate division
     private Lexeme evalDivision(Lexeme tree, Lexeme env) {
         Lexeme left = eval(tree.left, env); // evaluate the left operand
-        System.out.println("left type " + left.type + " of value " + left.iValue);
+        //System.out.println("left type " + left.type + " of value " + left.iValue);
         Lexeme right = eval(tree.left.right.left, env); // evaluate right operand
-        System.out.println("right type " + right.type + " of value " + right.iValue);
+        //System.out.println("right type " + right.type + " of value " + right.iValue);
         if (left.type == "INTEGER" && right.type == "INTEGER") {
-            System.out.println("division " + (double) (left.iValue / right.iValue));
             return new Lexeme("DOUBLE",(double) left.iValue / right.iValue);
         } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
             return new Lexeme("DOUBLE", left.dValue / right.iValue);
@@ -402,7 +397,7 @@ public class evaluator {
     // returns the variable's new value
     private Lexeme evalAssingment(Lexeme tree, Lexeme env) {
         String varname = tree.left.sValue; // get the variable's name
-        System.out.println("type " + tree.left.left.type);
+        //System.out.println("type " + tree.left.left.type);
         Lexeme value = eval(tree.left.left, env); // evaluate the value you want to set the var to
         //System.out.println("value.type " + value);
         return global.update(varname, value, env); // update the variable's value in the environment
@@ -445,6 +440,8 @@ public class evaluator {
             return evalGreaterEqual(left, right);
         } else if (comparator.sValue.contentEquals("==")) {
             return evalIsEqual(left, right);
+        } else if (comparator.sValue.contentEquals("!=")) {
+            return evalNotEqual(left, right);
         } else {
             System.out.println("Error: invalid conditional expression.");
             System.exit(0);
@@ -525,6 +522,22 @@ public class evaluator {
             return new Lexeme("BOOLEAN", left.iValue == right.dValue);
         } else if (left.type == "DOUBLE" && right.type == "DOUBLE") {
             return new Lexeme("BOOLEAN", left.dValue == right.dValue);
+        } else {
+            System.out.println("Error: cannot compare values of type " + left.type +  " and " + right.type);
+            System.exit(0);
+            return null;
+        }
+    }
+
+    private Lexeme evalNotEqual(Lexeme left, Lexeme right) {
+        if (left.type == "INTEGER" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.iValue != right.iValue);
+        } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
+            return new Lexeme("BOOLEAN", left.dValue != right.iValue);
+        } else if (left.type == "INTEGER" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.iValue != right.dValue);
+        } else if (left.type == "DOUBLE" && right.type == "DOUBLE") {
+            return new Lexeme("BOOLEAN", left.dValue != right.dValue);
         } else {
             System.out.println("Error: cannot compare values of type " + left.type +  " and " + right.type);
             System.exit(0);

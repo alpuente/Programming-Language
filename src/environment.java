@@ -35,10 +35,8 @@ public class environment {
         }
         Lexeme currentVar = env.left;
         Lexeme currentVal = env.right.left;
-        System.out.println("id " +  id);
         while(currentVar != null) {
             if (currentVar.sValue.contentEquals(id)) {
-                //System.out.println("current val " + currentVal);
                 return currentVal;
             }
             currentVal = currentVal.right;

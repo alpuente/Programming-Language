@@ -13,6 +13,7 @@ public class scanner {
             String contents = "";
             String line;
             while ((line = br.readLine()) != null) {
+                System.out.println(line);
                 contents += line;
             }
             return contents;
@@ -23,18 +24,6 @@ public class scanner {
     }
 
     public scanner(String fileName) {
-        Lexeme token;
-        Lexer lexer = new Lexer(getFileContents(fileName));
-
-        token = lexer.lex();
-        while (token == null || token.type != "EOF") {
-            if (token != null && token.type == "EOF") {
-                System.out.println(true);
-            }
-            if (token != null) {
-                //System.out.println(token.type);
-            }
-            token = lexer.lex();
-        }
+        getFileContents(fileName);
     }
 }
