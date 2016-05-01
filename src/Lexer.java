@@ -37,7 +37,7 @@ public class Lexer {
         keywords.put("return", "RETURN");
         keywords.put("or", "OR");
         keywords.put("and", "AND");
-        keywords.put("new", "NEW");
+        //keywords.put("new", "NEW");
         keywords.put("print", "PRINT");
         keywords.put("lambda", "LAMBDA");
         keywords.put("true", "BOOLEAN");

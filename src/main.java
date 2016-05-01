@@ -12,7 +12,7 @@ public class main {
             e.printStackTrace();
         }
     }
-    
+
     private static void printTest(String filename) {
        new scanner(filename);
     }
@@ -79,6 +79,9 @@ public class main {
                 break;
             case "run-arrays":
                 runEvaluationTest("arrays.txt");
+                break;
+            default:
+                runEvaluationTest(test_type);
         }
     }
 }
