@@ -12,17 +12,7 @@ public class main {
             e.printStackTrace();
         }
     }
-
-    protected static void runError1Test() {
-        parser parser = new parser("error1.txt");
-        try {
-            Lexeme tree = parser.parseRecursive();
-            new evaluator(tree); // evaluate the tree
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     private static void printTest(String filename) {
        new scanner(filename);
     }
@@ -84,6 +74,11 @@ public class main {
             case "run-problem":
                 System.out.println("did not implement problem");
                 break;
+            case "cat-arrays":
+                printTest("arrays.txt");
+                break;
+            case "run-arrays":
+                runEvaluationTest("arrays.txt");
         }
     }
 }

@@ -87,7 +87,6 @@ public class evaluator {
         String fnName = tree.left.sValue; // get the function name
 
         global.insert(env, new Lexeme("function_name", fnName), closure);// add the closure to the environment
-        //global.displayAll(env);
     }
 
     // evaluate a variable access by getting its value if defined
@@ -140,15 +139,10 @@ public class evaluator {
     private Lexeme getParamList(Lexeme tree) {
         Lexeme current_lexeme = tree.left.left; // first part of param list
         if(current_lexeme.left != null) {
-            //System.out.println("current_lexeme param " + current_lexeme.left.left.type + " woah string value " + current_lexeme.left.left.sValue);
             Lexeme params = current_lexeme.left.left;
             current_lexeme = current_lexeme.right;
             while (current_lexeme.left != null) { // walk through list getting args
-                //Lexeme temp = params; // have to preserve backwards ordering because that's how i'm doing it in getArgs
-                //params = current_lexeme.left.left;
                 params.left = current_lexeme.left.left;
-                //System.out.println("current_lexeme param " + current_lexeme.left.left.type + " woah string value " + current_lexeme.left.left.sValue);
-                //System.out.println("params.left " + params.left.sValue);
                 current_lexeme = current_lexeme.right;
             }
             return params;
@@ -158,15 +152,11 @@ public class evaluator {
 
     private Lexeme evalArgList(Lexeme tree, Lexeme env) {
         Lexeme arg = tree;
-        //System.out.println(" arg tree type " + tree.type +  " value " + tree.type);
         Lexeme vals = null;
         while (arg != null) {
-            //System.out.println("arg wasnt null");
             Lexeme temp = vals;
-            //System.out.println("arg " + arg.type);
             vals = eval(arg, env); // get the variable
             vals.right = temp;
-            //System.out.println("value of argument " + eval(arg.left, env));
             arg = arg.right; // move to the next variable in arg list
         }
         return vals;
@@ -196,7 +186,6 @@ public class evaluator {
     private Lexeme evalStatementList(Lexeme tree, Lexeme env) {
         Lexeme statement_list = tree;
         Lexeme current_statement = tree.left;
-        //System.out.println("current_statement type " + current_statement.type);
         Lexeme result = null;
         while (current_statement != null) {
             result = eval(current_statement, env);
@@ -213,9 +202,7 @@ public class evaluator {
 
     private Lexeme evalBinaryOp(Lexeme tree, Lexeme env) {
         String op = tree.left.right.sValue;
-        //System.out.println("op type " + op /*+ "equal? " + (op.contentEquals("+"))*/);
         if (op.contentEquals("+")) {
-            //System.out.println("evaluating plus");
             return evalPlus(tree, env);
         } else if (op.contentEquals("*")) {
             return evalMult(tree, env);
@@ -237,9 +224,7 @@ public class evaluator {
     // evaluate binary addition
     private Lexeme evalPlus(Lexeme tree, Lexeme env) {
         Lexeme left = eval(tree.left, env); // evaluate the left operand
-        //System.out.println("left type " + left.type + " of value " + left.iValue);
         Lexeme right = eval(tree.left.right.left, env); // evaluate right operand
-        //System.out.println("right type " + right.type + " of value " + right.iValue);
         if (left.type == "INTEGER" && right.type == "INTEGER") {
             return new Lexeme("INTEGER", left.iValue + right.iValue);
         } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
@@ -257,9 +242,7 @@ public class evaluator {
 
     private Lexeme evalMinus(Lexeme tree, Lexeme env) {
         Lexeme left = eval(tree.left, env); // evaluate the left operand
-        //System.out.println("left type " + left.type + " of value " + left.iValue);
         Lexeme right = eval(tree.left.right.left, env); // evaluate right operand
-        //System.out.println("right type " + right.type + " of value " + right.iValue);
         if (left.type == "INTEGER" && right.type == "INTEGER") {
             return new Lexeme("INTEGER", left.iValue - right.iValue);
         } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
@@ -293,9 +276,7 @@ public class evaluator {
     // evaluate division
     private Lexeme evalDivision(Lexeme tree, Lexeme env) {
         Lexeme left = eval(tree.left, env); // evaluate the left operand
-        //System.out.println("left type " + left.type + " of value " + left.iValue);
         Lexeme right = eval(tree.left.right.left, env); // evaluate right operand
-        //System.out.println("right type " + right.type + " of value " + right.iValue);
         if (left.type == "INTEGER" && right.type == "INTEGER") {
             return new Lexeme("DOUBLE",(double) left.iValue / right.iValue);
         } else if (left.type == "DOUBLE" && right.type == "INTEGER") {
@@ -397,9 +378,7 @@ public class evaluator {
     // returns the variable's new value
     private Lexeme evalAssingment(Lexeme tree, Lexeme env) {
         String varname = tree.left.sValue; // get the variable's name
-        //System.out.println("type " + tree.left.left.type);
         Lexeme value = eval(tree.left.left, env); // evaluate the value you want to set the var to
-        //System.out.println("value.type " + value);
         return global.update(varname, value, env); // update the variable's value in the environment
     }
 
@@ -598,6 +577,10 @@ public class evaluator {
         String array_name = tree.left.left.left.sValue; // the array's name
         ArrayList<Lexeme> array = global.get(array_name, env).aValue;
         int index = eval(tree.left.right, env).iValue; // get the index as an int
+        if (index >= array.size()) {
+            System.out.println("Error: attempted to access an out of range item");
+            System.exit(0);
+        }
         return array.get(index); // return the object at the index
     }
 

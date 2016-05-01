@@ -1,0 +1,9 @@
+arr items = [];
+items[0] = "first";
+items[1] = "second";
+items[2] = "third";
+print(items[0]);
+print(items[1]);
+print(items[2]);
+print(items[3]);
+~

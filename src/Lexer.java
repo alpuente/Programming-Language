@@ -153,6 +153,19 @@ public class Lexer {
             i = i + 1;
             ch = chars[i];
         }
+        if (characters[currentIndex] == '.') { // see if it's an array add
+            currentIndex += 1;
+            String newBuff = "";
+            ch = characters[currentIndex];
+            while (ch != ' ' && i <= chars.length && (isNumeric(ch) || isAlpha(ch))) {
+                newBuff += ch;
+                currentIndex += 1;
+            }
+            if (newBuff.contentEquals("add")) {
+                System.out.println("arrayAdd");
+                return new Lexeme("arrayAdd", buffer + newBuff);
+            }
+        }
         offset = buffer.length() - 1;
         currentIndex += offset + 1;
         return new Lexeme("VAR", buffer);
