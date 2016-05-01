@@ -1,5 +1,0 @@
-define function(var x var y) {
-    print("hello");
-}
-function(1 3);
-~
