@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * Created by appleowner on 2/12/16.
+ * Created by Amy Puente on 2/12/16.
  */
 public class Lexer {
     int offset = 0; // keeping track of the index offset in the individual lexeme functions

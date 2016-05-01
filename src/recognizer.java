@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * Created by appleowner on 3/27/16.
+ * Created by Amy Puente on 3/27/16.
  */
 public class recognizer {
     public Lexer lexer;

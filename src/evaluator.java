@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Created by appleowner on 4/23/16.
+ * Created by Amy puente on 4/23/16.
  */
 public class evaluator {
     Lexeme e;

@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Created by appleowner on 3/21/16.
+ * Created by Amy Puente on 3/21/16.
  */
 public class scanner {
 

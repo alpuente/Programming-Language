@@ -1,0 +1,10 @@
+def recursive(var x) {
+    if (x < 10) {
+        print("x is " + x);
+        recursive(x + 1);
+    } else {
+        print("done recursing");
+    }
+}
+recursive(5);
+~

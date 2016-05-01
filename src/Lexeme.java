@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Created by appleowner on 2/12/16.
+ * Created by Amy Puente on 2/12/16.
  */
 public class Lexeme {
     protected String type;

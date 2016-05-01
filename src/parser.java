@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * Created by appleowner on 4/18/16.
+ * Created by Amy Puente on 4/18/16.
  */
 public class parser {
     public Lexer lexer;

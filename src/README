@@ -1,7 +1,14 @@
+Amy Puente
+CS 403 Designer Programming Language
+
 This is my implementation of a general purpose programming language for CS403.
 The language is written in java. 
 
 To run programs in this language, it is not necessary to have a main function, but proper syntax is required for a functional program. To terminate a program in this language, use the character '~'
+
+To run a program in this language:
+	- compile the files using javac
+	- use the command "java main filename" where filename denotes a file containing a program following the syntax of this language
 
 Keywords:
 - for
@@ -63,3 +70,5 @@ General syntax rules:
 	- to add an element to an array, assign the index you wish to add it to using an expression of the form 
 		variable_name[primary] = primary;
 	- to retrieve the value of an array at a given index, use an expression of the form variable_name[primary] or variable_name[integer], where the variable_name is the array's name
+
+- more information about this language's syntax can be found in grammar.txt
